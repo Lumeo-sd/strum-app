@@ -1,0 +1,27 @@
+# Data directory — credentials, history, runtime data
+data/
+
+# Screenshots
+*.png
+*.jpg
+
+# KDE desktop metadata
+.directory
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# Development
+dev/
+tools/
+
+# Backup files
+*.bak
+*.bak.*
+
+fix-broken-ui-endpoints.patch
