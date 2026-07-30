@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="Strum">
 <link rel="manifest" href="/manifest.json">
 <title>Strum — Backup Power Monitor</title>
+<link rel="preload" href="/lib/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/lib/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/lib/manrope.css">
 <link rel="stylesheet" href="/lib/jetbrains-mono.css">
@@ -488,11 +489,12 @@ var ACT_CATALOG = [
 ];
 function catalogItem(catalog,type){for(const g of catalog)for(const i of g.items)if(i.type===type)return i;return null}
 function catalogIcon(group){const m={'Battery':'battery-charging','Grid':'plug-fill','Time':'clock-fill','Inverter':'hdd-network-fill','Devices':'plug-fill','System Health':'cpu-fill','Notifications':'bell-fill','System':'gear-fill'};return m[group]||'question-circle'}
-function renderPickerBtn(inputId,catalog,currentType,onClick){const item=catalogItem(catalog,currentType);const icon=item?catalogIcon(item.group):'question-circle';const label=item?item.label:'Select...';return'<button class="btn btn-soft btn-sm" onclick="'+onClick+'" id="'+inputId+'Btn" style="flex-shrink:0" data-type="'+escA(currentType)+'"><i class="bi bi-'+icon+'"></i> '+esc(label)+' <i class="bi bi-chevron-down" style="font-size:var(--fs-2xs)"></i></button><input type="hidden" id="'+inputId+'" value="'+escA(currentType)+'">'}
-function openCatPicker(inputId,catalog,callback){let html='<h3>Condition Type</h3>';for(const g of catalog){html+='<label class="sh-label" style="margin-top:var(--space-xl)">'+esc(g.group)+'</label>';for(const i of g.items){var _oc="selectCatType('"+inputId+"','"+escA(i.type)+"')";html+='<button class="sh-opt" onclick="'+_oc+'"><i class="bi bi-'+catalogIcon(g.group)+'"></i>'+esc(i.label)+'</button>';}}html+='<button class="btn btn-ghost w100" onclick="closeSheet2()" style="margin-top:var(--space-md)">Cancel</button>';openSheet2(html);window['_catCallback'+inputId]=callback;}
-function selectCatType(inputId,type){closeSheet2();$('#'+inputId).value=type;const btn=$('#'+inputId+'Btn');if(btn){const item=catalogItem(window['COND_CATALOG']||[],type)||catalogItem(window['ACT_CATALOG']||[],type);const icon=item?catalogIcon(item.group):'question-circle';btn.innerHTML='<i class="bi bi-'+icon+'"></i> '+esc(item?item.label:'')+' <i class="bi bi-chevron-down" style="font-size:var(--fs-2xs)"></i>';btn.dataset.type=type;}const cb=window['_catCallback'+inputId];if(cb)cb(type);}
-function openCondPicker(){const ct=$('#abCondType').value;openCatPicker('abCondType',COND_CATALOG,function(t){abCondFields();});}
-function openActPicker(){const at=$('#abActType').value;openCatPicker('abActType',ACT_CATALOG,function(t){abActFields();});}
+function catalogItemIcon(catalog,type){for(const g of catalog)for(const i of g.items)if(i.type===type)return catalogIcon(g.group);return 'question-circle'}
+function renderPickerBtn(inputId,catalog,currentType,onClick){const item=catalogItem(catalog,currentType);const icon=catalogItemIcon(catalog,currentType);const label=item?item.label:'Select...';return'<button class="btn btn-soft btn-sm" onclick="'+onClick+'" id="'+inputId+'Btn" style="flex-shrink:0" data-type="'+escA(currentType)+'"><i class="bi bi-'+icon+'"></i> '+esc(label)+' <i class="bi bi-chevron-down" style="font-size:var(--fs-2xs)"></i></button><input type="hidden" id="'+inputId+'" value="'+escA(currentType)+'">'}
+function openCatPicker(inputId,catalog,callback,title){const cur=$('#'+inputId)?$('#'+inputId).value:'';let html='<h3>'+esc(title||'Choose')+'</h3>';for(const g of catalog){html+='<label class="sh-label" style="margin-top:var(--space-xl)">'+esc(g.group)+'</label>';for(const i of g.items){var _oc="selectCatType('"+inputId+"','"+escA(i.type)+"')";const sel=i.type===cur;html+='<button class="sh-opt'+(sel?' sel':'')+'" onclick="'+_oc+'"><i class="bi bi-'+catalogIcon(g.group)+'"></i>'+esc(i.label)+(sel?'<i class="bi bi-check-lg" style="margin-left:auto"></i>':'')+'</button>';}}html+='<button class="btn btn-ghost w100" onclick="closeSheet2()" style="margin-top:var(--space-md)">Cancel</button>';openSheet2(html);window['_catCallback'+inputId]=callback;}
+function selectCatType(inputId,type){closeSheet2();$('#'+inputId).value=type;const btn=$('#'+inputId+'Btn');if(btn){const catalog=[...window['COND_CATALOG'],...window['ACT_CATALOG']];const item=catalogItem(catalog,type);const icon=catalogItemIcon(catalog,type);btn.innerHTML='<i class="bi bi-'+icon+'"></i> '+esc(item?item.label:'')+' <i class="bi bi-chevron-down" style="font-size:var(--fs-2xs)"></i>';btn.dataset.type=type;}const cb=window['_catCallback'+inputId];if(cb)cb(type);}
+function openCondPicker(){openCatPicker('abCondType',COND_CATALOG,function(t){abCondFields();},'Condition Type');}
+function openActPicker(){openCatPicker('abActType',ACT_CATALOG,function(t){abActFields();},'Action Type');}
 
 
 
