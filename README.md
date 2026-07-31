@@ -124,7 +124,7 @@ sudo chown -R hb-service:hb-service /opt/energy-controller
 ```bash
 sudo tee /etc/systemd/system/energy-controller.service << 'EOF'
 [Unit]
-Description=Energy Controller
+Description=Strum
 After=network-online.target
 Wants=network-online.target
 
@@ -542,7 +542,7 @@ RESTful sensor (no auth required on LAN):
 sensor:
   - platform: rest
     resource: http://<pi-ip>:8583/api/status
-    name: Energy Controller
+    name: Strum
     value_template: "{{ value_json.batterySOC }}"
     json_attributes:
       - gridPower

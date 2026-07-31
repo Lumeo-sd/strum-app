@@ -10,12 +10,15 @@
 <link rel="manifest" href="/manifest.json">
 <title>Strum — Backup Power Monitor</title>
 <link rel="preload" href="/lib/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/lib/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/lib/manrope.css">
 <link rel="stylesheet" href="/lib/jetbrains-mono.css">
 <script src="/lib/chart.umd.min.js"></script>
 <style>
-:root{--bg:#050505;--card:rgba(32,32,34,.66);--card-solid:#202022;--card-hover:rgba(48,48,50,.85);--border:rgba(255,255,255,.08);--sep:rgba(84,84,88,.5);--text:#f2f2f4;--muted:#94949b;--dim:#606063;--accent:#1A8FFF;--accent-rgb:26,143,255;--green:#2ED158;--green-rgb:46,209,88;--amber:#F59A0A;--amber-rgb:245,154,10;--red:#F04038;--red-rgb:240,64,56;--indigo:#5E5CE6;--indigo-rgb:94,92,230;--cyan:#5EC8FF;--cyan-rgb:94,200,255;--gray-rgb:118,118,128;--space-3xs:3px;--space-xxs:4px;--space-xs:6px;--space-sm:8px;--space-md:12px;--space-lg:16px;--space-xl:20px;--space-2xl:24px;--space-3xl:32px;--r-xs:8px;--r-sm:12px;--r-pill:980px;--blur-sm:6px;--blur-md:20px;--blur-lg:30px;--fs-2xs:10px;--fs-xs:11px;--fs-sm:13px;--fs-base:15px;--fs-md:17px;--fs-lg:20px;--fs-xl:24px;--fs-2xl:28px;--fs-3xl:34px;--fs-4xl:44px;--fs-5xl:52px;--shadow-sm:0 1px 3px rgba(0,0,0,.35);--shadow-md:0 4px 16px rgba(0,0,0,.30);--shadow-lg:0 8px 24px rgba(0,0,0,.35);--shadow-xl:0 14px 34px rgba(var(--accent-rgb),.45);--shadow-inner:inset 0 0 0 1px rgba(255,255,255,.06);--shadow-glow-green:0 0 8px var(--green);--r-xl:32px;--r-lg:24px;--r-md:16px;--spring:cubic-bezier(.34,1.56,.64,1);--ease:cubic-bezier(.25,.8,.25,1);--font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Manrope Variable','Manrope',system-ui,sans-serif;--mono:'JetBrains Mono Variable','JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px)}
+:root{--bg:#050505;--card:rgba(32,32,34,.66);--card-solid:#202022;--card-hover:rgba(48,48,50,.85);--border:rgba(255,255,255,.08);--sep:rgba(84,84,88,.5);--text:#f2f2f4;--muted:#94949b;--dim:#606063;--accent:#1A8FFF;--accent-rgb:26,143,255;--green:#2ED158;--green-rgb:46,209,88;--amber:#F59A0A;--amber-rgb:245,154,10;--red:#F04038;--red-rgb:240,64,56;--indigo:#5E5CE6;--indigo-rgb:94,92,230;--cyan:#5EC8FF;--cyan-rgb:94,200,255;--gray-rgb:118,118,128;--space-3xs:3px;--space-xxs:4px;--space-xs:6px;--space-sm:8px;--space-md:12px;--space-lg:16px;--space-xl:20px;--space-2xl:24px;--space-3xl:32px;--r-xs:8px;--r-sm:12px;--r-pill:980px;--blur-sm:6px;--blur-md:20px;--blur-lg:30px;--fs-2xs:10px;--fs-xs:11px;--fs-sm:13px;--fs-base:15px;--fs-md:17px;--fs-lg:20px;--fs-xl:24px;--fs-2xl:28px;--fs-3xl:34px;--fs-4xl:44px;--fs-5xl:52px;--shadow-sm:0 1px 3px rgba(0,0,0,.35);--shadow-md:0 4px 16px rgba(0,0,0,.30);--shadow-lg:0 8px 24px rgba(0,0,0,.35);--shadow-xl:0 14px 34px rgba(var(--accent-rgb),.45);--shadow-inner:inset 0 0 0 1px rgba(255,255,255,.06);--shadow-glow-green:0 0 8px var(--green);--r-xl:32px;--r-lg:24px;--r-md:16px;--spring:cubic-bezier(.34,1.56,.64,1);--ease:cubic-bezier(.25,.8,.25,1);--font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Manrope Variable','Manrope',system-ui,sans-serif;--mono:'JetBrains Mono Variable','JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);--glass-bg:rgba(255,255,255,.7);--glass-border:rgba(0,0,0,.08);--highlight-bg:linear-gradient(180deg,rgba(200,205,215,.5),rgba(180,185,195,.2));--ease-tab:cubic-bezier(.22,.61,.36,1)}
 html[data-accent="indigo"]{--accent:#5E5CE6;--accent-rgb:94,92,230}html[data-accent="amber"]{--accent:#F59A0A;--accent-rgb:245,154,10}html[data-accent="green"]{--accent:#2ED158;--accent-rgb:46,209,88}html[data-accent="pink"]{--accent:#F03555;--accent-rgb:240,53,85}html[data-accent="cyan"]{--accent:#5EC8FF;--accent-rgb:94,200,255}
 @media (prefers-color-scheme: light){:root{--bg:#eceef4;--card:rgba(255,255,255,.76);--card-solid:#fdfdfd;--card-hover:rgba(243,243,248,.95);--border:rgba(0,0,0,.07);--sep:rgba(60,60,67,.24);--text:#151519;--muted:#6c6c71;--dim:#acacb0}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}[hidden]{display:none!important}html{-webkit-text-size-adjust:100%}
@@ -142,13 +145,25 @@ body{font-family:var(--font);color:var(--text);background:var(--bg);min-height:1
 .n-x{flex-shrink:0}.n-subs{display:none;border-top:1px solid var(--sep);padding:var(--space-xs) var(--space-md) var(--space-sm) 60px}.notif.exp .n-subs{display:block;animation:viewIn .3s}
 .n-sub{display:flex;gap:var(--space-sm);padding:var(--space-xs) 0;font-size:var(--fs-sm);align-items:baseline}.n-sub .t{font-family:var(--mono);font-size:var(--fs-xs);color:var(--dim);min-width:96px}
 .n-count{background:rgba(var(--accent-rgb),.2);color:var(--accent);font-size:var(--fs-xs);font-weight:800;border-radius:var(--r-pill);padding:var(--space-3xs) var(--space-sm);flex-shrink:0}
-#tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:max(20px, calc(var(--sab) + 8px));z-index:100;display:flex;gap:var(--space-3xs);padding:7px;border-radius:var(--r-xl);background:rgba(30,30,34,.72);-webkit-backdrop-filter:blur(var(--blur-lg)) saturate(180%);backdrop-filter:blur(var(--blur-lg)) saturate(180%);border:1px solid var(--border);box-shadow:0 22px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12)}
-@media (prefers-color-scheme: light){#tabbar{background:rgba(255,255,255,.8);box-shadow:var(--shadow-lg)}}
-.tab{position:relative;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:var(--space-3xs);padding:var(--space-sm) var(--space-md) var(--space-xs);min-width:62px;border-radius:var(--r-lg);color:var(--muted);transition:color .2s}
-.tab i{font-size:var(--fs-lg);transition:transform .3s var(--spring)}.tab span{font-size:var(--fs-2xs);font-weight:700}
-.tab::before{content:'';position:absolute;inset:2px;border-radius:var(--r-xl);background:rgba(var(--accent-rgb),.16);opacity:0;transform:scale(.7);transition:.3s var(--spring)}
-.tab.active{color:var(--accent)}.tab.active::before{opacity:1;transform:scale(1)}.tab.active i{transform:translateY(-1px) scale(1.08)}
-.tab .bdg{position:absolute;top:2px;right:8px;min-width:17px;height:17px;border-radius:var(--r-xs);background:var(--red);color:#fff;font-size:var(--fs-2xs);font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;box-shadow:0 0 8px rgba(var(--red-rgb),.6)}
+#tabbarWrap{position:fixed;left:50%;bottom:max(20px, calc(var(--sab) + 8px));z-index:100;transform:translateX(-50%);animation:tbSlideUp .6s var(--spring) .2s both}
+@keyframes tbSlideUp{from{transform:translateX(-50%) translateY(80px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+#tabbar{position:relative;display:flex;align-items:center;gap:2px;padding:6px;border-radius:999px;background:rgba(30,30,34,.72);-webkit-backdrop-filter:blur(60px) saturate(200%) brightness(1.1);backdrop-filter:blur(60px) saturate(200%) brightness(1.1);border:1px solid var(--border);box-shadow:0 22px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12)}
+@media (prefers-color-scheme: light){#tabbar{background:var(--glass-bg);border:1px solid var(--glass-border);box-shadow:0 8px 30px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8)}}
+#tabHighlight{position:absolute;top:6px;bottom:6px;left:0;z-index:1;border-radius:999px;width:56px;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.12);box-shadow:0 2px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .5s var(--spring),width .4s var(--spring);pointer-events:none;will-change:transform,width}
+@media (prefers-color-scheme: light){#tabHighlight{background:var(--highlight-bg);border:1px solid var(--glass-border);box-shadow:0 2px 8px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}}
+.tab{position:relative;z-index:2;display:flex;align-items:center;height:44px;padding:0 14px;border:none;background:none;color:var(--muted);font-size:13px;font-weight:500;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s var(--ease-tab)}
+.tab i{font-size:20px;transition:transform .3s var(--spring)}
+.tab[aria-selected="true"]{color:var(--accent)}
+.tab:not([aria-selected="true"]):hover{color:rgba(242,242,244,.85)}
+.tab:not([aria-selected="true"]):hover i{transform:scale(1.08)}
+.tab.is-bouncing i{animation:tbBounce .45s var(--spring)}
+@keyframes tbBounce{25%{transform:scale(.7)}55%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tab-label{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;margin-left:0;transition:max-width .35s var(--ease-tab),opacity .25s var(--ease-tab),margin-left .35s var(--ease-tab)}
+.tab[aria-selected="true"] .tab-label{max-width:80px;opacity:1;margin-left:7px}
+.tab .bdg{position:absolute;top:2px;right:4px;min-width:17px;height:17px;border-radius:var(--r-xs);background:var(--red);color:#fff;font-size:var(--fs-2xs);font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;box-shadow:0 0 8px rgba(var(--red-rgb),.6)}
+#tabbar::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:0;pointer-events:none;background:radial-gradient(120px 80px at var(--mx,50%) var(--my,0%),rgba(255,255,255,.05),transparent 70%);opacity:.6;transition:background .1s ease-out}
+@media (prefers-color-scheme: light){#tabbar::before{background:radial-gradient(120px 80px at var(--mx,50%) var(--my,0%),rgba(0,0,0,.04),transparent 70%)}}
+@media (prefers-reduced-motion: reduce){#tabbarWrap{animation:none!important;transform:translateX(-50%)!important}.tab.is-bouncing i{animation:none!important}}
 .island{position:fixed;top:calc(10px + var(--sat));left:50%;transform:translateX(-50%) translateY(-24px) scale(.8);z-index:400;display:flex;align-items:center;gap:11px;max-width:min(430px,92vw);background:#101012;color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-xl);padding:var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);box-shadow:0 20px 50px rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.45s var(--spring)}
 .island.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}.island>i{font-size:var(--fs-lg);flex-shrink:0}
 .island[data-type="ok"]>i{color:var(--green)}.island[data-type="err"]>i{color:var(--red)}.island[data-type="warn"]>i{color:var(--amber)}.island[data-type="info"]>i{color:var(--cyan)}
@@ -191,7 +206,7 @@ select.sh-input{appearance:none;-webkit-appearance:none;background-image:linear-
 .restart-ov h3{font-size:var(--fs-lg);font-weight:800}.restart-ov p{color:#a1a1a6;font-size:var(--fs-sm)}
 .skel{background:linear-gradient(90deg,rgba(var(--gray-rgb),.14) 25%,rgba(var(--gray-rgb),.28) 50%,rgba(var(--gray-rgb),.14) 75%);background-size:200% 100%;animation:shim 1.4s infinite;border-radius:var(--r-xs)}
 @keyframes shim{from{background-position:200% 0}to{background-position:-200% 0}}
-@media(max-width:560px){.page-title{font-size:var(--fs-2xl)}.hstat .big{font-size:var(--fs-3xl)}.soc-wrap{width:172px;height:172px}.soc-center b{font-size:var(--fs-4xl)}.tab{min-width:52px;padding:8px 10px 6px}.hstat-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.page-title{font-size:var(--fs-2xl)}.hstat .big{font-size:var(--fs-3xl)}.soc-wrap{width:172px;height:172px}.soc-center b{font-size:var(--fs-4xl)}.tab{height:40px;padding:0 11px}.tab i{font-size:18px}.tab[aria-selected="true"] .tab-label{max-width:70px}.hstat-row{grid-template-columns:repeat(3,1fr)}}
 .inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);margin-bottom:14px}
 .inv-stat{background:rgba(var(--gray-rgb),.10);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--space-md) var(--space-md) var(--space-sm)}
 .inv-stat .lbl{font-size:var(--fs-2xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
@@ -224,7 +239,7 @@ select.sh-input{appearance:none;-webkit-appearance:none;background-image:linear-
 <main id="main">
   <section class="view active" id="view-status">
     <header class="page-head">
-      <div><h1 class="page-title">Dashboard</h1><p class="page-sub"><span class="live-dot" id="liveDot"></span><span id="headClock">—</span></p></div>
+      <div><h1 class="page-title">Dash</h1><p class="page-sub"><span class="live-dot" id="liveDot"></span><span id="headClock">—</span></p></div>
       <span id="gridBadge" class="chip chip-green cp" onclick="openInverterInfo()" title="Inverter Debug Info"><i class="bi bi-plug-fill"></i> Grid OK</span>
     </header>
     <div id="outageBanner" class="outage" hidden>
@@ -406,13 +421,16 @@ select.sh-input{appearance:none;-webkit-appearance:none;background-image:linear-
     </div>
   </section>
 </main>
-<nav id="tabbar">
-  <button class="tab active" data-v="status" onclick="go('status')"><i class="bi bi-lightning-charge-fill"></i><span>Dashboard</span></button>
-  <button class="tab" data-v="devices" onclick="go('devices')"><i class="bi bi-plug-fill"></i><span>Devices</span></button>
-  <button class="tab" data-v="automations" onclick="go('automations')"><i class="bi bi-diagram-3-fill"></i><span>Scenes</span></button>
-  <button class="tab" data-v="notifications" onclick="go('notifications')"><i class="bi bi-bell-fill"></i><span>Events</span><span class="bdg" id="tabNotifBadge" hidden>0</span></button>
-  <button class="tab" data-v="settings" onclick="go('settings')"><i class="bi bi-gear-fill"></i><span>More</span></button>
+<div id="tabbarWrap">
+<nav id="tabbar" role="tablist">
+  <div id="tabHighlight"></div>
+  <button class="tab" data-v="status" role="tab" aria-selected="true" onclick="go('status')"><i class="bi bi-lightning-charge-fill"></i><span class="tab-label">Dash</span></button>
+  <button class="tab" data-v="devices" role="tab" aria-selected="false" onclick="go('devices')"><i class="bi bi-plug-fill"></i><span class="tab-label">Devices</span></button>
+  <button class="tab" data-v="automations" role="tab" aria-selected="false" onclick="go('automations')"><i class="bi bi-diagram-3-fill"></i><span class="tab-label">Scenes</span></button>
+  <button class="tab" data-v="notifications" role="tab" aria-selected="false" onclick="go('notifications')"><i class="bi bi-bell-fill"></i><span class="tab-label">Events</span><span class="bdg" id="tabNotifBadge" hidden>0</span></button>
+  <button class="tab" data-v="settings" role="tab" aria-selected="false" onclick="go('settings')"><i class="bi bi-gear-fill"></i><span class="tab-label">More</span></button>
 </nav>
+</div>
 </div>
 <div id="island" class="island" data-type="ok"><i id="islandIcon" class="bi bi-checkmark-circle-fill"></i><div style="min-width:0"><b id="islandTitle"></b><span id="islandBody"></span></div></div>
 <div id="sheetBd" class="sheet-bd" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"><div class="grabber"></div><div id="sheetBody"></div></div></div><div id="sheet2Bd" class="sheet-bd" style="z-index:350" onclick="if(event.target===this)closeSheet2()"><div class="sheet" id="sheet2"><div class="grabber"></div><div id="sheet2Body"></div></div></div>
@@ -436,7 +454,7 @@ function tween(el,to,fmt){if(!el)return;const from=(el._v===undefined)?to:el._v;
 function beep(){try{const ac=new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);
   o.frequency.setValueAtTime(880,ac.currentTime);o.frequency.setValueAtTime(1174,ac.currentTime+.09);g.gain.setValueAtTime(.06,ac.currentTime);
   g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.3);o.start();o.stop(ac.currentTime+.32);}catch(e){}}
-const S={logged:false,status:null,devices:[],scenes:[],notifs:[],unread:0,lastNotifId:0,curView:'status',outageSince:+localStorage.getItem('ecmOutageSince')||0,capacityWh:+localStorage.getItem('ecmCapWh')||5120,spark:[],cfgLoaded:false};
+const S={logged:false,status:null,devices:[],scenes:[],notifs:[],unread:0,lastNotifId:0,curView:'status',outageSince:+localStorage.getItem('ecmOutageSince')||0,capacityWh:+localStorage.getItem('ecmCapWh')||5120,spark:[]};
 window._csrf=localStorage.getItem('ecmToken')||'';
 console.log('init _csrf:', window._csrf ? 'from localStorage' : 'empty');
 async function api(path,opts={}){
@@ -482,13 +500,22 @@ var ACT_CATALOG = [
   {group:'Notifications',icon:'bell-fill',items:[
     {type:'notify',label:'Send Notification'}
   ]},
+  {group:'Logic',icon:'diagram-3-fill',items:[
+    {type:'if',label:'If / Then / Else'},
+    {type:'choose',label:'Choose'},
+    {type:'repeat',label:'Repeat'}
+  ]},
+  {group:'Flow',icon:'arrow-left-right',items:[
+    {type:'parallel',label:'Parallel'},
+    {type:'stop',label:'Stop'}
+  ]},
   {group:'System',icon:'gear-fill',items:[
     {type:'priority',label:'Set Priority'},
     {type:'webhook',label:'Webhook'}
   ]}
 ];
 function catalogItem(catalog,type){for(const g of catalog)for(const i of g.items)if(i.type===type)return i;return null}
-function catalogIcon(group){const m={'Battery':'battery-charging','Grid':'plug-fill','Time':'clock-fill','Inverter':'hdd-network-fill','Devices':'plug-fill','System Health':'cpu-fill','Notifications':'bell-fill','System':'gear-fill'};return m[group]||'question-circle'}
+function catalogIcon(group){const m={'Battery':'battery-charging','Grid':'plug-fill','Time':'clock-fill','Inverter':'hdd-network-fill','Devices':'plug-fill','System Health':'cpu-fill','Notifications':'bell-fill','Logic':'diagram-3-fill','Flow':'arrow-left-right','System':'gear-fill'};return m[group]||'question-circle'}
 function catalogItemIcon(catalog,type){for(const g of catalog)for(const i of g.items)if(i.type===type)return catalogIcon(g.group);return 'question-circle'}
 function renderPickerBtn(inputId,catalog,currentType,onClick){const item=catalogItem(catalog,currentType);const icon=catalogItemIcon(catalog,currentType);const label=item?item.label:'Select...';return'<button class="btn btn-soft btn-sm" onclick="'+onClick+'" id="'+inputId+'Btn" style="flex-shrink:0" data-type="'+escA(currentType)+'"><i class="bi bi-'+icon+'"></i> '+esc(label)+' <i class="bi bi-chevron-down" style="font-size:var(--fs-2xs)"></i></button><input type="hidden" id="'+inputId+'" value="'+escA(currentType)+'">'}
 function openCatPicker(inputId,catalog,callback,title){const cur=$('#'+inputId)?$('#'+inputId).value:'';let html='<h3>'+esc(title||'Choose')+'</h3>';for(const g of catalog){html+='<label class="sh-label" style="margin-top:var(--space-xl)">'+esc(g.group)+'</label>';for(const i of g.items){var _oc="selectCatType('"+inputId+"','"+escA(i.type)+"')";const sel=i.type===cur;html+='<button class="sh-opt'+(sel?' sel':'')+'" onclick="'+_oc+'"><i class="bi bi-'+catalogIcon(g.group)+'"></i>'+esc(i.label)+(sel?'<i class="bi bi-check-lg" style="margin-left:auto"></i>':'')+'</button>';}}html+='<button class="btn btn-ghost w100" onclick="closeSheet2()" style="margin-top:var(--space-md)">Cancel</button>';openSheet2(html);window['_catCallback'+inputId]=callback;}
@@ -507,17 +534,28 @@ function closeSheet2(){$('#sheet2Bd').classList.remove('show');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
 function confirmSheet(title,body,onYes){openSheet('<h3>'+esc(title)+'</h3><p class="sh-p">'+esc(body)+'</p><div class="sh-btns"><button class="btn" onclick="closeSheet()">Cancel</button><button class="btn btn-danger-solid" id="cfYes">Confirm</button></div>');$('#cfYes').onclick=()=>{closeSheet();onYes();};}
 function showLogin(){console.log('showLogin called, S.logged was:',S.logged);S.logged=false;$('#app').hidden=true;const l=$('#login');l.hidden=false;window._csrf='';localStorage.removeItem('ecmToken');closeSheet();requestAnimationFrame(()=>l.classList.remove('gone'));}
-function enterApp(){$('#login').classList.add('gone');setTimeout(()=>{$('#login').hidden=true;},460);$('#app').hidden=false;if(!S.logged){S.logged=true;initApp();}}
+function enterApp(){$('#login').classList.add('gone');setTimeout(()=>{$('#login').hidden=true;},460);$('#app').hidden=false;if(!S.logged){S.logged=true;initApp();}poll();pollNotifs();requestAnimationFrame(()=>{const a=$('.tab[aria-selected="true"]');if(a)moveTabHighlight(a);});}
 function openInverterInfo(){const d=S.status||{};const dg=d.debug||{};const mk=(lbl,val,unit,sub)=>'<div class="inv-stat"><div class="lbl">'+lbl+'</div><div class="val'+(String(val).length>10?' sm':'')+'">'+(val!=null?val:'—')+(unit?' '+unit:'')+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>';const sec=(icon,title)=>'<div class="inv-sec"><i class="bi bi-'+icon+'"></i>'+title+'</div>';const kv=(k,v)=>'<div class="sysrow"><span class="k">'+k+'</span><span class="v">'+(v!=null?v:'—')+'</span></div>';let h='<h3><i class="bi bi-cpu" class="c-acc"></i> Inverter Details</h3>';h+=sec('activity','Power Flow');h+='<div class="inv-grid">';h+=mk('Grid',d.gridPower===true?'Connected':d.gridPower===false?'Outage':'—','',d.gridPower===true&&d.gridVoltage?d.gridVoltage.toFixed(0)+'V · '+num(dg.gridFreq||0).toFixed(2)+' Hz':'');h+=mk('SOC',d.batterySOC!=null?d.batterySOC+'%':'—','',d.gridPower===false?'autonomous':'');h+=mk('PV Total',(num(d.pvPower)||0)+(num(d.pvPower2)||0),'W',(num(d.pvPower)||0)+'+'+(num(d.pvPower2)||0)+' W');h+=mk('Load',d.loadPower!=null?d.loadPower:'—','W',d.gridPower===true?'importing':'battery');h+=mk('Battery',d.batteryPower!=null?(d.batteryPower>0?'+':'')+d.batteryPower:'—','W',num(dg.batteryVoltage)?dg.batteryVoltage.toFixed(1)+'V · '+num(dg.batteryCurrent).toFixed(2)+'A':'charging');h+=mk('Battery Temp',d.batteryTemp!=null?d.batteryTemp.toFixed(1):'—','°C',num(dg.radiatorTemp)?'Radiator '+dg.radiatorTemp.toFixed(1)+'°C':'');h+='</div>';h+=sec('graph-up','Energy Today');h+='<div class="inv-grid">';h+=mk('PV Generated',d.dayPV!=null?d.dayPV:'—','kWh','');h+=mk('Grid Import',d.dayGridImport!=null?d.dayGridImport:'—','kWh','');h+=mk('Grid Export',d.dayGridExport!=null?d.dayGridExport:'—','kWh','');h+=mk('Load',d.dayLoadEnergy!=null?d.dayLoadEnergy:'—','kWh','consumed');h+=mk('Bat Charge',d.dayBatCharge!=null?d.dayBatCharge:'—','kWh','today');h+=mk('Bat Discharge',d.dayBatDischarge!=null?d.dayBatDischarge:'—','kWh','today');h+='</div>';h+=sec('cpu','Inverter Status');h+='<div class="inv-grid">';h+=mk('State',['Standby','Idle','Normal','Fault','Standby (2)'][num(dg.overallState)]||'#'+num(dg.overallState),'','');h+=mk('Grid Power',dg.gridPower!=null?dg.gridPower+' W':'—','',dg.gridCTPower!=null?'CT: '+dg.gridCTPower+' W':'');h+=mk('Inverter Power',dg.inverterPower!=null?dg.inverterPower+' W':'—','');h+=mk('Aux Power',dg.auxPower!=null?dg.auxPower+' W':'—',dg.gridL1Power!=null?'L1: '+dg.gridL1Power+' W':'');h+='</div>';h+=sec('battery','Battery Config');h+='<div class="inv-grid">';h+=mk('Shutdown SOC',dg.batShutdownSOC!=null?dg.batShutdownSOC+'%':'—','');h+=mk('Restart SOC',dg.batRestartSOC!=null?dg.batRestartSOC+'%':'—','');h+=mk('Low SOC',dg.batLowSOC!=null?dg.batLowSOC+'%':'—','');h+=mk('Max Charge I',dg.batMaxChargeCurrent!=null?dg.batMaxChargeCurrent+' A':'—','');h+=mk('Max Discharge I',dg.batMaxDischargeCurrent!=null?dg.batMaxDischargeCurrent+' A':'—','');h+=mk('Op Mode',dg.batOperationMode!=null?'#'+dg.batOperationMode:'—','');h+='</div>';h+=sec('lightning','Grid Charge');h+='<div class="inv-grid">';h+=mk('Enabled',dg.gridChargeEnabled!=null?(dg.gridChargeEnabled?'Yes':'No'):'—','');h+=mk('Start Voltage',dg.gridChargeStartVoltage!=null?dg.gridChargeStartVoltage+' V':'—','');h+=mk('Start SOC',dg.gridChargeStartSOC!=null?dg.gridChargeStartSOC+'%':'—','');h+=mk('Max Current',dg.gridChargeMaxCurrent!=null?dg.gridChargeMaxCurrent+' A':'—','');h+='</div>';h+=sec('diagram','Voltages & Currents');h+='<div class="inv-grid">';h+=mk('Grid L1 V',dg.gridVoltage!=null?dg.gridVoltage.toFixed(1)+' V':'—','');h+=mk('Output V',dg.inverterVoltage!=null?dg.inverterVoltage.toFixed(1)+' V':'—','');h+=mk('PV1 V/I',dg.pv1Voltage!=null?dg.pv1Voltage.toFixed(1)+'V':null,dg.pv1Current!=null?' · '+dg.pv1Current.toFixed(1)+'A':'','');h+=mk('PV2 V/I',dg.pv2Voltage!=null?dg.pv2Voltage.toFixed(1)+'V':null,dg.pv2Current!=null?' · '+dg.pv2Current.toFixed(1)+'A':'','');h+='</div>';h+=sec('thermometer','Temperature');h+='<div class="inv-grid">';h+=mk('DC Transformer',dg.dcTransfTemp!=null?dg.dcTransfTemp.toFixed(1)+' °C':'—','');h+=mk('Radiator',dg.radiatorTemp!=null?dg.radiatorTemp.toFixed(1)+' °C':'—','');h+=mk('Battery',dg.batteryTemp!=null?dg.batteryTemp.toFixed(1)+' °C':'—','');h+=mk('Ambient',d.envTemp!=null?d.envTemp.toFixed(1)+' °C':'—','');h+='</div>';h+=sec('info-circle','System');h+='<div class="inv-grid">';h+=mk('Work Mode',['Export','Zero Export','Zero Export (Load)','Sell First'][num(dg.workMode)]||'#'+num(dg.workMode),'','');h+=mk('Energy Pattern',num(dg.energyPattern)===0?'Battery First':'Load First','');h+=mk('IO Mode',['Normal','Microinv','SmartLoad','UPS','CV','AC coupled'][num(dg.ioMode)]||'#'+num(dg.ioMode),'','');h+=mk('Control Mode',['Voltage','Current','Power','SOC'][num(dg.controlMode)]||'#'+num(dg.controlMode),'','');h+='</div>';h+=sec('exclamation-triangle','Alarms & Faults');h+='<div class="inv-grid">';h+=mk('Alarm 1',dg.alarm1!=null?'0x'+dg.alarm1.toString(16).toUpperCase().padStart(4,'0'):'—','',(dg.alarm1||0)===0?'No alarms':'Active!');h+=mk('Alarm 2',dg.alarm2!=null?'0x'+dg.alarm2.toString(16).toUpperCase().padStart(4,'0'):'—','',(dg.alarm2||0)===0?'No alarms':'Active!');h+=mk('Fault 1',dg.fault1!=null?'0x'+dg.fault1.toString(16).toUpperCase().padStart(4,'0'):'—','',(dg.fault1||0)===0?'No faults':'Active!');h+=mk('Fault 2',dg.fault2!=null?'0x'+dg.fault2.toString(16).toUpperCase().padStart(4,'0'):'—','',(dg.fault2||0)===0?'No faults':'Active!');h+='</div>';h+=sec('calendar','Lifetime Totals');h+='<div class="inv-grid">';h+=mk('Total PV',dg.totalPV!=null?dg.totalPV+' kWh':'—','');h+=mk('Total Grid Import',dg.totalGridImport!=null?dg.totalGridImport+' kWh':'—','');h+=mk('Total Grid Export',dg.totalGridExport!=null?dg.totalGridExport+' kWh':'—','');h+=mk('Total Load',dg.totalLoadEnergy!=null?dg.totalLoadEnergy+' kWh':'—','');h+=mk('Total Bat Charge',dg.totalBatCharge!=null?dg.totalBatCharge+' kWh':'—','');h+=mk('Total Bat Discharge',dg.totalBatDischarge!=null?dg.totalBatDischarge+' kWh':'—','');h+='</div>';h+=sec('sliders','Advanced');h+='<div class="inv-grid">';h+=mk('Battery Eq V',dg.batteryEqVoltage!=null?dg.batteryEqVoltage+' V':'—','');h+=mk('Battery Abs V',dg.batteryAbsVoltage!=null?dg.batteryAbsVoltage+' V':'—','');h+=mk('Battery Float V',dg.batteryFloatVoltage!=null?dg.batteryFloatVoltage+' V':'—','');h+=mk('Shutdown V',dg.batShutdownVoltage!=null?dg.batShutdownVoltage+' V':'—','');h+=mk('Restart V',dg.batRestartVoltage!=null?dg.batRestartVoltage+' V':'—','');h+=mk('Low V',dg.batLowVoltage!=null?dg.batLowVoltage+' V':'—','');h+='</div>';h+='<div style="margin-top:var(--space-lg);padding:12px;background:rgba(118,118,118,.08);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--fs-xs);color:var(--muted)">Last updated: '+(d.lastUpdate?new Date(d.lastUpdate).toLocaleString():'—')+'</div>';openSheet(h);}
 $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const btn=$('#loginBtn');btn.disabled=true;btn.innerHTML='<span class="spin"></span> Checking…';try{const r=await api('/login',{method:'POST',body:JSON.stringify({username:$('#loginUser').value.trim(),password:$('#loginPass').value})});console.log('login resp:',r);if(r&&r.success){console.log('login OK, csrf:',r.csrfToken?r.csrfToken.slice(0,12)+'…':'(none)');window._csrf=r.csrfToken||'';enterApp();island('Welcome','Session opened successfully','ok');if(r.mustChangePassword)openPassSheet(true);}else{$('#loginErr').textContent=(r&&r.message)||'Invalid username or password';const c=$('#loginCard');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}}catch(err){console.log('login error:',err);$('#loginErr').textContent='Server unreachable. Check network.';}btn.disabled=false;btn.innerHTML='<i class="bi bi-arrow-right-circle-fill"></i> Sign In';});
 
-function go(v){S.curView=v;haptic(6);$$('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.v===v));window.scrollTo({top:0,behavior:'smooth'});onEnter(v);}
-function onEnter(v){if(v==='status'){loadPowerChart();loadSocketChart();loadDailyChart();}if(v==='devices')renderDevices();if(v==='automations'){renderScenes();loadSceneTraces();}if(v==='notifications'){renderNotifs();markAllRead();}if(v==='settings')enterSettings();}
+function moveTabHighlight(tab){const hl=$('#tabHighlight');if(!hl)return;const bar=$('#tabbar');const br=bar.getBoundingClientRect(),tr=tab.getBoundingClientRect();hl.style.transform='translateX('+(tr.left-br.left)+'px)';hl.style.width=tr.width+'px';}
+function bounceTab(tab){tab.classList.remove('is-bouncing');void tab.offsetWidth;tab.classList.add('is-bouncing');setTimeout(()=>tab.classList.remove('is-bouncing'),500);}
+function go(v){S.curView=v;haptic(6);$$('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));$$('.tab').forEach(t=>{const on=t.dataset.v===v;t.setAttribute('aria-selected',String(on));if(on){moveTabHighlight(t);bounceTab(t);const lb=t.querySelector('.tab-label');if(lb){const h=e=>{if(!e||e.propertyName!=='max-width')return;moveTabHighlight(t);lb.removeEventListener('transitionend',h);};lb.addEventListener('transitionend',h);}}});window.scrollTo({top:0,behavior:'smooth'});onEnter(v);}
+(function initTabBar(){
+  const bar=$('#tabbar');if(!bar)return;
+  const active=$('.tab[aria-selected="true"]');
+  if(active)moveTabHighlight(active);
+  bar.addEventListener('pointermove',e=>{const r=bar.getBoundingClientRect();bar.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');bar.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');});
+  bar.addEventListener('pointerleave',()=>{bar.style.setProperty('--mx','50%');bar.style.setProperty('--my','0%');});
+  document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;const tabs=$$('.tab');const idx=['1','2','3','4','5'].indexOf(e.key);if(idx>=0&&idx<tabs.length){e.preventDefault();go(tabs[idx].dataset.v);}});
+  window.addEventListener('resize',()=>{const a=$('.tab[aria-selected="true"]');if(a)moveTabHighlight(a);});
+})();
+function onEnter(v){if(v==='status'){loadPowerChart();loadSocketChart();loadDailyChart();}if(v==='devices')renderDevices();if(v==='automations')renderScenes();if(v==='notifications'){renderNotifs();markAllRead();}if(v==='settings')enterSettings();}
 function prioOf(g){const s=(g||'').toLowerCase();if(s.includes('critical'))return 'critical';if(s.includes('second'))return 'secondary';return 'other';}
 function secDevices(){return S.devices.filter(d=>prioOf(d.group)==='secondary'&&d.switch===true);}
 function runtimeAt(load){const soc=num(S.status&&S.status.batterySOC)||0;const l=Math.max(load,6);const INV_EFF=0.965;const INV_IDLE=45;const availWh=(soc/100)*(S.capacityWh||5120);return availWh/((l/INV_EFF)+INV_IDLE)*60;}
 async function survivalMode(){const sec=secDevices();if(!sec.length){island('Already Off','No secondary active devices','info');return;}const savedW=sec.reduce((a,d)=>a+(d.power||0),0);const cur=num(S.status&&S.status.loadPower)||savedW;const gain=runtimeAt(cur-savedW)-runtimeAt(cur);openSheet('<h3><i class="bi bi-fire" c-amber"></i> Survival Mode</h3><p class="sh-p">Will turn off <b>'+sec.length+'</b> secondary devices (−'+savedW+' W). Estimated runtime will increase by approx. <b>'+fmtRuntime(Math.max(0,gain))+'</b>.<br><br>'+sec.map(d=>'• '+esc(d.name)+' · '+fmtW(d.power)).join('<br>')+'</p><div class="sh-btns"><button class="btn" onclick="closeSheet()">Cancel</button><button class="btn btn-danger-solid" id="svGo"><i class="bi bi-power"></i> Turn Off</button></div>');$('#svGo').onclick=async()=>{closeSheet();let ok=0;for(const d of sec){try{const r=await api('/api/tuya-control',{method:'POST',body:JSON.stringify({deviceId:d.id,value:false})});if(!r||r.success===false)throw 0;d.switch=false;d.power=0;ok++;}catch(e){island('Error',esc(d.name)+': failed to turn off','err');}}if(ok){island('Survival Mode Activated','Turned off '+ok+' devices · −'+savedW+' W · +'+fmtRuntime(Math.max(0,gain)),'warn',5200);haptic(30);}renderDevices();poll();};}
-async function poll(){if(!S.logged)return;try{const d=await getStatus();if(!d||d.success===false){if(!d||d.message!=='Unauthorized')return;S.logged=false;showLogin();return;}S.status=d;if(d.batteryCapacityWh&&d.batteryCapacityWh!==S.capacityWh){S.capacityWh=d.batteryCapacityWh;localStorage.setItem('ecmCapWh',d.batteryCapacityWh);}S.devices=d.tuyaDevices||S.devices;S.scenes=d.scenes||S.scenes;trackOutage(d);renderStatus(d);if(S.curView==='devices')renderDevices();if(S.curView==='automations'&&!$('#sceneList').children.length){renderScenes();loadSceneTraces();}}catch(e){console.log('poll error:',e);}}
+async function poll(){if(!S.logged)return;try{const d=await getStatus();if(!d||d.success===false){if(!d||d.message!=='Unauthorized')return;S.logged=false;showLogin();return;}S.status=d;if(d.batteryCapacityWh&&d.batteryCapacityWh!==S.capacityWh){S.capacityWh=d.batteryCapacityWh;localStorage.setItem('ecmCapWh',d.batteryCapacityWh);}S.devices=d.tuyaDevices||S.devices;S.scenes=d.scenes||S.scenes;trackOutage(d);renderStatus(d);if(S.curView==='devices')renderDevices();if(S.curView==='automations'&&!$('#sceneList').children.length)renderScenes();}catch(e){console.log('poll error:',e);}}
 function trackOutage(d){const off=d.gridPower===false;if(off&&!S.outageSince){S.outageSince=Date.now();localStorage.setItem('ecmOutageSince',S.outageSince);island('Grid Outage','Switching to battery power','err',5200);beep();}if(!off&&S.outageSince){const dur=Date.now()-S.outageSince;S.outageSince=0;localStorage.removeItem('ecmOutageSince');island('Grid Restored','Outage lasted '+fmtDur(dur),'ok',5200);}}
 function renderStatus(d){const soc=num(d.batterySOC)||0,load=num(d.loadPower)||0,bp=num(d.batteryPower)||0;const arc=$('#socArc');arc.style.strokeDashoffset=477.5*(1-soc/100);const col=soc>50?'var(--green)':soc>20?'var(--amber)':'var(--red)';arc.style.stroke=col;arc.style.filter='drop-shadow(0 0 9px '+(soc>50?'rgba(46,209,88,.55)':soc>20?'rgba(245,154,10,.55)':'rgba(240,64,56,.65)')+')';tween($('#socVal'),soc,v=>v.toFixed(soc<10?1:0));const st=$('#socState');if(bp<-5){st.innerHTML='<i class="bi bi-lightning-charge-fill c-green"></i> charging '+Math.abs(Math.round(bp))+' W';st.className='';}else if(bp>5){st.innerHTML='<i class="bi bi-battery-half c-amber"></i> discharging '+Math.round(bp)+' W';}else{st.innerHTML='<i class="bi bi-battery-full c-green"></i> idle';}const rtServer=d.batteryEndsAt?Math.max(0,(d.batteryEndsAt-Date.now())/60000):runtimeAt(load);const rv=$('#runtimeVal');tween(rv,rtServer,v=>fmtRuntime(v));rv.className='big '+(rtServer<120?'c-red':rtServer<360?'c-amber':'c-green');const untilMs=d.batteryEndsAt?d.batteryEndsAt-Date.now():rtServer*60000;$('#runtimeSub').textContent=untilMs>0?'until '+fmtUntil(untilMs/60000)+' · 96.5% eff · 45W idle':'battery depleted';tween($('#loadVal'),load,v=>Math.round(v)+' W');const bv=$('#batVal');tween(bv,bp,v=>Math.abs(Math.round(v))+' W');bv.style.color=bp>5?'var(--amber)':bp<-5?'var(--green)':'';const ek=(soc/100*(S.capacityWh||5120)/1000);tween($('#batKwh'),ek,v=>v.toFixed(1)+' kWh');const volt=num(d.debug&&d.debug.batteryVoltage);$('#voltVal').textContent=volt!==null?volt.toFixed(1)+' V':'—';const gb=$('#gridBadge');if(d.gridPower===false){gb.className='chip chip-red';gb.innerHTML='<i class="bi bi-lightning-charge-fill"></i> Grid: Outage';}else{gb.className='chip chip-green';gb.innerHTML='<i class="bi bi-plug-fill"></i> Grid OK'+(num(d.gridVoltage)?' · '+num(d.gridVoltage).toFixed(0)+' V':'');}const bn=$('#outageBanner');if(d.gridPower===false){bn.hidden=false;$('#obTime').textContent='Duration '+fmtDur(S.outageSince?Date.now()-S.outageSince:0)+(S.outageSince?' · since '+new Date(S.outageSince).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):'');$('#obRuntime').textContent=fmtRuntime(rt);}else bn.hidden=true;renderTiles(d);updateFlow(d);S.spark.push(load);if(S.spark.length>90)S.spark.shift();drawSpark();}
 function renderTiles(d){const cur=(d.tariff&&d.tariff.currency)||'';const cost=num(d.costToday&&d.costToday.day)+num(d.costToday&&d.costToday.night)||0;const items=[{i:'bi-plug-fill',c:'var(--cyan)',l:'Grid Voltage',v:num(d.gridVoltage)?num(d.gridVoltage).toFixed(1)+' V':'—',s:d.gridPower?'stable':'absent'},{i:'bi-thermometer-half',c:'var(--amber)',l:'Battery Temp',v:num(d.batteryTemp)?num(d.batteryTemp).toFixed(1)+' °C':'—',s:'normal < 45 °C'},{i:'bi-box-arrow-in-down',c:'var(--accent)',l:'Day Import',v:fmtKwh(d.dayGridImport),s:'from grid'},{i:'bi-lightning-fill',c:'var(--indigo)',l:'Day Consumption',v:fmtKwh(d.dayLoadEnergy),s:'load'},{i:'bi-battery-charging',c:'var(--green)',l:'Battery Charge',v:fmtKwh(d.dayBatCharge),s:'today'},{i:'bi-battery-half',c:'var(--amber)',l:'Battery Discharge',v:fmtKwh(d.dayBatDischarge),s:'today'},{i:'bi-cash-coin',c:'var(--green)',l:'Cost Today',v:cost?cost.toFixed(2)+' '+cur:'—',s:(d.tariff&&d.tariff.type==='daynight')?'day/night':'flat rate'},{i:'bi-thermometer',c:'var(--cyan)',l:'Ambient',v:num(d.envTemp)?num(d.envTemp).toFixed(1)+' °C':'—',s:'room'}];$('#tiles').innerHTML=items.map((t,i)=>'<div class="tile rv in" style="--d:'+(i*.04)+'s"><i class="ic bi '+t.i+'" style="color:'+t.c+'"></i><div class="lb">'+t.l+'</div><div class="vl">'+t.v+'</div><div class="sb">'+t.s+'</div></div>').join('');}
@@ -547,8 +585,8 @@ function renameSheet(id){const d=S.devices.find(x=>x.id===id);if(!d)return;openS
 async function renameDevice(id){const name=$('#rnName').value.trim();if(!name){island('Name required','Enter a device name','warn');return;}try{await api('/api/tuya-devices/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({name})});const d=S.devices.find(x=>x.id===id);if(d)d.name=name;closeSheet();renderDevices();island('Device Renamed',name,'ok');}catch(e){island('Error',esc(e.message),'err');}}
 async function syncTuya(fromSettings){const b=$('#devSync');if(b){b.disabled=true;b.innerHTML='<span class="spin"></span>';}if(fromSettings)$('#tuyaStat').innerHTML='<span class="spin"></span> Syncing with Tuya Cloud…';try{const r=await api('/api/sync-tuya',{method:'POST',body:'{}'});if(r&&r.success){island('Synced',r.count+' devices fetched from Tuya','ok');await poll();renderDevices();}else throw new Error((r&&r.message)||'Sync error');if(fromSettings)$('#tuyaStat').textContent='✓ '+r.count+' devices';}catch(e){island('Tuya Error',esc(e.message),'err');if(fromSettings)$('#tuyaStat').textContent='✗ '+e.message;}if(b){b.disabled=false;b.innerHTML='<i class="bi bi-arrow-repeat"></i> Sync';}}
 $('#modeSeg').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;$$('#modeSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');try{const r=await api('/api/tuya-mode',{method:'POST',body:JSON.stringify({mode:b.dataset.m})});if(r&&r.success===false)throw 0;island('Tuya Mode',b.textContent.trim(),'ok',2000);}catch(err){island('Tuya Mode','Endpoint not available in this build','warn');}});
-function condText(c){if(c.type==='battery')return 'SOC '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='grid')return c.value?'grid <b>ON</b>':'grid <b>OFF</b>';if(c.type==='time')return 'time <b>'+c.after+'–'+c.before+'</b>';if(c.type==='grid_restored')return 'grid <b>restored</b>';if(c.type==='inverter_offline')return 'inverter <b>offline</b> (≥'+(c.minFailures||5)+' fails)';if(c.type==='weekend')return '<b>weekend</b>';if(c.type==='weekday')return '<b>weekday</b>';if(c.type==='disk_free')return 'disk free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='cpu_temp')return 'CPU temp '+(c.operator||'>')+' <b>'+c.value+'°C</b>';if(c.type==='cpu_load')return 'CPU load '+(c.operator||'>')+' <b>'+c.value+'</b>';if(c.type==='memory_free')return 'RAM free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='device_online'){const d=S.devices.find(x=>x.id===c.device);return '<b>'+esc(d?d.name:'device')+'</b> '+(c.value?'online':'offline');}return '…';}
-function actText(a){if(a.type==='notify')return '🔔 <b>notification</b>'+(a.title?' ('+esc(a.title)+')':'')+(a.critical?' <span class="chip chip-red" style="font-size:var(--fs-2xs)">critical</span>':'');if(a.type==='priority')return '⚑ <b>priority</b> → '+esc(String(a.value||''));if(a.type==='webhook')return '🌐 <b>webhook</b> → '+esc(a.url||'');const d=S.devices.find(x=>x.id===a.device);let t='<b>'+esc(d?d.name:a.device)+'</b> → '+(a.value?'<b class="c-green">ON</b>':'<b class="c-red">OFF</b>');if(a.duration>0)t+=' for '+a.duration+' min';return t;}
+function condText(c){if(c.type==='battery')return 'SOC '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='grid')return c.value?'grid <b>ON</b>':'grid <b>OFF</b>';if(c.type==='time')return 'time <b>'+c.after+'–'+c.before+'</b>';if(c.type==='grid_restored')return 'grid <b>restored</b>';if(c.type==='inverter_offline')return 'inverter <b>offline</b> (≥'+(c.minFailures||5)+' fails)';if(c.type==='weekday')return '<b>'+(c.value||'weekday')+'</b>';if(c.type==='disk_free')return 'disk free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='cpu_temp')return 'CPU temp '+(c.operator||'>')+' <b>'+c.value+'°C</b>';if(c.type==='cpu_load')return 'CPU load '+(c.operator||'>')+' <b>'+c.value+'</b>';if(c.type==='memory_free')return 'RAM free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='device_online'){const d=S.devices.find(x=>x.id===c.device);return '<b>'+esc(d?d.name:'device')+'</b> '+(c.value?'online':'offline');}return '…';}
+function actText(a){if(a.type==='notify')return '🔔 <b>notification</b>'+(a.title?' ('+esc(a.title)+')':'')+(a.critical?' <span class="chip chip-red" style="font-size:var(--fs-2xs)">critical</span>':'');if(a.type==='priority')return '⚑ <b>priority</b> → '+esc(String(a.value||''));if(a.type==='webhook')return '🌐 <b>webhook</b> → '+esc(a.url||'');if(a.type==='delay')return '⏳ delay <b>'+(a.duration||0)+'min</b>';if(a.type==='if')return '🔀 if/then/else ('+((a.then||[]).length+(a.else||[]).length)+' actions)';if(a.type==='choose')return '📋 choose ('+((a.choices||[]).length)+' choices)';if(a.type==='repeat')return '🔁 repeat ×'+(a.count||(a.while?'while':'?'));if(a.type==='parallel')return '📦 parallel ('+((a.sequence||[]).length)+' actions)';if(a.type==='stop')return '⏹ stop';const d=S.devices.find(x=>x.id===a.device);let t='<b>'+esc(d?d.name:a.device)+'</b> → '+(a.value?'<b class="c-green">ON</b>':'<b class="c-red">OFF</b>');if(a.duration>0)t+=' for '+a.duration+' min';return t;}
 async function renderScenes(traces){const con=$('#sceneList');const scenes=S.scenes;$('#sceneSub').textContent=scenes.length+' scenes · '+scenes.filter(s=>s.enabled!==false).length+' active';if(!scenes.length){con.innerHTML='<div class="empty"><i class="bi bi-diagram-3"></i>No automations yet.<br>Create your first one — e.g. survival mode.</div>';return;}traces=traces||{};const groups={};for(const s of scenes){const g=s.group||'Ungrouped';(groups[g]=groups[g]||[]).push(s);}const sorted=Object.keys(groups).sort((a,b)=>{const pa=a==='Critical'?0:a==='Secondary'?1:a==='Ungrouped'?3:2;const pb=b==='Critical'?0:b==='Secondary'?1:b==='Ungrouped'?3:2;if(pa!==pb)return pa-pb;return a.localeCompare(b);});const card=s=>{const en=s.enabled!==false;const lg=(s.if&&s.if.logic==='OR')?' <span class="kw">OR</span> ':' <span class="kw">AND</span> ';const ifs=((s.if&&s.if.conditions)||[]).map(condText).join(lg)||'—';const thens=((s.then&&s.then.actions)||[]).map(actText).join(', ')||'—';const tr=(traces[s.name]||[]).slice(-2).reverse().map(t=>{const err=/error/.test(t.action);const tm=new Date(t.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});const lbl=t.action==='apply'?'✓ applied':/revert/.test(t.action)?'↩ reverted':'⚠ '+esc(t.action);return '<div class="trace'+(err?' err':'')+'"><span class="t">'+tm+'</span><span>'+lbl+'</span><span style="opacity:.7">'+esc(t.detail||'')+'</span></div>';}).join('');return '<div class="card-sm scene'+(en?' act':'')+'" data-name="'+escA(s.name)+'"><div class="scene-top"><span class="sdot"></span><b>'+esc(s.name)+'</b><span class="chip '+(en?'chip-acc':'chip-dim')+'">'+(en?'active':'paused')+'</span>'+(s.mode==='single'?'<span class="chip chip-dim" style="margin-left:4px">single</span>':'')+'<label class="sw"><input type="checkbox" data-act="toggle" '+(en?'checked':'')+'><i></i></label></div><div class="scene-rule"><span class="kw">IF</span> '+ifs+' <span class="kw">THEN</span> '+thens+'</div>'+(tr?'<div class="traces">'+tr+'</div>':'')+'<div class="scene-btns"><button class="ibtn" data-act="run" title="Run manually"><i class="bi bi-play-fill"></i></button><button class="ibtn" data-act="edit" title="Edit"><i class="bi bi-pencil"></i></button><button class="ibtn" data-act="group" title="Group"><i class="bi bi-folder"></i></button><button class="ibtn" data-act="del" title="Delete"><i class="bi bi-trash3"></i></button></div></div>';};let html='';for(const g of sorted)html+='<div class="dev-sec"><i class="'+(g==='Critical'?'bi bi-shield-fill-check c-green':g==='Secondary'?'bi bi-fire c-amber':'bi bi-folder2 c-acc')+'"></i><b>'+esc(g)+'</b><span>'+groups[g].length+' scene'+(groups[g].length>1?'s':'')+'</span></div><div class="dev-grid">'+groups[g].map(card).join('')+'</div>';con.innerHTML=html;}async function loadSceneTraces(){try{const t=await api('/api/scene-traces?last=3');if(t&&t.traces&&S.curView==='automations')renderScenes(t.traces);}catch(e){}}
 $('#sceneList').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const name=b.closest('[data-name]').dataset.name;if(b.dataset.act==='run')runScene(name);if(b.dataset.act==='edit')editScene(name);if(b.dataset.act==='group')sceneGroupSheet(name);if(b.dataset.act==='del')confirmSheet('Delete scene?','"'+name+'" will be permanently deleted.',()=>delScene(name));});
 $('#sceneList').addEventListener('change',e=>{const sw=e.target.closest('input[data-act="toggle"]');if(!sw)return;toggleScene(sw.closest('[data-name]').dataset.name,sw.checked);});
@@ -557,15 +595,732 @@ async function delScene(name){try{await api('/api/scenes/'+encodeURIComponent(na
 async function runScene(name){haptic(10);try{const r=await api('/api/scenes/'+encodeURIComponent(name)+'/run',{method:'POST',body:'{}'});if(r&&r.success){const bad=(r.results||[]).filter(x=>!x.ok).length;island(bad?'Executed with errors':'Scene executed','"'+name+'" · actions: '+(r.results||[]).length,bad?'warn':'ok');}else throw new Error((r&&r.message)||'Error');await poll();renderScenes();}catch(e){island('Run Error',esc(e.message),'err');}}
 function sceneGroupSheet(name){const s=S.scenes.find(x=>x.name===name);if(!s)return;const p=prioOf(s.group);const existing=[...new Set(S.scenes.filter(x=>x.name!==name&&x.group).map(x=>x.group))].filter(g=>!['Critical','Secondary'].includes(g)).sort();const extras=existing.length?existing.map(g=>'<button class="sh-opt'+(s.group===g?' sel':'')+'" onclick="setSceneGroup(\''+escA(name)+'\',\''+escA(g)+'\')"><i class="bi bi-folder2-open"></i><span>'+esc(g)+'<em>custom group</em></span></button>').join(''):'';openSheet('<h3>Priority · '+esc(s.name)+'</h3><button class="sh-opt'+(p==='critical'?' sel':'')+'" onclick="setSceneGroup(\''+escA(name)+'\',\'Critical\')"><i class="bi bi-shield-fill-check"></i><span>Critical<em>highest priority</em></span></button><button class="sh-opt'+(p==='secondary'?' sel':'')+'" onclick="setSceneGroup(\''+escA(name)+'\',\'Secondary\')"><i class="bi bi-fire"></i><span>Secondary<em>medium priority</em></span></button>'+extras+'<button class="sh-opt'+(p==='other'&&!s.group?' sel':'')+'" onclick="setSceneGroup(\''+escA(name)+'\',\'\')"><i class="bi bi-dash-circle"></i><span>No Group<em>no priority set</em></span></button><label class="sh-label">Or custom group / room</label><div class="sh-row"><input id="sgGroup" class="sh-input" placeholder="e.g. Living Room" value="'+esc(p==='other'?s.group:'')+'"><button class="btn btn-soft" onclick="setSceneGroup(\''+escA(name)+'\',document.getElementById(\'sgGroup\').value)">OK</button></div>');}
 async function setSceneGroup(name,g){if(g===undefined){g=$('#sgGroup').value.trim();}else{g=String(g||'').trim();}try{await api('/api/scenes/'+encodeURIComponent(name),{method:'PATCH',body:JSON.stringify({group:g})});const s=S.scenes.find(x=>x.name===name);if(s)s.group=g;closeSheet();renderScenes();island('Group Updated','"'+esc(name)+'" → '+(g||'ungrouped'),'ok');}catch(e){island('Error',esc(e.message),'err');}}
-async function createSurvivalScene(){const sec=S.devices.filter(d=>prioOf(d.group)==='secondary');const actions=sec.map(d=>({type:'tuya',device:d.id,value:false,duration:0,interval:0}));actions.push({type:'notify',title:'Survival Mode',message:'Battery critically low — secondary devices turned off'});try{await api('/api/scenes',{method:'POST',body:JSON.stringify({name:'Survival Mode',if:{logic:'AND',conditions:[{type:'battery',operator:'<',value:20}]},then:{actions}})});island('Scene Created','SOC < 20% → turn off '+sec.length+' secondary','ok');await poll();renderScenes();}catch(e){island('Error',esc(e.message),'err');}}
-function openBuilder(){openSheet('<h3>New Automation</h3><label class="sh-label">Name</label><input id="abName" class="sh-input" placeholder="e.g. Night Savings" maxlength="40"><label class="sh-label"><span class="kw">IF</span> — condition</label><div class="sh-row">'+renderPickerBtn('abCondType',COND_CATALOG,'battery','openCondPicker()')+'<span id="abCondFields" style="display:contents"></span></div><label class="sh-label"><span class="kw">THEN</span> — action</label><div class="sh-row">'+renderPickerBtn('abActType',ACT_CATALOG,'device','openActPicker()')+'<span id="abActFields" style="display:contents"></span></div><div id="abActNotifyRow"><label class="sw-row"><span class="sw"><input id="abNotify" type="checkbox" checked><i></i></span> Also send notification</label></div><label class="sh-label">Mode</label><div class="sh-row"><select id="abMode" class="sh-input" style="max-width:150px"><option value="restart">Restart</option><option value="single">Single</option></select><span style="font-size:var(--fs-xs);color:var(--muted);align-self:center">restart=re-run each cycle · single=one at a time</span></div><button class="btn btn-primary w100" onclick="saveAutomation()"><i class="bi bi-check-lg"></i> Create Scene</button>');abCondFields();abActFields();}
-function abCondFields(){const t=$('#abCondType').value,f=$('#abCondFields');if(t==='battery')f.innerHTML='<select id="abOp" class="sh-input" style="max-width:120px"><option value="<">below</option><option value=">">above</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="20" min="1" max="99">';else if(t==='grid')f.innerHTML='<select id="abGrid" class="sh-input" style="max-width:160px"><option value="false">lost (OFF)</option><option value="true">restored (ON)</option></select>';else if(t==='time')f.innerHTML='<input id="abAfter" type="time" class="sh-input" value="23:00" style="max-width:120px"><input id="abBefore" type="time" class="sh-input" value="07:00" style="max-width:120px">';else if(t==='grid_restored')f.innerHTML='<span style="font-size:var(--fs-sm);color:var(--muted)">Triggers when grid comes back</span>';else if(t==='inverter_offline')f.innerHTML='<label style="font-size:var(--fs-sm);color:var(--muted)">Min fails: </label><input id="abMinFail" type="number" class="sh-input" style="max-width:80px" value="5" min="2" max="50">';else if(t==='device_online'){const opts=S.devices.map(d=>'<option value="'+escA(d.id)+'">'+esc(d.name)+'</option>').join('');f.innerHTML='<select id="abCondDev" class="sh-input"><option value="">\u2014 device \u2014</option>'+opts+'</select><select id="abCondDevStatus" class="sh-input" style="max-width:130px"><option value="true">Online</option><option value="false">Offline</option></select>';}else if(t==='weekday')f.innerHTML='<select id="abDayType" class="sh-input" style="max-width:140px"><option value="weekday">Weekday</option><option value="weekend">Weekend</option></select>';else if(t==='disk_free')f.innerHTML='<select id="abOp" class="sh-input" style="max-width:120px"><option value="<">below</option><option value=">">above</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="20" min="1" max="99"><span style="color:var(--muted);font-size:var(--fs-sm)">% free</span>';else if(t==='cpu_temp')f.innerHTML='<select id="abOp" class="sh-input" style="max-width:120px"><option value=">">above</option><option value="<">below</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="80" min="30" max="100"><span style="color:var(--muted);font-size:var(--fs-sm)">°C</span>';else if(t==='cpu_load')f.innerHTML='<select id="abOp" class="sh-input" style="max-width:120px"><option value=">">above</option><option value="<">below</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="5" min="1" max="32" step="0.5">';else if(t==='memory_free')f.innerHTML='<select id="abOp" class="sh-input" style="max-width:120px"><option value="<">below</option><option value=">">above</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="15" min="1" max="99"><span style="color:var(--muted);font-size:var(--fs-sm)">% free</span>';}
-function abActFields(){const t=$('#abActType').value;if(t==='device'){const opts=S.devices.map(d=>'<option value="'+escA(d.id)+'">'+esc(d.name)+'</option>').join('');$('#abActFields').innerHTML='<select id="abDev" class="sh-input"><option value="">\u2014 device \u2014</option>'+opts+'</select><select id="abVal" class="sh-input" style="max-width:130px"><option value="false">Turn Off</option><option value="true">Turn On</option></select>';$('#abActNotifyRow').innerHTML='<label class="sw-row"><span class="sw"><input id="abNotify" type="checkbox" checked><i></i></span> Also send notification</label>';}else if(t==='priority'){$('#abActFields').innerHTML='<select id="abPVal" class="sh-input" style="max-width:160px"><option value="economy">Economy</option><option value="normal">Normal</option><option value="critical">Critical</option></select>';$('#abActNotifyRow').innerHTML='';}else if(t==='webhook'){$('#abActFields').innerHTML='<input id="abWUrl" class="sh-input" placeholder="https://..." style="width:300px">';$('#abActNotifyRow').innerHTML='';}else{$('#abActFields').innerHTML='<input id="abNTitle" class="sh-input" placeholder="Title" style="max-width:180px"><input id="abNMsg" class="sh-input" placeholder="Message" style="max-width:220px"><label style="font-size:var(--fs-sm);color:var(--muted);white-space:nowrap"><input id="abNCritical" type="checkbox"> Critical</label>';$('#abActNotifyRow').innerHTML='';}}
-async function saveAutomation(){const name=$('#abName').value.trim();if(!name){island('Name required','Enter an automation name','warn');return;}const ct=$('#abCondType').value;let cond;if(ct==='battery')cond={type:'battery',operator:$('#abOp').value,value:parseInt($('#abSoc').value)||20};else if(ct==='grid')cond={type:'grid',value:$('#abGrid').value==='true'};else if(ct==='time')cond={type:'time',after:$('#abAfter').value||'00:00',before:$('#abBefore').value||'23:59'};else if(ct==='grid_restored')cond={type:'grid_restored'};else if(ct==='inverter_offline')cond={type:'inverter_offline',minFailures:parseInt($('#abMinFail').value)||5};else if(ct==='device_online'){const cdv=$('#abCondDev').value;if(!cdv){island('Select a device','Condition needs a target device','warn');return;}cond={type:'device_online',value:cdv,expectedStatus:$('#abCondDevStatus').value==='true'};}else if(ct==='weekday')cond={type:$('#abDayType').value};else if(ct==='disk_free'||ct==='cpu_temp'||ct==='cpu_load'||ct==='memory_free')cond={type:ct,operator:$('#abOp').value,value:parseFloat($('#abSoc').value)||0};const at=$('#abActType').value;const actions=[];if(at==='device'){const dev=$('#abDev').value;if(!dev){island('Select a device','Action needs a target device','warn');return;}actions.push({type:'tuya',device:dev,value:$('#abVal').value==='true',duration:0,interval:0});if($('#abNotify').checked)actions.push({type:'notify',title:'Automation "'+name+'"',message:'Condition triggered, action executed'});}else if(at==='priority'){actions.push({type:'priority',value:$('#abPVal').value});}else if(at==='webhook'){actions.push({type:'webhook',url:$('#abWUrl').value});}else{actions.push({type:'notify',title:$('#abNTitle').value||('Automation "'+name+'"'),message:$('#abNMsg').value||'Rule triggered',critical:$('#abNCritical').checked});}try{await api('/api/scenes',{method:'POST',body:JSON.stringify({name,mode:$('#abMode').value,if:{logic:'AND',conditions:[cond]},then:{actions}})});closeSheet();island('Scene Created',esc(name),'ok');await poll();renderScenes();}catch(e){island('Error',esc(e.message),'err');}}
+async function createSurvivalScene(){const sec=S.devices.filter(d=>prioOf(d.group)==='secondary');const actions=sec.map(d=>({type:'tuya',device:d.id,value:false,duration:0}));actions.push({type:'notify',title:'Survival Mode',message:'Battery critically low — secondary devices turned off'});try{await api('/api/scenes',{method:'POST',body:JSON.stringify({name:'Survival Mode',if:{logic:'AND',conditions:[{type:'battery',operator:'<',value:20}]},then:{actions}})});island('Scene Created','SOC < 20% → turn off '+sec.length+' secondary','ok');await poll();renderScenes();}catch(e){island('Error',esc(e.message),'err');}}
+// --- Editor state ---
+let _eConds = [];
+let _eCondsLogic = 'and';
+let _eActions = [];
+let _eEditName = null;
 
-let _editSceneName=null;
-function editScene(name){_editSceneName=name;const s=S.scenes.find(x=>x.name===name);if(!s)return;const cond=(s.if&&s.if.conditions&&s.if.conditions[0])||{};const tuyaAct=(s.then&&s.then.actions||[]).find(a=>a.type==='tuya');const notifyAct=(s.then&&s.then.actions||[]).find(a=>a.type==='notify');const priorityAct=(s.then&&s.then.actions||[]).find(a=>a.type==='priority');const webhookAct=(s.then&&s.then.actions||[]).find(a=>a.type==='webhook');const mode=s.mode||'restart';const isNotify=!tuyaAct&&!!notifyAct&&!priorityAct&&!webhookAct;const at0=(!isNotify&&!priorityAct&&!webhookAct)?'device':isNotify?'notify':priorityAct?'priority':'webhook';const ct=cond.type||'battery';let cf='';if(ct==='battery')cf='<select id="abOp" class="sh-input" style="max-width:120px"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="'+(cond.value||20)+'" min="1" max="99">';else if(ct==='grid')cf='<select id="abGrid" class="sh-input" style="max-width:160px"><option value="false"'+(cond.value===false?' selected':'')+'>lost (OFF)</option><option value="true"'+(cond.value===true?' selected':'')+'>restored (ON)</option></select>';else if(ct==='time')cf='<input id="abAfter" type="time" class="sh-input" value="'+(cond.after||'23:00')+'" style="max-width:120px"><input id="abBefore" type="time" class="sh-input" value="'+(cond.before||'07:00')+'" style="max-width:120px">';else if(ct==='grid_restored')cf='<span style="font-size:var(--fs-sm);color:var(--muted)">Triggers when grid comes back</span>';else if(ct==='inverter_offline')cf='<label style="font-size:var(--fs-sm);color:var(--muted)">Min fails: </label><input id="abMinFail" type="number" class="sh-input" style="max-width:80px" value="'+(cond.minFailures||5)+'" min="2" max="50">';else if(ct==='device_online'){const opts=S.devices.map(d=>'<option value="'+escA(d.id)+'"'+(cond.value===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');cf='<select id="abCondDev" class="sh-input"><option value="">\u2014 device \u2014</option>'+opts+'</select><select id="abCondDevStatus" class="sh-input" style="max-width:130px"><option value="true"'+(cond.expectedStatus!==false?' selected':'')+'>Online</option><option value="false"'+(cond.expectedStatus===false?' selected':'')+'>Offline</option></select>';}else if(ct==='weekday'||ct==='weekend')cf='<select id="abDayType" class="sh-input" style="max-width:140px"><option value="weekday"'+(ct==='weekday'?' selected':'')+'>Weekday</option><option value="weekend"'+(ct==='weekend'?' selected':'')+'>Weekend</option></select>';else if(ct==='disk_free'||ct==='cpu_temp'||ct==='cpu_load'||ct==='memory_free')cf='<select id="abOp" class="sh-input" style="max-width:120px"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select><input id="abSoc" type="number" class="sh-input" style="max-width:90px" value="'+(cond.value||0)+'" min="0" max="999">';openSheet('<h3>Edit: '+esc(s.name)+'</h3><label class="sh-label">Name</label><input id="abName" class="sh-input" value="'+escA(s.name)+'" maxlength="40"><label class="sh-label"><span class="kw">IF</span> — condition</label><div class="sh-row">'+renderPickerBtn('abCondType',COND_CATALOG,(ct==='weekend'?'weekday':ct),'openCondPicker()')+'<span id="abCondFields" style="display:contents">'+cf+'</span></div><label class="sh-label"><span class="kw">THEN</span> — action</label><div class="sh-row">'+renderPickerBtn('abActType',ACT_CATALOG,at0,'openActPicker()')+'<span id="abActFields" style="display:contents"></span></div><div id="abActNotifyRow"></div><label class="sh-label">Mode</label><div class="sh-row"><select id="abMode" class="sh-input" style="max-width:150px"><option value="restart"'+(mode==='restart'?' selected':'')+'>Restart</option><option value="single"'+(mode==='single'?' selected':'')+'>Single</option></select><span style="font-size:var(--fs-xs);color:var(--muted);align-self:center">restart=re-run each cycle · single=one at a time</span></div><button class="btn btn-primary w100" onclick="updateAutomation()"><i class="bi bi-check-lg"></i> Save Changes</button>');abActFields();if(at0==='device'){const dEl=$('#abDev');if(dEl)dEl.value=tuyaAct.device;const vEl=$('#abVal');if(vEl)vEl.value=String(tuyaAct.value);const nEl=$('#abNotify');if(nEl)nEl.checked=!!notifyAct;}else if(at0==='notify'){const te=$('#abNTitle');if(te)te.value=notifyAct.title||'';const me=$('#abNMsg');if(me)me.value=notifyAct.message||'';const ce=$('#abNCritical');if(ce)ce.checked=!!notifyAct.critical;}else if(at0==='priority'){const pEl=$('#abPVal');if(pEl)pEl.value=priorityAct.value||'normal';}else if(at0==='webhook'){const wEl=$('#abWUrl');if(wEl)wEl.value=webhookAct.url||'';}}
-async function updateAutomation(){const name=$('#abName').value.trim();if(!name){island('Name required','Enter a name','warn');return;}const ct=$('#abCondType').value;let cond;if(ct==='battery')cond={type:'battery',operator:$('#abOp').value,value:parseInt($('#abSoc').value)||20};else if(ct==='grid')cond={type:'grid',value:$('#abGrid').value==='true'};else if(ct==='time')cond={type:'time',after:$('#abAfter').value||'00:00',before:$('#abBefore').value||'23:59'};else if(ct==='grid_restored')cond={type:'grid_restored'};else if(ct==='inverter_offline')cond={type:'inverter_offline',minFailures:parseInt($('#abMinFail').value)||5};else if(ct==='device_online'){const cdv=$('#abCondDev').value;if(!cdv){island('Select a device','Condition needs a target device','warn');return;}cond={type:'device_online',value:cdv,expectedStatus:$('#abCondDevStatus').value==='true'};}else if(ct==='weekday')cond={type:$('#abDayType').value};else if(ct==='disk_free'||ct==='cpu_temp'||ct==='cpu_load'||ct==='memory_free')cond={type:ct,operator:$('#abOp').value,value:parseFloat($('#abSoc').value)||0};const at=$('#abActType').value;const actions=[];if(at==='device'){const dev=$('#abDev').value;if(!dev){island('Select a device','Need a target device','warn');return;}actions.push({type:'tuya',device:dev,value:$('#abVal').value==='true',duration:0,interval:0});if($('#abNotify')&&$('#abNotify').checked)actions.push({type:'notify',title:'Automation "'+name+'"',message:'Condition triggered, action executed'});}else if(at==='priority'){actions.push({type:'priority',value:$('#abPVal').value});}else if(at==='webhook'){actions.push({type:'webhook',url:$('#abWUrl').value});}else{actions.push({type:'notify',title:$('#abNTitle').value||('Automation "'+name+'"'),message:$('#abNMsg').value||'Rule triggered',critical:$('#abNCritical').checked});}try{if(_editSceneName&&_editSceneName!==name){await api('/api/scenes/'+encodeURIComponent(_editSceneName),{method:'DELETE'});}await api('/api/scenes',{method:'POST',body:JSON.stringify({name,mode:$('#abMode').value,if:{logic:'AND',conditions:[cond]},then:{actions}})});closeSheet();island('Scene Updated',esc(name),'ok');_editSceneName=null;await poll();renderScenes();}catch(e){island('Error',esc(e.message),'err');}}
+const COND_TYPES = [
+  { type:'battery', label:'Battery SOC', group:'Battery', icon:'battery-charging' },
+  { type:'grid', label:'Grid Status', group:'Grid', icon:'plug-fill' },
+  { type:'grid_restored', label:'Grid Restored', group:'Grid', icon:'plug-fill' },
+  { type:'time', label:'Time of Day', group:'Time', icon:'clock-fill' },
+  { type:'weekday', label:'Day of Week', group:'Time', icon:'clock-fill' },
+  { type:'device_online', label:'Device Online', group:'Devices', icon:'plug-fill' },
+  { type:'inverter_offline', label:'Inverter Offline', group:'Inverter', icon:'hdd-network-fill' },
+  { type:'disk_free', label:'Disk Space', group:'System Health', icon:'cpu-fill' },
+  { type:'cpu_temp', label:'CPU Temperature', group:'System Health', icon:'cpu-fill' },
+  { type:'cpu_load', label:'CPU Load', group:'System Health', icon:'cpu-fill' },
+  { type:'memory_free', label:'Memory Free', group:'System Health', icon:'cpu-fill' },
+];
+
+const ACT_TYPES = [
+  { type:'tuya', label:'Control Device', group:'Devices', icon:'plug-fill' },
+  { type:'notify', label:'Send Notification', group:'Notifications', icon:'bell-fill' },
+  { type:'delay', label:'Delay', group:'System', icon:'clock-fill' },
+  { type:'if', label:'If/Then/Else', group:'System', icon:'diagram-3' },
+  { type:'choose', label:'Choose', group:'System', icon:'list' },
+  { type:'repeat', label:'Repeat', group:'System', icon:'arrow-repeat' },
+  { type:'parallel', label:'Parallel', group:'System', icon:'layers-fill' },
+  { type:'stop', label:'Stop', group:'System', icon:'stop-fill' },
+  { type:'priority', label:'Set Priority', group:'System', icon:'gear-fill' },
+  { type:'webhook', label:'Webhook', group:'System', icon:'gear-fill' },
+];
+
+function condGroupIcon(g) {
+  const m = { Battery:'battery-charging', Grid:'plug-fill', Time:'clock-fill', Devices:'plug-fill', Inverter:'hdd-network-fill', 'System Health':'cpu-fill', Notifications:'bell-fill', System:'gear-fill' };
+  return m[g] || 'question-circle';
+}
+
+function condFieldsHTML(cond, idx) {
+  if (cond.and || cond.or || cond.not) return '<span style="color:var(--muted)">compound</span>';
+  switch (cond.type) {
+    case 'battery':
+      return '<select class="cf-op" data-ci="'+idx+'" onchange="eCField('+idx+')"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select> <input class="cf-val" data-ci="'+idx+'" type="number" value="'+(cond.value||20)+'" onchange="eCField('+idx+')" style="max-width:80px">%';
+    case 'grid':
+      return '<select class="cf-val" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:160px"><option value="false"'+(cond.value===false?' selected':'')+'>OFF (lost)</option><option value="true"'+(cond.value===true?' selected':'')+'>ON</option></select>';
+    case 'time':
+      return '<input class="cf-after" data-ci="'+idx+'" type="time" value="'+(cond.after||'23:00')+'" onchange="eCField('+idx+')" style="max-width:120px"> <input class="cf-before" data-ci="'+idx+'" type="time" value="'+(cond.before||'07:00')+'" onchange="eCField('+idx+')" style="max-width:120px">';
+    case 'grid_restored':
+      return '<span style="font-size:var(--fs-sm);color:var(--muted)">Triggers when grid returns</span>';
+    case 'inverter_offline':
+      return 'Min fails: <input class="cf-val" data-ci="'+idx+'" type="number" value="'+(cond.minFailures||5)+'" onchange="eCField('+idx+')" style="max-width:80px" min="2" max="50">';
+    case 'device_online':
+      const dopts = S.devices.map(d => '<option value="'+escA(d.id)+'"'+(cond.value===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');
+      return '<select class="cf-dev" data-ci="'+idx+'" onchange="eCField('+idx+')"><option value="">— device —</option>'+dopts+'</select> <select class="cf-status" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:130px"><option value="true"'+(cond.expectedStatus!==false?' selected':'')+'>Online</option><option value="false"'+(cond.expectedStatus===false?' selected':'')+'>Offline</option></select>';
+    case 'weekday':
+      return '<select class="cf-val" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:140px"><option value="weekday"'+(cond.value!=='weekend'?' selected':'')+'>Weekday</option><option value="weekend"'+(cond.value==='weekend'?' selected':'')+'>Weekend</option></select>';
+    case 'disk_free': case 'cpu_temp': case 'cpu_load': case 'memory_free':
+      const opDef = cond.type === 'cpu_temp' ? '>' : '<';
+      const unit = cond.type === 'cpu_temp' ? '°C' : cond.type === 'cpu_load' ? 'load' : '%';
+      return '<select class="cf-op" data-ci="'+idx+'" onchange="eCField('+idx+')"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select> <input class="cf-val" data-ci="'+idx+'" type="number" value="'+(cond.value||20)+'" onchange="eCField('+idx+')" style="max-width:80px"> <span style="font-size:var(--fs-sm);color:var(--muted)">'+unit+'</span>';
+    default:
+      return '<span style="color:var(--muted);font-size:var(--fs-sm)">—</span>';
+  }
+}
+
+function readCondFields(idx) {
+  const c = _eConds[idx];
+  if (!c || c.and || c.or || c.not) return;
+  const opEl = document.querySelector('.cf-op[data-ci="'+idx+'"]');
+  const valEl = document.querySelector('.cf-val[data-ci="'+idx+'"]');
+  const afterEl = document.querySelector('.cf-after[data-ci="'+idx+'"]');
+  const beforeEl = document.querySelector('.cf-before[data-ci="'+idx+'"]');
+  const devEl = document.querySelector('.cf-dev[data-ci="'+idx+'"]');
+  const statusEl = document.querySelector('.cf-status[data-ci="'+idx+'"]');
+  if (opEl) c.operator = opEl.value;
+  if (valEl) {
+    if (c.type === 'inverter_offline') c.minFailures = parseInt(valEl.value) || 5;
+    else if (c.type === 'weekday') {
+      c.value = valEl.value;
+      c.days = valEl.value === 'weekend' ? [0,6] : [1,2,3,4,5];
+    }
+    else if (c.type === 'grid') c.value = valEl.value === 'true';
+    else if (c.type === 'cpu_load' || c.type === 'cpu_temp') c.value = parseFloat(valEl.value) || 0;
+    else c.value = parseFloat(valEl.value) || 0;
+  }
+  if (afterEl && beforeEl) { c.after = afterEl.value; c.before = beforeEl.value; }
+  if (devEl && statusEl) { c.value = devEl.value; c.expectedStatus = statusEl.value === 'true'; }
+}
+
+function eCField(idx) { readCondFields(idx); }
+
+function condSummary(c) {
+  if (c.and) return 'AND(' + c.and.length + ')';
+  if (c.or) return 'OR(' + c.or.length + ')';
+  if (c.not) return 'NOT(' + condSummary(c.not) + ')';
+  const cat = COND_TYPES.find(x => x.type === c.type);
+  if (!cat) return c.type || '?';
+  if (c.type === 'battery') return 'SOC ' + (c.operator||'<') + ' ' + c.value + '%';
+  if (c.type === 'grid') return 'grid ' + (c.value ? 'ON' : 'OFF');
+  if (c.type === 'time') return c.after + '–' + c.before;
+  if (c.type === 'device_online') {
+    const d = S.devices.find(x => x.id === c.value);
+    return (d ? d.name : c.value) + ' ' + (c.expectedStatus ? 'online' : 'offline');
+  }
+  return cat.label;
+}
+
+function renderCondList() {
+  const con = $('#editorConds');
+  if (!con) return;
+  let html = '';
+  for (let i = 0; i < _eConds.length; i++) {
+    const c = _eConds[i];
+    if (i > 0) {
+      html += '<div class="sh-row" style="justify-content:center;gap:var(--space-sm)"><select class="cond-logic" data-ci="'+i+'" onchange="eCondsLogicChange('+i+')" style="max-width:100px"><option value="and"'+(_eCondsLogic==='and'?' selected':'')+'>AND</option><option value="or"'+(_eCondsLogic==='or'?' selected':'')+'>OR</option></select></div>';
+    }
+    const cat = COND_TYPES.find(x => x.type === c.type) || COND_TYPES[0];
+    html += '<div class="card-sm" style="margin:var(--space-sm) 0;padding:var(--space-sm) var(--space-md)"><div style="display:flex;gap:var(--space-sm);align-items:center;flex-wrap:wrap">';
+    html += '<select class="cond-type" data-ci="'+i+'" onchange="eCondsTypeChange('+i+')" style="max-width:160px">';
+    for (const t of COND_TYPES) html += '<option value="'+t.type+'"'+(c.type===t.type?' selected':'')+'>'+t.label+'</option>';
+    html += '</select>';
+    html += '<span style="display:contents" id="cond-fields-'+i+'">' + condFieldsHTML(c, i) + '</span>';
+    html += '<button class="ibtn" onclick="eCondsGroup('+i+')" title="Group"><i class="bi bi-folder"></i></button>';
+    html += '<button class="ibtn" onclick="eCondsDel('+i+')" title="Remove"><i class="bi bi-x-lg"></i></button>';
+    html += '</div></div>';
+  }
+  con.innerHTML = html;
+}
+
+function eCondsLogicChange(idx) {
+  const sel = document.querySelector('.cond-logic[data-ci="'+idx+'"]');
+  _eCondsLogic = sel ? sel.value : 'and';
+}
+
+function eCondsTypeChange(idx) {
+  const sel = document.querySelector('.cond-type[data-ci="'+idx+'"]');
+  if (!sel) return;
+  const type = sel.value;
+  const defaults = {
+    battery: { type:'battery', operator:'<', value:20 },
+    grid: { type:'grid', value:false },
+    time: { type:'time', after:'23:00', before:'07:00' },
+    grid_restored: { type:'grid_restored' },
+    inverter_offline: { type:'inverter_offline', minFailures:5 },
+    device_online: { type:'device_online', value:'', expectedStatus:true },
+    weekday: { type:'weekday', value:'weekday', days:[1,2,3,4,5] },
+    disk_free: { type:'disk_free', operator:'<', value:20 },
+    cpu_temp: { type:'cpu_temp', operator:'>', value:80 },
+    cpu_load: { type:'cpu_load', operator:'>', value:5 },
+    memory_free: { type:'memory_free', operator:'<', value:15 },
+  };
+  _eConds[idx] = { ...(defaults[type] || { type }) };
+  renderCondList();
+}
+
+function eCondsAdd() {
+  _eConds.push({ type:'battery', operator:'<', value:20 });
+  renderCondList();
+}
+
+function eCondsDel(idx) {
+  _eConds.splice(idx, 1);
+  renderCondList();
+}
+
+function eCondsGroup(idx) {
+  openSheet2('<h3>Group Condition</h3><label class="sh-label">Combine with</label><button class="sh-opt" onclick="eCondsDoGroup('+idx+',\'and\')"><i class="bi bi-folder"></i><span>AND<em>all conditions must pass</em></span></button><button class="sh-opt" onclick="eCondsDoGroup('+idx+',\'or\')"><i class="bi bi-folder"></i><span>OR<em>any condition must pass</em></span></button><button class="sh-opt" onclick="eCondsDoGroup('+idx+',\'not\')"><i class="bi bi-dash-circle"></i><span>NOT<em>invert condition</em></span></button><button class="btn btn-ghost w100" onclick="closeSheet2()" style="margin-top:var(--space-md)">Cancel</button>');
+}
+
+function eCondsDoGroup(idx, logic) {
+  closeSheet2();
+  const c = _eConds[idx];
+  if (logic === 'not') {
+    _eConds[idx] = { not: { ...c } };
+  } else {
+    const items = [ { ...c } ];
+    _eConds[idx] = { [logic]: items };
+  }
+  renderCondList();
+}
+
+function eCondsUngroup(idx) {
+  const c = _eConds[idx];
+  if (c.and) { _eConds.splice(idx, 1, ...c.and.map(x => ({ ...x }))); }
+  else if (c.or) { _eConds.splice(idx, 1, ...c.or.map(x => ({ ...x }))); }
+  else if (c.not) { _eConds[idx] = { ...c.not }; }
+  renderCondList();
+}
+
+// --- Action editor ---
+
+function actCondFieldsHTML(cond, prefix) {
+  if (!cond || cond.and || cond.or || cond.not) return '<span style="color:var(--muted);font-size:var(--fs-sm)">compound</span>';
+  switch (cond.type) {
+    case 'battery':
+      return '<select class="ac-op" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select> <input class="ac-val" data-pf="'+prefix+'" type="number" value="'+(cond.value||20)+'" onchange="readActCond(\''+prefix+'\')" style="max-width:70px">%';
+    case 'grid':
+      return '<select class="ac-val" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')" style="max-width:130px"><option value="false"'+(cond.value===false?' selected':'')+'>OFF (lost)</option><option value="true"'+(cond.value===true?' selected':'')+'>ON</option></select>';
+    case 'time':
+      return '<input class="ac-after" data-pf="'+prefix+'" type="time" value="'+(cond.after||'23:00')+'" onchange="readActCond(\''+prefix+'\')" style="max-width:100px"> <input class="ac-before" data-pf="'+prefix+'" type="time" value="'+(cond.before||'07:00')+'" onchange="readActCond(\''+prefix+'\')" style="max-width:100px">';
+    case 'grid_restored':
+      return '<span style="font-size:var(--fs-sm);color:var(--muted)">Triggers when grid returns</span>';
+    case 'inverter_offline':
+      return 'Fails: <input class="ac-val" data-pf="'+prefix+'" type="number" value="'+(cond.minFailures||5)+'" onchange="readActCond(\''+prefix+'\')" style="max-width:60px" min="2">';
+    case 'device_online':
+      return '<select class="ac-dev" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')"><option value="">— device —</option>'+S.devices.map(d => '<option value="'+escA(d.id)+'"'+(cond.value===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('')+'</select> <select class="ac-st" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')" style="max-width:100px"><option value="true"'+(cond.expectedStatus!==false?' selected':'')+'>Online</option><option value="false"'+(cond.expectedStatus===false?' selected':'')+'>Offline</option></select>';
+    case 'weekday':
+      return '<select class="ac-val" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')" style="max-width:110px"><option value="weekday">Weekday</option><option value="weekend">Weekend</option></select>';
+    case 'disk_free': case 'cpu_temp': case 'cpu_load': case 'memory_free':
+      const u = cond.type === 'cpu_temp' ? '°C' : cond.type === 'cpu_load' ? 'load' : '%';
+      return '<select class="ac-op" data-pf="'+prefix+'" onchange="readActCond(\''+prefix+'\')"><option value="<"'+(cond.operator==='<'?' selected':'')+'>below</option><option value=">"'+(cond.operator==='>'?' selected':'')+'>above</option></select> <input class="ac-val" data-pf="'+prefix+'" type="number" value="'+(cond.value||20)+'" onchange="readActCond(\''+prefix+'\')" style="max-width:60px"> <span style="font-size:var(--fs-xs);color:var(--muted)">'+u+'</span>';
+    default:
+      return '<span style="color:var(--muted);font-size:var(--fs-sm)">—</span>';
+  }
+}
+
+function readActCond(prefix) {
+  const opEl = document.querySelector('.ac-op[data-pf="'+prefix+'"]');
+  const valEl = document.querySelector('.ac-val[data-pf="'+prefix+'"]');
+  const afterEl = document.querySelector('.ac-after[data-pf="'+prefix+'"]');
+  const beforeEl = document.querySelector('.ac-before[data-pf="'+prefix+'"]');
+  const devEl = document.querySelector('.ac-dev[data-pf="'+prefix+'"]');
+  const stEl = document.querySelector('.ac-st[data-pf="'+prefix+'"]');
+  const c = _actConds[prefix];
+  if (!c) return;
+  if (opEl) c.operator = opEl.value;
+  if (valEl) {
+    if (c.type === 'weekday') {
+      c.value = valEl.value;
+      c.days = valEl.value === 'weekend' ? [0,6] : [1,2,3,4,5];
+    } else {
+      c.value = parseFloat(valEl.value) || 0;
+    }
+  }
+  if (afterEl && beforeEl) { c.after = afterEl.value; c.before = beforeEl.value; }
+  if (devEl) c.value = devEl.value;
+  if (stEl) c.expectedStatus = stEl.value === 'true';
+}
+
+function renderNestedActList(actions, containerId, parentIdx, field) {
+  const con = $('#'+containerId);
+  if (!con) return;
+  let html = '<div style="border-left:2px solid var(--border);padding-left:var(--space-sm);margin:var(--space-xs) 0">';
+  for (let si = 0; si < actions.length; si++) {
+    const a = actions[si];
+    const pfx = parentIdx+'-'+field+'-'+si;
+    html += '<div class="card-sm" style="margin:var(--space-xs) 0;padding:var(--space-xs) var(--space-sm);font-size:var(--fs-sm)"><div style="display:flex;gap:var(--space-xs);align-items:center;flex-wrap:wrap">';
+    html += '<select class="na-type" data-pfx="'+pfx+'" onchange="naTypeChange(\''+pfx+'\')" style="max-width:130px;font-size:var(--fs-sm)">';
+    for (const t of ACT_TYPES) html += '<option value="'+t.type+'"'+(a.type===t.type?' selected':'')+'>'+t.label+'</option>';
+    html += '</select>';
+    html += '<span style="display:contents" id="na-fields-'+pfx+'">' + naFieldsHTML(a, pfx) + '</span>';
+    html += '<button class="ibtn" style="width:28px;height:28px;font-size:var(--fs-xs)" onclick="naDel(\''+parentIdx+'\',\''+field+'\','+si+')"><i class="bi bi-x-lg"></i></button>';
+    html += '</div></div>';
+  }
+  if (actions.length === 0) html += '<div style="color:var(--dim);font-size:var(--fs-xs);padding:var(--space-xs)">No actions</div>';
+  html += '<button class="btn btn-soft btn-xs" onclick="naAdd(\''+parentIdx+'\',\''+field+'\')" style="margin:var(--space-xs) 0"><i class="bi bi-plus-lg"></i> Add</button>';
+  html += '</div>';
+  con.innerHTML = html;
+}
+
+function naFieldsHTML(action, pfx) {
+  if (action.type === 'if') return '<span style="font-size:var(--fs-xs);color:var(--muted)">if/then/else</span>';
+  if (action.type === 'choose') return '<span style="font-size:var(--fs-xs);color:var(--muted)">choose</span>';
+  if (action.type === 'repeat') return '<span style="font-size:var(--fs-xs);color:var(--muted)">repeat ×' + (action.count || (action.while ? 'while' : 'scene')) + '</span>';
+  if (action.type === 'parallel') return '<span style="font-size:var(--fs-xs);color:var(--muted)">parallel</span>';
+  if (action.type === 'stop') return '<span style="font-size:var(--fs-xs);color:var(--muted)">stop</span>';
+  if (action.type === 'delay') return '<input class="na-dur" data-pfx="'+pfx+'" type="number" value="'+(action.duration||1)+'" onchange="naRead(\''+pfx+'\')" style="max-width:60px;font-size:var(--fs-sm)" min="1"> min';
+  if (action.type === 'tuya' || !action.type) {
+    const opts = S.devices.map(d => '<option value="'+escA(d.id)+'"'+(action.device===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');
+    return '<select class="na-dev" data-pfx="'+pfx+'" onchange="naRead(\''+pfx+'\')" style="max-width:120px;font-size:var(--fs-sm)"><option value="">—</option>'+opts+'</select> <select class="na-val" data-pfx="'+pfx+'" onchange="naRead(\''+pfx+'\')" style="max-width:90px;font-size:var(--fs-sm)"><option value="false"'+(action.value===false?' selected':'')+'>Off</option><option value="true"'+(action.value===true?' selected':'')+'>On</option></select>';
+  }
+  if (action.type === 'notify') return '<input class="na-title" data-pfx="'+pfx+'" placeholder="Title" value="'+escA(action.title||'')+'" onchange="naRead(\''+pfx+'\')" style="max-width:120px;font-size:var(--fs-sm)">';
+  if (action.type === 'webhook') return '<input class="na-url" data-pfx="'+pfx+'" placeholder="URL" value="'+escA(action.url||'')+'" onchange="naRead(\''+pfx+'\')" style="max-width:180px;font-size:var(--fs-sm)">';
+  if (action.type === 'priority') return '<select class="na-pval" data-pfx="'+pfx+'" onchange="naRead(\''+pfx+'\')" style="max-width:120px;font-size:var(--fs-sm)"><option value="economy"'+(action.value==='economy'?' selected':'')+'>Econ</option><option value="normal"'+(action.value==='normal'?' selected':'')+'>Norm</option><option value="critical"'+(action.value==='critical'?' selected':'')+'>Crit</option></select>';
+  return '<span style="color:var(--muted);font-size:var(--fs-xs)">—</span>';
+}
+
+function _nestArr(parent, field) {
+  if (field.startsWith('choices-')) {
+    const ci = parseInt(field.slice(8));
+    return parent.choices && parent.choices[ci] ? parent.choices[ci].then : null;
+  }
+  return parent[field] || null;
+}
+
+function _nestArrEnsure(parent, field) {
+  if (field.startsWith('choices-')) {
+    const ci = parseInt(field.slice(8));
+    if (!parent.choices) parent.choices = [];
+    if (!parent.choices[ci]) parent.choices[ci] = { condition:{}, then:[] };
+    if (!parent.choices[ci].then) parent.choices[ci].then = [];
+    return parent.choices[ci].then;
+  }
+  if (!parent[field]) parent[field] = [];
+  return parent[field];
+}
+
+function naRead(pfx) {
+  const parts = pfx.split('-');
+  const parentIdx = parseInt(parts[0]);
+  const si = parseInt(parts[parts.length - 1]);
+  const field = parts.slice(1, -1).join('-');
+  const parent = _eActions[parentIdx];
+  const arr = _nestArr(parent, field);
+  const a = arr && arr[si];
+  if (!a) return;
+  const devEl = document.querySelector('.na-dev[data-pfx="'+pfx+'"]');
+  const valEl = document.querySelector('.na-val[data-pfx="'+pfx+'"]');
+  const durEl = document.querySelector('.na-dur[data-pfx="'+pfx+'"]');
+  const titleEl = document.querySelector('.na-title[data-pfx="'+pfx+'"]');
+  const urlEl = document.querySelector('.na-url[data-pfx="'+pfx+'"]');
+  const pvalEl = document.querySelector('.na-pval[data-pfx="'+pfx+'"]');
+  if (devEl) a.device = devEl.value;
+  if (valEl) a.value = valEl.value === 'true';
+  if (durEl) a.duration = parseInt(durEl.value) || 0;
+  if (titleEl) a.title = titleEl.value;
+  if (urlEl) a.url = urlEl.value;
+  if (pvalEl) a.value = pvalEl.value;
+}
+
+function naTypeChange(pfx) {
+  const parts = pfx.split('-');
+  const parentIdx = parseInt(parts[0]);
+  const si = parseInt(parts[parts.length - 1]);
+  const field = parts.slice(1, -1).join('-');
+  const sel = document.querySelector('.na-type[data-pfx="'+pfx+'"]');
+  if (!sel) return;
+  const type = sel.value;
+  const parent = _eActions[parentIdx];
+  const arr = _nestArr(parent, field);
+  if (!arr || !arr[si]) return;
+  const defaults = {
+    tuya: { type:'tuya', device:'', value:false, duration:0 },
+    notify: { type:'notify', title:'', message:'', critical:false },
+    delay: { type:'delay', duration:1 },
+    parallel: { type:'parallel', sequence:[] },
+    stop: { type:'stop' },
+    webhook: { type:'webhook', url:'' },
+    priority: { type:'priority', value:'normal' },
+  };
+  arr[si] = { ...(defaults[type] || { type }) };
+  const containerId = 'nested-'+parentIdx+'-'+field;
+  renderNestedActList(arr, containerId, parentIdx, field);
+}
+
+function naDel(parentIdx, field, si) {
+  const parent = _eActions[parentIdx];
+  const arr = _nestArr(parent, field);
+  if (arr) arr.splice(si, 1);
+  const containerId = 'nested-'+parentIdx+'-'+field;
+  renderNestedActList(arr || [], containerId, parentIdx, field);
+}
+
+function naAdd(parentIdx, field) {
+  const parent = _eActions[parentIdx];
+  const arr = _nestArrEnsure(parent, field);
+  arr.push({ type:'tuya', device:'', value:false, duration:0 });
+  const containerId = 'nested-'+parentIdx+'-'+field;
+  renderNestedActList(arr, containerId, parentIdx, field);
+}
+
+let _actConds = {};
+
+function saveActCond(prefix, cond) { _actConds[prefix] = cond; }
+
+function actFieldsHTML(action, idx) {
+  if (action.type === 'if') {
+    const cond = action.condition || { type:'battery', operator:'<', value:20 };
+    saveActCond('ifc-'+idx, cond);
+    let html = '<div style="border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--space-sm);margin:var(--space-xs) 0;width:100%">';
+    html += '<div style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:var(--space-xs)">IF</div>';
+    html += '<div style="display:flex;gap:var(--space-xs);flex-wrap:wrap">';
+    html += '<span id="act-cond-'+idx+'">' + actCondFieldsHTML(cond, 'ifc-'+idx) + '</span>';
+    html += '</div>';
+    html += '<div style="font-size:var(--fs-xs);color:var(--green);margin:var(--space-xs) 0 var(--space-xxs)">THEN</div>';
+    html += '<div id="nested-'+idx+'-then"></div>';
+    html += '<div style="font-size:var(--fs-xs);color:var(--red);margin:var(--space-xs) 0 var(--space-xxs)">ELSE</div>';
+    html += '<div id="nested-'+idx+'-else"></div>';
+    html += '</div>';
+    return html;
+  }
+  if (action.type === 'choose') {
+    let html = '<div style="border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--space-sm);margin:var(--space-xs) 0;width:100%">';
+    html += '<div style="display:flex;flex-direction:column;gap:var(--space-xs)">';
+    for (let ci = 0; ci < (action.choices||[]).length; ci++) {
+      const ch = action.choices[ci];
+      const cond = ch.condition || { type:'battery', operator:'<', value:20 };
+      saveActCond('chc-'+idx+'-'+ci, cond);
+      html += '<div style="border:1px solid var(--border);border-radius:var(--r-xs);padding:var(--space-xs)">';
+      html += '<div style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:var(--space-xxs)">Choice '+(ci+1)+' — if</div>';
+      html += '<span id="act-cond-'+idx+'-'+ci+'">' + actCondFieldsHTML(cond, 'chc-'+idx+'-'+ci) + '</span>';
+      html += '<div style="font-size:var(--fs-xs);color:var(--green);margin:var(--space-xxs) 0">then</div>';
+      html += '<div id="nested-'+idx+'-choices-'+ci+'"></div>';
+      html += '<button class="btn btn-ghost btn-xs" onclick="removeChoice('+idx+','+ci+')" style="color:var(--red);margin-top:var(--space-xxs)">Remove choice</button>';
+      html += '</div>';
+    }
+    html += '<button class="btn btn-soft btn-xs" onclick="addChoice('+idx+')"><i class="bi bi-plus-lg"></i> Add Choice</button>';
+    html += '<div style="font-size:var(--fs-xs);color:var(--muted);margin:var(--space-xxs) 0">DEFAULT</div>';
+    html += '<div id="nested-'+idx+'-default"></div>';
+    html += '</div></div>';
+    return html;
+  }
+  if (action.type === 'repeat') {
+    const mode = action.while ? 'while' : (action.count ? 'count' : 'scene');
+    const cond = action.while || { type:'battery', operator:'<', value:20 };
+    if (action.while) saveActCond('rptc-'+idx, cond);
+    let html = '<div style="border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--space-sm);margin:var(--space-xs) 0;width:100%">';
+    html += '<div style="display:flex;gap:var(--space-xs);flex-wrap:wrap;align-items:center;margin-bottom:var(--space-xs)">';
+    html += '<select class="rpt-mode" data-ai="'+idx+'" onchange="rptModeChange('+idx+')" style="max-width:120px;font-size:var(--fs-sm)">';
+    html += '<option value="count"'+(mode==='count'?' selected':'')+'>Count</option>';
+    html += '<option value="while"'+(mode==='while'?' selected':'')+'>While</option>';
+    html += '<option value="scene"'+(mode==='scene'?' selected':'')+'>Scene</option>';
+    html += '</select>';
+    html += '<span id="rpt-count-'+idx+'"'+(mode!=='count'?' style="display:none"':'')+'><input class="rpt-cnt" data-ai="'+idx+'" type="number" value="'+(action.count||3)+'" onchange="readRepeat('+idx+')" style="max-width:60px;font-size:var(--fs-sm)" min="1"> times</span>';
+    html += '<span id="rpt-while-'+idx+'"'+(mode!=='while'?' style="display:none"':'')+'>While <span id="act-cond-rpt-'+idx+'">' + actCondFieldsHTML(cond, 'rptc-'+idx) + '</span></span>';
+    html += '<span id="rpt-scene-'+idx+'"'+(mode!=='scene'?' style="display:none"':'')+' style="font-size:var(--fs-sm);color:var(--muted)">While scene IF conditions met</span>';
+    html += '</div>';
+    html += '<div style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:var(--space-xxs)">SEQUENCE</div>';
+    html += '<div id="nested-'+idx+'-sequence"></div>';
+    html += '</div>';
+    return html;
+  }
+  if (action.type === 'delay') {
+    return '<input class="af-dur" data-ai="'+idx+'" type="number" value="'+(action.duration||1)+'" onchange="eAField('+idx+')" style="max-width:80px" min="1"> min';
+  }
+  if (action.type === 'tuya' || !action.type) {
+    const opts = S.devices.map(d => '<option value="'+escA(d.id)+'"'+(action.device===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');
+    return '<select class="af-dev" data-ai="'+idx+'" onchange="eAField('+idx+')"><option value="">— device —</option>'+opts+'</select> <select class="af-val" data-ai="'+idx+'" onchange="eAField('+idx+')" style="max-width:130px"><option value="false"'+(action.value===false?' selected':'')+'>Turn Off</option><option value="true"'+(action.value===true?' selected':'')+'>Turn On</option></select> <input class="af-dur" data-ai="'+idx+'" type="number" placeholder="dur" value="'+(action.duration||0)+'" onchange="eAField('+idx+')" style="max-width:60px" min="0">min';
+  }
+  if (action.type === 'notify') {
+    return '<input class="af-title" data-ai="'+idx+'" placeholder="Title" value="'+escA(action.title||'')+'" onchange="eAField('+idx+')" style="max-width:160px"> <input class="af-msg" data-ai="'+idx+'" placeholder="Message" value="'+escA(action.message||'')+'" onchange="eAField('+idx+')" style="max-width:180px"> <label style="font-size:var(--fs-sm);white-space:nowrap"><input class="af-crit" data-ai="'+idx+'" type="checkbox" '+(action.critical?'checked':'')+'> Critical</label>';
+  }
+  if (action.type === 'webhook') {
+    return '<input class="af-url" data-ai="'+idx+'" placeholder="https://..." value="'+escA(action.url||'')+'" onchange="eAField('+idx+')" style="width:280px">';
+  }
+  if (action.type === 'priority') {
+    return '<select class="af-pval" data-ai="'+idx+'" onchange="eAField('+idx+')" style="max-width:160px"><option value="economy"'+(action.value==='economy'?' selected':'')+'>Economy</option><option value="normal"'+(action.value==='normal'?' selected':'')+'>Normal</option><option value="critical"'+(action.value==='critical'?' selected':'')+'>Critical</option></select>';
+  }
+  if (action.type === 'parallel') {
+    let html = '<div style="border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--space-sm);margin:var(--space-xs) 0;width:100%">';
+    html += '<div style="font-size:var(--fs-xs);color:var(--muted);margin-bottom:var(--space-xxs)">Run all in parallel</div>';
+    html += '<div id="nested-'+idx+'-sequence"></div>';
+    html += '</div>';
+    return html;
+  }
+  if (action.type === 'stop') {
+    return '<span style="color:var(--muted);font-size:var(--fs-sm)">Stops execution if condition is met</span>';
+  }
+  return '<span style="color:var(--muted);font-size:var(--fs-sm)">—</span>';
+}
+
+function addChoice(idx) {
+  if (!_eActions[idx].choices) _eActions[idx].choices = [];
+  _eActions[idx].choices.push({ condition:{ type:'battery', operator:'<', value:50 }, then:[{ type:'notify', title:'Choice', message:'Matched' }] });
+  renderActList();
+}
+
+function removeChoice(idx, ci) {
+  const a = _eActions[idx];
+  if (a.choices) a.choices.splice(ci, 1);
+  renderActList();
+}
+
+function rptModeChange(idx) {
+  const sel = document.querySelector('.rpt-mode[data-ai="'+idx+'"]');
+  const a = _eActions[idx];
+  if (!sel || !a) return;
+  delete _actConds['rptc-'+idx];
+  if (sel.value === 'while') {
+    a.count = undefined;
+    a.while = a.while || { type:'battery', operator:'<', value:20 };
+  } else if (sel.value === 'count') {
+    a.while = undefined;
+    a.count = a.count || 3;
+  } else {
+    a.while = undefined;
+    a.count = undefined;
+  }
+  renderActList();
+}
+
+function readRepeat(idx) {
+  const a = _eActions[idx];
+  if (!a) return;
+  const cntEl = document.querySelector('.rpt-cnt[data-ai="'+idx+'"]');
+  if (cntEl) a.count = parseInt(cntEl.value) || 1;
+}
+
+function readActFields(idx) {
+  const a = _eActions[idx];
+  if (!a) return;
+  // If/choose/repeat nested data is read by DOM traversal in their respective editors
+  if (a.type === 'if' || a.type === 'choose' || a.type === 'repeat') return;
+  const devEl = document.querySelector('.af-dev[data-ai="'+idx+'"]');
+  const valEl = document.querySelector('.af-val[data-ai="'+idx+'"]');
+  const durEl = document.querySelector('.af-dur[data-ai="'+idx+'"]');
+  const titleEl = document.querySelector('.af-title[data-ai="'+idx+'"]');
+  const msgEl = document.querySelector('.af-msg[data-ai="'+idx+'"]');
+  const critEl = document.querySelector('.af-crit[data-ai="'+idx+'"]');
+  const urlEl = document.querySelector('.af-url[data-ai="'+idx+'"]');
+  const pvalEl = document.querySelector('.af-pval[data-ai="'+idx+'"]');
+  if (devEl) a.device = devEl.value;
+  if (valEl) a.value = valEl.value === 'true';
+  if (durEl) a.duration = parseInt(durEl.value) || 0;
+  if (titleEl) a.title = titleEl.value;
+  if (msgEl) a.message = msgEl.value;
+  if (critEl) a.critical = critEl.checked;
+  if (urlEl) a.url = urlEl.value;
+  if (pvalEl) a.value = pvalEl.value;
+}
+
+function eAField(idx) { readActFields(idx); }
+
+function actSummary(a) {
+  if (a.type === 'tuya' || !a.type) {
+    const d = S.devices.find(x => x.id === a.device);
+    return (d ? d.name : a.device || '?') + ' → ' + (a.value ? 'ON' : 'OFF');
+  }
+  if (a.type === 'delay') return 'delay ' + (a.duration||0) + 'min';
+  if (a.type === 'if') return 'if/then/else (' + ((a.then||[]).length + (a.else||[]).length) + ' actions)';
+  if (a.type === 'choose') return 'choose (' + ((a.choices||[]).length) + ' choices)';
+  if (a.type === 'repeat') return 'repeat ×' + (a.count || (a.while ? 'while' : 'scene')) + ' (' + ((a.sequence||[]).length) + ' actions)';
+  if (a.type === 'notify') return 'notify: ' + (a.title||'');
+  if (a.type === 'webhook') return 'webhook → ' + (a.url||'');
+  if (a.type === 'priority') return 'priority: ' + (a.value||'');
+  if (a.type === 'parallel') return 'parallel (' + ((a.sequence||[]).length) + ' actions)';
+  if (a.type === 'stop') return 'stop';
+  return a.type || '?';
+}
+
+function renderActList() {
+  const con = $('#editorActs');
+  if (!con) return;
+  let html = '';
+  for (let i = 0; i < _eActions.length; i++) {
+    const a = _eActions[i];
+    html += '<div class="card-sm" style="margin:var(--space-sm) 0;padding:var(--space-sm) var(--space-md)"><div style="display:flex;gap:var(--space-sm);align-items:flex-start;flex-wrap:wrap">';
+    html += '<select class="act-type" data-ai="'+i+'" onchange="eActsTypeChange('+i+')" style="max-width:160px">';
+    for (const t of ACT_TYPES) html += '<option value="'+t.type+'"'+(a.type===t.type?' selected':'')+'>'+t.label+'</option>';
+    html += '</select>';
+    html += '<div style="flex:1;min-width:200px" id="act-fields-'+i+'">' + actFieldsHTML(a, i) + '</div>';
+    html += '<div style="display:flex;gap:var(--space-xs);flex-shrink:0">';
+    html += '<button class="ibtn" onclick="eActsUp('+i+')" title="Move up"><i class="bi bi-chevron-up"></i></button>';
+    html += '<button class="ibtn" onclick="eActsDown('+i+')" title="Move down"><i class="bi bi-chevron-down"></i></button>';
+    html += '<button class="ibtn" onclick="eActsDel('+i+')" title="Remove"><i class="bi bi-x-lg"></i></button>';
+    html += '</div></div></div>';
+  }
+  con.innerHTML = html;
+  // Render nested action lists for if/choose/repeat after DOM is ready
+  for (let i = 0; i < _eActions.length; i++) {
+    const a = _eActions[i];
+    if (a.type === 'if') {
+      renderNestedActList(a.then || [], 'nested-'+i+'-then', i, 'then');
+      renderNestedActList(a.else || [], 'nested-'+i+'-else', i, 'else');
+    } else if (a.type === 'choose') {
+      for (let ci = 0; ci < (a.choices||[]).length; ci++) {
+        renderNestedActList(a.choices[ci].then || [], 'nested-'+i+'-choices-'+ci, i, 'choices');
+      }
+      renderNestedActList(a.default || [], 'nested-'+i+'-default', i, 'default');
+    } else if (a.type === 'repeat' || a.type === 'parallel') {
+      renderNestedActList(a.sequence || [], 'nested-'+i+'-sequence', i, 'sequence');
+    }
+  }
+}
+
+function eActsTypeChange(idx) {
+  const sel = document.querySelector('.act-type[data-ai="'+idx+'"]');
+  if (!sel) return;
+  const type = sel.value;
+  const defaults = {
+    tuya: { type:'tuya', device:'', value:false, duration:0 },
+    notify: { type:'notify', title:'', message:'', critical:false },
+    delay: { type:'delay', duration:1 },
+    if: { type:'if', condition:{ type:'battery', operator:'<', value:20 }, then:[{ type:'notify', title:'Condition met', message:'If condition passed' }], else:[{ type:'notify', title:'Condition not met', message:'Else branch' }] },
+    choose: { type:'choose', choices:[{ condition:{ type:'battery', operator:'<', value:20 }, then:[{ type:'notify', title:'Choice', message:'Matched' }] }], default:[{ type:'notify', title:'Default', message:'No match' }] },
+    repeat: { type:'repeat', count:3, sequence:[{ type:'notify', title:'Repeated', message:'Loop iteration' }] },
+    parallel: { type:'parallel', sequence:[{ type:'notify', title:'Parallel', message:'Parallel action' }] },
+    stop: { type:'stop' },
+    webhook: { type:'webhook', url:'' },
+    priority: { type:'priority', value:'normal' },
+  };
+  _eActions[idx] = { ...(defaults[type] || { type }) };
+  renderActList();
+}
+
+function eActsAdd() {
+  _eActions.push({ type:'tuya', device:'', value:false, duration:0 });
+  renderActList();
+}
+
+function eActsDel(idx) { _eActions.splice(idx, 1); renderActList(); }
+function eActsUp(idx) { if (idx <= 0) return; [_eActions[idx-1], _eActions[idx]] = [_eActions[idx], _eActions[idx-1]]; renderActList(); }
+function eActsDown(idx) { if (idx >= _eActions.length - 1) return; [_eActions[idx], _eActions[idx+1]] = [_eActions[idx+1], _eActions[idx]]; renderActList(); }
+
+function openBuilder() {
+  _eEditName = null;
+  _eConds = [{ type:'battery', operator:'<', value:20 }];
+  _eCondsLogic = 'and';
+  _eActions = [{ type:'tuya', device:'', value:false, duration:0 }];
+  openSheet('<h3>New Automation</h3><label class="sh-label">Name</label><input id="abName" class="sh-input" placeholder="e.g. Night Savings" maxlength="40"><label class="sh-label"><span class="kw">IF</span> — conditions</label><div id="editorConds"></div><button class="btn btn-soft btn-sm w100" onclick="eCondsAdd()"><i class="bi bi-plus-lg"></i> Add Condition</button><label class="sh-label" style="margin-top:var(--space-md)"><span class="kw">THEN</span> — actions</label><div id="editorActs"></div><button class="btn btn-soft btn-sm w100" onclick="eActsAdd()"><i class="bi bi-plus-lg"></i> Add Action</button><label class="sh-label">Mode</label><div class="sh-row"><select id="abMode" class="sh-input" style="max-width:150px"><option value="restart">Restart</option><option value="single">Single</option></select><span style="font-size:var(--fs-xs);color:var(--muted);align-self:center">restart=aborts previous run · single=skips if already running</span></div><button class="btn btn-primary w100" style="margin-top:var(--space-md)" onclick="saveAutomation()"><i class="bi bi-check-lg"></i> Create Scene</button>');
+  renderCondList();
+  renderActList();
+}
+
+function editScene(name) {
+  _eEditName = name;
+  const s = S.scenes.find(x => x.name === name);
+  if (!s) return;
+  _eCondsLogic = s.if && s.if.or ? 'or' : ((s.if && (s.if.logic === 'OR' ? 'or' : 'and')) || 'and');
+  let conds = [];
+  if (s.if && s.if.conditions) conds = s.if.conditions.map(c => ({ ...c }));
+  else if (s.if && s.if.and) conds = s.if.and.map(c => ({ ...c }));
+  else if (s.if && s.if.or) conds = s.if.or.map(c => ({ ...c }));
+  else if (s.if && s.if.not) conds = [{ not: { ...s.if.not } }];
+  _eConds = conds.length ? conds : [{ type:'battery', operator:'<', value:20 }];
+  _eActions = (s.then && s.then.actions || []).map(a => ({ ...a }));
+  if (!_eActions.length) _eActions.push({ type:'tuya', device:'', value:false, duration:0 });
+  const mode = s.mode || 'restart';
+  openSheet('<h3>Edit: '+esc(s.name)+'</h3><label class="sh-label">Name</label><input id="abName" class="sh-input" value="'+escA(s.name)+'" maxlength="40"><label class="sh-label"><span class="kw">IF</span> — conditions</label><div id="editorConds"></div><button class="btn btn-soft btn-sm w100" onclick="eCondsAdd()"><i class="bi bi-plus-lg"></i> Add Condition</button><label class="sh-label" style="margin-top:var(--space-md)"><span class="kw">THEN</span> — actions</label><div id="editorActs"></div><button class="btn btn-soft btn-sm w100" onclick="eActsAdd()"><i class="bi bi-plus-lg"></i> Add Action</button><label class="sh-label">Mode</label><div class="sh-row"><select id="abMode" class="sh-input" style="max-width:150px"><option value="restart"'+(mode==='restart'?' selected':'')+'>Restart</option><option value="single"'+(mode==='single'?' selected':'')+'>Single</option></select><span style="font-size:var(--fs-xs);color:var(--muted);align-self:center">restart=aborts previous run · single=skips if already running</span></div><button class="btn btn-primary w100" style="margin-top:var(--space-md)" onclick="updateAutomation()"><i class="bi bi-check-lg"></i> Save Changes</button>');
+  renderCondList();
+  renderActList();
+}
+
+function readAllConds() {
+  for (let i = 0; i < _eConds.length; i++) {
+    const c = _eConds[i];
+    if (!c || c.and || c.or || c.not) continue;
+    const opEl = document.querySelector('.cf-op[data-ci="'+i+'"]');
+    const valEl = document.querySelector('.cf-val[data-ci="'+i+'"]');
+    const afterEl = document.querySelector('.cf-after[data-ci="'+i+'"]');
+    const beforeEl = document.querySelector('.cf-before[data-ci="'+i+'"]');
+    const devEl = document.querySelector('.cf-dev[data-ci="'+i+'"]');
+    const statusEl = document.querySelector('.cf-status[data-ci="'+i+'"]');
+    if (opEl) c.operator = opEl.value;
+    if (valEl) {
+      if (c.type === 'inverter_offline') c.minFailures = parseInt(valEl.value) || 5;
+      else if (c.type === 'weekday') {
+        const v = valEl.value;
+        c.value = v;
+        c.days = v === 'weekend' ? [0,6] : [1,2,3,4,5];
+      }
+      else if (c.type === 'grid') c.value = valEl.value === 'true';
+      else if (c.type === 'cpu_load' || c.type === 'cpu_temp') c.value = parseFloat(valEl.value) || 0;
+      else c.value = parseFloat(valEl.value) || 0;
+    }
+    if (afterEl && beforeEl) { c.after = afterEl.value; c.before = beforeEl.value; }
+    if (devEl && statusEl) { c.value = devEl.value; c.expectedStatus = statusEl.value === 'true'; }
+  }
+}
+
+function readAllNested() {
+  for (let i = 0; i < _eActions.length; i++) {
+    const a = _eActions[i];
+    if (a.type === 'if') {
+      const c = _actConds['ifc-'+i];
+      if (c) a.condition = { ...c };
+    } else if (a.type === 'choose') {
+      for (let ci = 0; ci < (a.choices||[]).length; ci++) {
+        const c = _actConds['chc-'+i+'-'+ci];
+        if (c) a.choices[ci].condition = { ...c };
+      }
+    } else if (a.type === 'repeat' && a.while) {
+      const c = _actConds['rptc-'+i];
+      if (c) a.while = { ...c };
+    }
+  }
+}
+
+async function saveAutomation() {
+  const name = $('#abName').value.trim();
+  if (!name) { island('Name required','Enter an automation name','warn'); return; }
+  readAllConds();
+  readAllNested();
+  if (!_eActions.length) { island('Action required','Add at least one action','warn'); return; }
+  for (const a of _eActions) {
+    if ((a.type === 'tuya' || !a.type) && !a.device) { island('Select a device','Each Tuya action needs a target device','warn'); return; }
+  }
+  try {
+    await api('/api/scenes', {
+      method:'POST',
+      body:JSON.stringify({
+        name,
+        mode: $('#abMode').value,
+        if: { [_eCondsLogic]: _eConds },
+        then: { actions: _eActions }
+      })
+    });
+    closeSheet();
+    island('Scene Created',esc(name),'ok');
+    await poll();
+    renderScenes();
+  } catch(e) { island('Error',esc(e.message),'err'); }
+}
+
+async function updateAutomation() {
+  const name = $('#abName').value.trim();
+  if (!name) { island('Name required','Enter a name','warn'); return; }
+  readAllConds();
+  readAllNested();
+  if (!_eActions.length) { island('Action required','Add at least one action','warn'); return; }
+  for (const a of _eActions) {
+    if ((a.type === 'tuya' || !a.type) && !a.device) { island('Select a device','Each Tuya action needs a target device','warn'); return; }
+  }
+  try {
+    if (_eEditName) {
+      await api('/api/scenes/'+encodeURIComponent(_eEditName), { method:'DELETE' });
+    }
+    await api('/api/scenes', {
+      method:'POST',
+      body:JSON.stringify({
+        name,
+        mode: $('#abMode').value,
+        if: { [_eCondsLogic]: _eConds },
+        then: { actions: _eActions }
+      })
+    });
+    closeSheet();
+    island('Scene Updated',esc(name),'ok');
+    _eEditName = null;
+    await poll();
+    renderScenes();
+  } catch(e) { island('Error',esc(e.message),'err'); }
+}
+
+
 function renderNotifs(){const con=$('#notifList');const list=S.notifs.filter(n=>!n.dismissed);$('#notifUnread').textContent=S.unread?S.unread+' unread':'all read';if(!list.length){con.innerHTML='<div class="empty"><i class="bi bi-bell-slash"></i>No notifications.<br>System events and grid outages will appear here.</div>';return;}const groups={},order=[];for(const n of list){const k=n.title+'|'+(n.type||'info');if(!groups[k]){groups[k]=[];order.push(k);}groups[k].push(n);}con.innerHTML=order.map(k=>{const items=groups[k],f=items[0];const unread=items.some(x=>!x.read);const ic=f.type==='error'?'<i class="bi bi-exclamation-triangle-fill"></i>':f.type==='warn'?'<i class="bi bi-exclamation-circle-fill"></i>':'<i class="bi bi-checkmark-circle-fill"></i>';if(items.length>1){return '<div class="card-sm notif'+(unread?' unread':'')+'" data-key="'+escA(k)+'"><div class="n-row" data-nact="exp"><span class="n-ic '+(f.type||'info')+'">'+ic+'</span><div class="n-body"><div class="n-title">'+esc(f.title)+'</div><div class="n-time">'+fmtT(f.time)+' · latest of '+items.length+'</div></div><span class="n-count">×'+items.length+'</span><button class="ibtn n-x" data-nact="dis" title="Dismiss group"><i class="bi bi-x-lg"></i></button></div><div class="n-subs">'+items.map(s=>'<div class="n-sub"><span class="t">'+fmtT(s.time)+'</span><span>'+(esc(s.message)||esc(s.title))+'</span></div>').join('')+'</div></div>';}return '<div class="card-sm notif'+(unread?' unread':'')+'" data-key="'+escA(k)+'"><div class="n-row"><span class="n-ic '+(f.type||'info')+'">'+ic+'</span><div class="n-body"><div class="n-title">'+esc(f.title)+'</div>'+(f.message?'<div class="n-msg">'+esc(f.message)+'</div>':'')+'<div class="n-time">'+fmtT(f.time)+'</div></div><button class="ibtn n-x" data-nact="dis" title="Dismiss"><i class="bi bi-x-lg"></i></button></div></div>';}).join('');}
 $('#notifList').addEventListener('click',async e=>{const b=e.target.closest('[data-nact]');const item=e.target.closest('.notif');if(!item)return;const [title,type]=item.dataset.key.split('|');if(b&&b.dataset.nact==='dis'){item.classList.add('fade');setTimeout(async()=>{try{await api('/api/notifications/dismiss',{method:'POST',body:JSON.stringify({title,type})});}catch(err){}await pollNotifs();},280);return;}if(e.target.closest('.n-row')&&item.querySelector('.n-subs')){item.classList.toggle('exp');if(item.classList.contains('unread')){item.classList.remove('unread');try{await api('/api/notifications/mark-read',{method:'POST',body:JSON.stringify({title,type})});}catch(err){}S.unread=Math.max(0,S.unread-1);updBadge();$('#notifUnread').textContent=S.unread?S.unread+' unread':'all read';}}});
 async function markAllRead(){try{await api('/api/notifications/mark-read',{method:'POST',body:'{}'});}catch(e){}}
@@ -576,7 +1331,7 @@ async function pollNotifs(){if(!S.logged)return;try{const r=await api('/api/noti
 const ACCENTS=[['blue','#1A8FFF'],['indigo','#5E5CE6'],['amber','#F59A0A'],['green','#2ED158'],['pink','#F03555'],['cyan','#5EC8FF']];
 function setAccent(name,save){document.documentElement.dataset.accent=name;$$('.swatch').forEach(s=>s.classList.toggle('on',s.dataset.a===name));localStorage.setItem('ecmAccent',name);if(save!==false){try{api('/api/user-prefs',{method:'POST',body:JSON.stringify({prefs:{accent:name}})}).catch(()=>{});}catch(e){}}}
 function buildAccents(){$('#accentRow').innerHTML=ACCENTS.map(([n,c])=>'<button class="swatch" data-a="'+n+'" style="background:'+c+'" title="'+n+'" onclick="setAccent(\''+n+'\')"></button>').join('');$$('.swatch').forEach(s=>s.classList.toggle('on',s.dataset.a===(localStorage.getItem('ecmAccent')||'blue')));}
-async function enterSettings(){$('#capWh').value=S.capacityWh;if(S.cfgLoaded){loadSysInfo();return;}S.cfgLoaded=true;try{const r=await api('/api/plugin-config');const c=(r&&r.config)||{};if(c.batteryCapacityWh){S.capacityWh=c.batteryCapacityWh;localStorage.setItem('ecmCapWh',c.batteryCapacityWh);$('#capWh').value=S.capacityWh;}const inv=c.inverter||{};$('#invIp').value=inv.ip||'';$('#invSerial').value=inv.serial||'';$('#invPort').value=inv.port||8899;$('#invMac').value=inv.mac||'';const t=c.tuya||{};$('#tAccessId').value=t.accessId||'';$('#tAccessKey').value=t.accessKey||'';$('#tCountry').value=t.countryCode||48;$('#tUser').value=t.username||'';$('#tPass').value=t.password||'';$('#tSchema').value=t.appSchema||'tuyaSmart';const n=c.notifications||{};$('#nNtfy').checked=n.ntfyEnabled!==false;$('#ntfyTopic').value=n.ntfyTopic||'';$('#nTg').checked=!!n.telegramEnabled;$('#tgToken').value=n.telegramToken||'';$('#tgChat').value=n.telegramChatId||'';const tf=c.tariff||{};$('#tfCurrency').value=tf.currency||'UAH';$('#tfType').value=tf.type||'daynight';$('#tfFlat').value=tf.flatRate||0;$('#tfDay').value=tf.dayRate||0;$('#tfNight').value=tf.nightRate||0;$('#tfDayStart').value=tf.dayStart||'07:00';$('#tfNightStart').value=tf.nightStart||'23:00';tfTypeChange();const nb=c.netbird||{};$('#nbEnabled').checked=nb.enabled===true;$('#nbSetupKey').value=nb.setupKey==='••••••••'?'••••••••':nb.setupKey||'';$('#nbMgmtUrl').value=nb.managementUrl||'';}catch(e){}loadSysInfo();loadVersion();}
+async function enterSettings(){$('#capWh').value=S.capacityWh;try{const r=await api('/api/plugin-config');const c=(r&&r.config)||{};if(c.batteryCapacityWh){S.capacityWh=c.batteryCapacityWh;localStorage.setItem('ecmCapWh',c.batteryCapacityWh);$('#capWh').value=S.capacityWh;}const inv=c.inverter||{};$('#invIp').value=inv.ip||'';$('#invSerial').value=inv.serial||'';$('#invPort').value=inv.port||8899;$('#invMac').value=inv.mac||'';const t=c.tuya||{};$('#tAccessId').value=t.accessId||'';$('#tAccessKey').value=t.accessKey||'';$('#tCountry').value=t.countryCode||48;$('#tUser').value=t.username||'';$('#tPass').value=t.password||'';$('#tSchema').value=t.appSchema||'tuyaSmart';const n=c.notifications||{};$('#nNtfy').checked=n.ntfyEnabled!==false;$('#ntfyTopic').value=n.ntfyTopic||'';$('#nTg').checked=!!n.telegramEnabled;$('#tgToken').value=n.telegramToken||'';$('#tgChat').value=n.telegramChatId||'';const tf=c.tariff||{};$('#tfCurrency').value=tf.currency||'UAH';$('#tfType').value=tf.type||'daynight';$('#tfFlat').value=tf.flatRate||0;$('#tfDay').value=tf.dayRate||0;$('#tfNight').value=tf.nightRate||0;$('#tfDayStart').value=tf.dayStart||'07:00';$('#tfNightStart').value=tf.nightStart||'23:00';tfTypeChange();const nb=c.netbird||{};$('#nbEnabled').checked=nb.enabled===true;$('#nbSetupKey').value=nb.setupKey==='••••••••'?'••••••••':nb.setupKey||'';$('#nbMgmtUrl').value=nb.managementUrl||'';}catch(e){}loadSysInfo();loadVersion();}
 function tfTypeChange(){const flat=$('#tfType').value==='flat';$('#rowFlat').hidden=!flat;$('#rowDay').hidden=flat;$('#rowNight').hidden=flat;$('#tfDayStartLbl').textContent='from '+($('#tfDayStart').value||'07:00');$('#tfNightStartLbl').textContent='from '+($('#tfNightStart').value||'23:00');}
 async function postCfg(cfg,statEl,okMsg){const st=$(statEl);if(st)st.innerHTML='<span class="spin"></span> Saving…';try{const r=await api('/api/plugin-config',{method:'POST',body:JSON.stringify({config:cfg})});if(r&&r.success===false)throw new Error(r.message||'Error');if(st)st.innerHTML='<span class="c-green">✓ '+(okMsg||'Saved')+'</span>';island('Saved',okMsg||'Configuration updated','ok');}catch(e){if(st)st.innerHTML='<span class="c-red">✗ '+esc(e.message)+'</span>';island('Save Error',esc(e.message),'err');}}
 function savePowerCfg(){S.capacityWh=parseInt($('#capWh').value)||5120;localStorage.setItem('ecmCapWh',S.capacityWh);postCfg({batteryCapacityWh:S.capacityWh},'#powerStat','Battery capacity saved');}
@@ -614,9 +1369,8 @@ function askRestart(){confirmSheet('Restart app?','The web server will be unavai
 async function doLogout(){try{await api('/api/logout',{method:'POST',body:'{}'});}catch(e){}showLogin();}
 function pwaIcon(s){const c=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,s,s);g.addColorStop(0,'#5E5CE6');g.addColorStop(1,'#1A8FFF');const r=s*.22;x.beginPath();x.roundRect(0,0,s,s,r);x.fillStyle=g;x.fill();x.fillStyle='#fff';x.beginPath();x.moveTo(.58*s,.10*s);x.lineTo(.30*s,.56*s);x.lineTo(.47*s,.56*s);x.lineTo(.42*s,.90*s);x.lineTo(.72*s,.42*s);x.lineTo(.54*s,.42*s);x.closePath();x.fill();return c.toDataURL('image/png');}
 async function setupPWA(){try{const link=document.createElement('link');link.rel='apple-touch-icon';link.href=pwaIcon(180);document.head.appendChild(link);}catch(e){}let ok=false;try{const r=await fetch('/manifest.json',{method:'HEAD',signal:AbortSignal.timeout(2500)});ok=r.ok;}catch(e){}if(!ok){try{const m={name:'Strum',short_name:'Strum',description:'Backup Power & Smart Plugs',start_url:'.',display:'standalone',background_color:'#000000',theme_color:'#000000',orientation:'any',icons:[{src:pwaIcon(192),sizes:'192x192',type:'image/png'},{src:pwaIcon(512),sizes:'512x512',type:'image/png'}]};const old=document.querySelector('link[rel="manifest"]');const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));if(old)old.replaceWith(l);else document.head.appendChild(l);}catch(e){}}}
-if('serviceWorker' in navigator&&location.protocol.startsWith('http')){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 const revealObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revealObs.unobserve(e.target);}}),{threshold:.08});
-function initApp(){buildFlow();buildAccents();setAccent(localStorage.getItem('ecmAccent')||'blue',false);$$('.rv').forEach(el=>revealObs.observe(el));poll();pollNotifs();loadPowerChart();loadSocketChart();loadDailyChart();setInterval(poll,5000);setInterval(pollNotifs,15000);setInterval(()=>{if(S.curView==='status'&&document.visibilityState==='visible'){loadPowerChart();loadSocketChart();}},60000);setInterval(()=>{const d=new Date();$('#headClock').textContent=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});if(S.status&&S.outageSince&&S.status.gridPower===false){$('#obTime').textContent='Duration '+fmtDur(Date.now()-S.outageSince)+' · since '+new Date(S.outageSince).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}},1000);setupPWA();}
+let appReady=false;function initApp(){if(appReady)return;appReady=true;buildFlow();buildAccents();setAccent(localStorage.getItem('ecmAccent')||'blue',false);$$('.rv').forEach(el=>revealObs.observe(el));loadPowerChart();loadSocketChart();loadDailyChart();setInterval(poll,5000);setInterval(pollNotifs,15000);setInterval(()=>{if(S.curView==='status'&&document.visibilityState==='visible'){loadPowerChart();loadSocketChart();}},60000);setInterval(()=>{const d=new Date();$('#headClock').textContent=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});if(S.status&&S.outageSince&&S.status.gridPower===false){$('#obTime').textContent='Duration '+fmtDur(Date.now()-S.outageSince)+' · since '+new Date(S.outageSince).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}},1000);setupPWA();}
 (async function(){if(!location.protocol.startsWith('http'))return;try{const d=await getStatus();if(d&&d.batterySOC!==undefined){window._csrf=d.csrfToken||'';S.status=d;S.devices=d.tuyaDevices||[];S.scenes=d.scenes||[];enterApp();}else showLogin();}catch(e){showLogin();}})();
 </script>
 </body>

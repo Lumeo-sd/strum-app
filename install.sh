@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# Energy Controller — Installer for Raspberry Pi
+# Strum — Installer for Raspberry Pi
 #
 # Install from git:
 #   sudo ./install.sh
@@ -19,10 +19,10 @@ NC='\033[0m'
 
 INSTALL_DIR="/opt/energy-controller"
 SERVICE_NAME="energy-controller"
-REPO_URL="https://github.com/YOUR_USERNAME/energy-controller.git"
+REPO_URL="https://github.com/Lumeo-sd/strum-app.git"
 
 echo -e "${CYAN}"
-echo "  Energy Controller Installer"
+echo "  Strum Installer"
 echo "  ==========================="
 echo -e "${NC}"
 
@@ -132,7 +132,7 @@ echo -e "  ${GREEN}✓${NC} Sudoers rule added (restart only)"
 echo -e "${CYAN}🔧${NC} Creating systemd service..."
 cat > /etc/systemd/system/"$SERVICE_NAME".service << EOF
 [Unit]
-Description=Energy Controller
+Description=Strum
 After=network-online.target
 Wants=network-online.target
 
@@ -181,7 +181,7 @@ if systemctl is-active --quiet "$SERVICE_NAME"; then
   IP=$(hostname -I | awk '{print $1}')
 
   echo ""
-  echo -e "${GREEN}✓${NC} Energy Controller installed and running!"
+  echo -e "${GREEN}✓${NC} Strum installed and running!"
   echo ""
   echo -e "  Web UI:  ${CYAN}http://$IP:8583${NC}"
   echo -e "  Login:   ${YELLOW}admin${NC} / see password in journal:"

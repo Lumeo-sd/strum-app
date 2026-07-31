@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# Energy Controller — Uninstaller
+# Strum — Uninstaller
 # Usage: sudo ./uninstall.sh
 # ============================================================
 
@@ -16,7 +16,7 @@ SERVICE_NAME="energy-controller"
 INSTALL_DIR="/opt/energy-controller"
 
 echo -e "${CYAN}"
-echo "  ⚡ Energy Controller Uninstaller"
+echo "  ⚡ Strum Uninstaller"
 echo "  ================================"
 echo -e "${NC}"
 
@@ -59,5 +59,5 @@ else
 fi
 
 echo ""
-echo -e "${GREEN}✓${NC} Energy Controller uninstalled"
+echo -e "${GREEN}✓${NC} Strum uninstalled"
 echo ""

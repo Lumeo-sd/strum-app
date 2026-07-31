@@ -1,4 +1,4 @@
-# Design System Audit — Strum Energy Controller
+# Design System Audit — Strum
 
 Generated 2026-07-29 by automated analysis of `public/index.html` and `public/login.html`.
 

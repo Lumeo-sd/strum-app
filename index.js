@@ -45,6 +45,7 @@ import { rateLimit, getClientIp } from './lib/rate-limit.js';
 import { getCryptoHelpers } from './lib/crypto.js';
 import { registerRoutes } from './lib/routes.js';
 import { createServerState } from './lib/server.js';
+import { atomicWriteJson } from './lib/atomic-write.js';
 
 const { MASTER_KEY, encryptSecret, decryptSecret } = getCryptoHelpers(DATA_DIR);
 const { loadConfig, saveConfig, netbirdExec } = createConfig(DATA_DIR, { MASTER_KEY, encryptSecret, decryptSecret });
@@ -59,7 +60,7 @@ const {
   inverterData, pollInverter, connectToInverter, injectDemoData,
   loadDailyRecords, finalizeDay, costState, dailyRecords,
   tuyaDevices, controlDevice, fetchDeviceStatuses, syncDeviceNamesFromCloud,
-  initTuya, loadDevicesFromDisk, scenes, loadScenes, saveScenes, checkScenes, loadSceneTimers, saveSceneTimers,
+  initTuya, loadDevicesFromDisk, scenes, loadScenes, saveScenes, checkScenes, requestSceneCheck, loadSceneTimers, saveSceneTimers,
   sceneTraces, deviceName, resolveInverterIP, saveDevices, resetInverterConnection,
   isPollingInverter, getInverterConsecutiveFails, pushSceneTrace,
 } = app;
@@ -67,12 +68,21 @@ const {
 const serverState = createServerState({
   log, path, fs, exec, __dirname,
   CERT_FILE, KEY_FILE,
-  parseCookies, isSessionValid, getSessionCsrf, sendJson,
+  parseCookies, isSessionValid, getSessionCsrf, getSessionUser, sendJson,
   matchRoute, parseBody, rateLimit, getClientIp,
 });
 const { getLoginPage, getWebUI, createRequestHandler, ensureCertificates } = serverState;
 
 const WEB_PORT_DEFAULT = 8583;
+
+// Обгортка інтервалів: помилка в одному тіку не повинна вбивати процес
+// (uncaughtException/unhandledRejection → process.exit).
+function safeInterval(fn, ms) {
+  setInterval(async () => {
+    try { await fn(); }
+    catch (err) { log.error('Interval error: ' + (err && err.message ? err.message : err)); }
+  }, ms);
+}
 
 // ============================================================
 // REGISTER ROUTES
@@ -84,7 +94,7 @@ const ctx = {
   pushNotification, sendNotification, _notifHistory, saveNotifHistory,
   inverterData, costState, dailyRecords, tuyaDevices, scenes, sceneTraces,
   controlDevice, fetchDeviceStatuses, syncDeviceNamesFromCloud, initTuya,
-  loadScenes, saveScenes, checkScenes, loadSceneTimers, saveSceneTimers,
+    loadScenes, saveScenes, checkScenes, requestSceneCheck, loadSceneTimers, saveSceneTimers,
   deviceName, resolveInverterIP, saveDevices, resetInverterConnection,
   getInverterConsecutiveFails, pushSceneTrace,
   loadAuthFile, verifyPassword, hashPassword, createSession, getSessionUser,
@@ -117,7 +127,7 @@ process.on('unhandledRejection', (reason) => {
 // MAIN — STARTUP
 // ============================================================
 async function main() {
-  log.info('Energy Controller starting...');
+  log.info('Strum starting...');
   watchdogStart();
 
   await ensureAuth();
@@ -179,17 +189,17 @@ async function main() {
   await connectToInverter();
   if (!inverterData.lastUpdate) injectDemoData();
   pollInverter();
-  setInterval(() => {
+  safeInterval(() => {
     if (getInverterConsecutiveFails() >= 5) {
       if (isPollingInverter()) return;
       log.info('Inverter: too many failures, reconnecting...');
       pushNotification('Reconnecting', 'Too many inverter failures — reconnecting...', 'warn');
-      connectToInverter().then(() => pollInverter());
+      connectToInverter().then(() => pollInverter()).catch(err => log.error('Inverter reconnect failed: ' + err.message));
     } else {
       pollInverter();
     }
   }, 10000);
-  setInterval(() => {
+  safeInterval(() => {
     const now = Date.now();
     const socketSum = tuyaDevices.reduce((a, d) => a + (d.power || 0), 0);
     RRD_PENDING.push({
@@ -203,7 +213,7 @@ async function main() {
     });
   }, 60000);
 
-  setInterval(rrdFlush, RRD_FLUSH_MS);
+  safeInterval(rrdFlush, RRD_FLUSH_MS);
 
   await initTuya();
   const devs = {};
@@ -212,7 +222,7 @@ async function main() {
   }
   if (Object.keys(devs).length > 0) RRD_SOCKET_PENDING.push({ ts: Date.now(), devices: devs });
 
-  setInterval(async () => {
+  safeInterval(async () => {
     await fetchDeviceStatuses();
     const devs2 = {};
     for (const dev of tuyaDevices) {
@@ -221,9 +231,9 @@ async function main() {
     if (Object.keys(devs2).length > 0) RRD_SOCKET_PENDING.push({ ts: Date.now(), devices: devs2 });
   }, 60000);
 
-  setInterval(checkScenes, 10000);
+  safeInterval(() => checkScenes(), 30000);
 
-  setInterval(() => {
+  safeInterval(() => {
     const now = Date.now();
     for (const token of Object.keys(sessions)) {
       if (sessions[token].exp < now) delete sessions[token];
@@ -231,10 +241,10 @@ async function main() {
     saveSessions();
   }, 60 * 60 * 1000);
 
-  log.info('Energy Controller started');
+  log.info('Strum started');
   const lastReady = notif._notifHistory.filter(n => n.title === 'System Ready').at(-1);
   if (!lastReady || Date.now() - lastReady.time > 30 * 60 * 1000) {
-    pushNotification('System Ready', 'Energy Controller started successfully', 'info');
+    pushNotification('System Ready', 'Strum started successfully.', 'info');
   }
 
   const shutdown = async (signal) => {
@@ -248,7 +258,7 @@ async function main() {
       for (const [token, s] of Object.entries(sessions)) {
         if (s.exp && s.exp > now) active[token] = s;
       }
-      await fs.promises.writeFile(SESSIONS_FILE, JSON.stringify(active, null, 2), { mode: 0o600 });
+      await atomicWriteJson(SESSIONS_FILE, active);
     } catch {}
     try { await rrdFlush(); } catch (err) { log.error("Flush on shutdown: " + err.message); }
     watchdogShutdown(signal);

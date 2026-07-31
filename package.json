@@ -1,5 +1,5 @@
 {
-  "name": "energy-controller",
+  "name": "strum",
   "version": "0.6.0",
   "type": "module",
   "description": "Standalone energy conservation controller",
