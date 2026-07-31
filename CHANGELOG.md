@@ -1,9 +1,10 @@
 ## v0.6.2 — 2026-07-31
 ### Added
-- Scene cards now show a single neutral last-activity line (execution time + status: `✓ виконано` / `⚠ помилка` / `⏹ зупинено`) instead of stacked per-action traces — no full action messages on the card (those still go to the ntfy/Telegram notification); the line updates live on poll
+- Scene cards now show a single neutral last-activity line (`HH:MM · status · ✓ executed` / `⚠ error` / `⏹ stopped`) instead of stacked per-action traces — no full action messages on the card (those still go to the ntfy/Telegram notification); the line updates live on poll
 - Manual scene run (`/api/scenes/:name/run`) now uses the same recursive action executor as the auto engine (`runSceneNow`): `if`/`choose` evaluate their conditions against live state (only the taken branch runs), `repeat`/`parallel`/`stop` work correctly, nested `stop` halts the whole run, and every simple action reports `ok`/`error` in the results
 
 ### Fixed
+- SPA boot no longer flashes the login screen while the session is checked — the login overlay starts hidden (`gone`) and only fades in for unauthenticated users; `?changePwd=1` is stripped from the URL after the forced change-password sheet opens, so it doesn't re-trigger on every reload
 - Standalone login page (`/login`) ignored `mustChangePassword` from the server and redirected straight to `/`; now it shows "change your default password" and redirects to `/?changePwd=1`, which the app picks up on load to open the forced change-password sheet
 - `time` condition: `before` was parsed with seed `1440` fed into `reduce` (multiplied by 60), making `cur <= before` always true — any time window with `before` was satisfied once `cur >= after`. Now `before` parses correctly (e.g. `10:00–11:00` no longer matches at 19:00)
 - Scene trace for `notify` actions is now compact — a short `ok` status instead of repeating the full message (the full text still goes to the ntfy/Telegram notification); unresolved template placeholders in the notification (e.g. no outage report recorded yet) are replaced with `—` instead of raw `{{...}}`
