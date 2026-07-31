@@ -23,5 +23,3 @@ tools/
 # Backup files
 *.bak
 *.bak.*
-
-fix-broken-ui-endpoints.patch

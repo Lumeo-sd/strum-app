@@ -1,3 +1,28 @@
+## v0.6.2 — 2026-07-31
+### Added
+- Scene cards now show the last activity (time + action + detail) live from the scene object (`lastTriggered`/`lastTrace`), plus the last 2 recent traces; traces refresh on tab open and after run/edit/toggle/delete/group
+- Manual scene run (`/api/scenes/:name/run`) now uses the same recursive action executor as the auto engine (`runSceneNow`): `if`/`choose` evaluate their conditions against live state (only the taken branch runs), `repeat`/`parallel`/`stop` work correctly, nested `stop` halts the whole run, and every simple action reports `ok`/`error` in the results
+
+### Fixed
+- Standalone login page (`/login`) ignored `mustChangePassword` from the server and redirected straight to `/`; now it shows "change your default password" and redirects to `/?changePwd=1`, which the app picks up on load to open the forced change-password sheet
+- `time` condition: `before` was parsed with seed `1440` fed into `reduce` (multiplied by 60), making `cur <= before` always true — any time window with `before` was satisfied once `cur >= after`. Now `before` parses correctly (e.g. `10:00–11:00` no longer matches at 19:00)
+- Scene trace for `notify` actions is now compact — a short `ok` status instead of repeating the full message (the full text still goes to the ntfy/Telegram notification); unresolved template placeholders in the notification (e.g. no outage report recorded yet) are replaced with `—` instead of raw `{{...}}`
+- Scene trace labels: `notify`/`webhook`/`priority`/`delay` show type icons (🔔/🌐/⚑/⏳) instead of a misleading `⚠` prefix; `⚠` remains for actual errors only
+
+## v0.6.1 — 2026-07-31
+### Changed
+- Full control cycle aligned with HAOS (tuya-local 2026.7.2 + frontend):
+  - `setDPs` now awaits the actual send (debounce + retries) and returns the flush promise — `controlDevice`/scenes surface real success/failure
+  - On final control failure, failed pending updates are cleared + `log.error` (analog of reference `_reset_cached_state`) — no more silently stuck device state
+  - Local retry-in-2s removed (redundant — retries live inside the integration, as in HAOS); local→cloud fallback now actually triggers on real local failure
+  - Device state (`switch`/voltage/current/power) now updated instantly from Tuya push frames (`onPush` registered in app-state) — scenes trigger on real state change without waiting for poll
+  - Scene nested actions record `apply:error` traces on failure
+- Frontend toggle now matches HA `ha-entity-toggle`: optimistic flip via 2s pending overlay, 2s revert timer if state not confirmed, state updated from server poll
+- Tuya keepalive aligned with HAOS: heartbeat interval 25s → 5s (as `_HEARTBEAT_INTERVAL=5`), keeping the TCP channel open through NAT
+
+### Fixed
+- Tuya local control: `setDP` threw `ReferenceError: setDPs is not defined` (called a non-existent closure function instead of the instance method), silently forcing every local control into cloud fallback. Now delegates to `instance.setDPs`.
+
 ## v0.6.0 — 2026-07-24
 ### Added
 - iOS-style Settings redesign: grouped sections with border-radius, colored icon badges, inset dividers, chevron indicators, auto-save toggles, inline inputs

@@ -36,26 +36,38 @@ Strum — автономний енергоконтролер для Raspberry P
   DP_QUERY_NEW payload: `{}`.
 - Відхилення від референсу (свідомі): CONTROL — fire-and-forget (не чекаємо відповіді);
   без вкладеного `{"data":{"dps":...}}`; без ротації версій 3.5→3.4→3.3 (наші пристрої — 3.5).
+- Режими керування (`cfg.tuya.controlMode` = auto/local/cloud, app-state.js `controlDevice`):
+  **свідоме розширення понад HAOS** — HAOS має лише локальне керування (3 спроби, фінальний фейл →
+  reset стану + error, без fallback; хмара тільки для налаштування). У нас auto = local-first
+  (той самий цикл 3 спроби) + cloud-фолбек, коли пристрої недосяжні локально. Рішення користувача:
+  залишити як є.
 
-### Наша реалізація (lib/tuya-local.js, 617 рядків, md5 7f7850868da15bab5e0921d388b78763)
+### Наша реалізація (lib/tuya-local.js, 649 рядків, md5 82172e33adfe33d9a10586aa0d5af13d)
 - Ключові функції: `buildFrame` 32, `parseFrame` 49, `recvExact` 71, `recvFrame` 121,
-  `handshake` 129, `parseDpsFromPayload` 157, `getLocalDevice` 169, `recordFailure` 209,
-  `confirmPending` 233, `closeSock` 248, `installPush` 265, `onPushData` 277, `doConnect` 304,
-  `ensureConnected` 367, `startHeartbeat` 375, `schedulePendingFlush` 387, `sendPending` 400,
-  `sendControl` 420, `sendCommand` 454, `enqueue` 474, `executeQuery` 480, `keeperLoop` 499,
-  `queryAll` 534, `setDPs` 565, `setDP` 582.
-- Константи: `TIMEOUT_MS=5000`, `CACHE_TTL_MS=30000`, `HEARTBEAT_INTERVAL_MS=25000`,
+  `handshake` 129, `parseDpsFromPayload` 157, `getLocalDevice` 169, `recordFailure` 212,
+  `pendingOverlay` 223, `cacheSnapshot` 232, `confirmPending` 236, `closeSock` 251,
+  `installPush` 268, `onPushData` 280, `doConnect` 307, `ensureConnected` 370,
+  `startHeartbeat` 378, `settleFlush` 390, `schedulePendingFlush` 403, `sendPending` 428,
+  `sendControl` 453, `sendCommand` 487, `enqueue` 507, `executeQuery` 513, `keeperLoop` 532,
+  `queryAll` 567, `setDPs` 598, `setDP` 614.
+- Константи: `TIMEOUT_MS=5000`, `CACHE_TTL_MS=30000`, `HEARTBEAT_INTERVAL_MS=5000` (як `_HEARTBEAT_INTERVAL=5` у HAOS),
   `CONNECT_RETRIES=3`, `QUERY_RETRIES=2`, `FAKE_IT_TIMEOUT_MS=5000`, `DEBOUNCE_MS=1000`,
   `FAILURE_ESCALATION_COUNT=10`, `BENIGN_RETCODES={900,904}`, backoff 1s→10s, keeper idle 5s.
 - Життєвий цикл: `getLocalDevice` → keeperLoop (ensureConnected → query при протуханні кешу 30s;
   помилка → closeSock + backoff).
 - Запити: `queryAll` = кеш (TTL) / живий запит (2 спроби, retcode!=0 окрім benign → помилка) /
   stale-кеш як fallback. `executeQuery` через `sendCommand` (CMD 0x10, чекає відповідь).
-- Керування (аналог `set_property`/`set_multiple_values` у референсі, але fire-and-forget):
-  `setDPs` пише в `pendingUpdates` (fake-it: значення видно одразу через `pendingOverlay`),
-  дебаунс 1s → `sendPending` батчем усі unsent dp одним CONTROL_NEW; зміна значення скидає `sent=false`.
+- Керування (аналог `async_set_properties` → `_debounce_sending_updates` → `_send_pending_updates`
+  у референсі, включно з **await send**): `setDPs` пише в `pendingUpdates` (fake-it: значення видно
+  одразу через `pendingOverlay`), дебаунс 1s → `sendPending` батчем усі unsent dp одним CONTROL_NEW;
+  зміна значення скидає `sent=false`. **`setDPs`/`setDP` повертають проміс флашу** — await означає
+  чекати фактичної відправки (resolves при успіху, throws при фінальній невдачі). Декілька `setDPs`
+  у межах дебаунсу ділять один спільний флаш-проміс.
   `sendControl`: `CONNECT_RETRIES=3` спроб (між ними closeSock + пауза 1s); якщо мульті-DP кадр
   завалився на всіх спробах → fallback по одному dp (`maxSimultaneousDps=1`, warn, назавжди для пристрою).
+- **Фінальна невдача флашу** (аналог `_reset_cached_state` у референсі): `sendPending` зчищає невідправлені
+  pending-записи → throw; `schedulePendingFlush` логує `log.error` і реджектить флаш-проміс (тож
+  `controlDevice`/сцени дізнаються про реальний фейл і повідомляють користувача).
 - Підтвердження: push-кадр/відповідь запиту з тим самим dp=value знімає pending (`confirmPending`).
   Незпідтверджені вилітають за `FAKE_IT_TIMEOUT_MS=5s` (reference behavior).
 - Фейли: `recordFailure` — warn на першому, error на 10-му (`FAILURE_ESCALATION_COUNT`), далі debug;
@@ -63,6 +75,7 @@ Strum — автономний енергоконтролер для Raspberry P
 - Push-безпека: `parseFrame` повертає `retcode:null` для пустого plaintext (<4B, напр. heartbeat-відповідь)
   замість RangeError. `onPushData` обгортає `parseFrame` у try/catch: помилка → warn + `closeSock('push_parse_error')`
   + скидання `pushBuf` (ніколи не крашить процес).
+- `disconnect`/`destroy`: `settleFlush` реджектить незавершений флаш (ті, хто авеїтять, не зависають).
 
 ### Історія бага (не повторювати)
 Crash-loop був через `sock.removeAllListeners()` у `closeSock`/`finish`, що знімав error-handler →
@@ -72,6 +85,9 @@ Crash-loop був через `sock.removeAllListeners()` у `closeSock`/`finish`
 ### Історія змін lib/tuya-local.js (останні зверху)
 | Дата | md5 | Зміна |
 |---|---|---|
+| 2026-07-31 | `82172e33adfe33d9a10586aa0d5af13d` | Фікс: `setDP` кидав `ReferenceError: setDPs is not defined` (викликав неіснуючу замикальну функцію замість методу інстансу) → весь локальний контроль мовчки падав у cloud-фолбек. Тепер `setDP` делегує в `instance.setDPs`. |
+| 2026-07-31 | `32026b4094905fe9b6c0e65f57f538a7` | Heartbeat вирівняно з HAOS: `HEARTBEAT_INTERVAL_MS` 25000→5000 (як `_HEARTBEAT_INTERVAL=5`, тримає TCP-канал відкритим через NAT, поки подієвий прийом push активний). |
+| 2026-07-31 | `78453b43c78bd364a53be44b1a113c48` | Повний цикл як у HAOS: `setDPs` тепер **авеїтить send** (повертає флаш-проміс, `schedulePendingFlush` резолвить/реджектить), при фінальній невдачі `sendPending` зчищає pending + `log.error` (аналог `_reset_cached_state`), `settleFlush` при `disconnect`/`destroy` реджектить незавершений флаш. |
 | 2026-07-31 | `7f7850868da15bab5e0921d388b78763` | P0 вирівнювання з tuya-local-2026.7.2: pending+батчинг+дебаунс для `setDPs` (fake-it через `pendingOverlay`), `sendPending`/`sendControl` з retry/fallback per-DP (`maxSimultaneousDps`), `confirmPending` (push/query знімає pending), `recordFailure` (warn→debug→error на 10-му), retcode 900/904 як benign, stale-кеш fallback. |
 | 2026-07-31 | `7eb91f5b4483a5c12eb28ec193b6630c` | Push-безпека: `parseFrame` толерантний до пустого payload (heartbeat, retcode=null); `onPushData` ловить помилки розбору → closeSock замість крашу. |
 | 2026-07-31 | `393b3a542f2110bd884c2b08d72f7bae` | Фікс crash-loop (описано вище). Деплой на Pi, 0 UNCAUGHT після. |

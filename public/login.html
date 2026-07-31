@@ -50,8 +50,16 @@ document.getElementById('f').addEventListener('submit',async e=>{
   try{
     const r=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('u').value.trim(),password:document.getElementById('p').value})});
     const d=await r.json();
-    if(d&&d.success){window.location.href='/';}
-    else{e2.textContent=(d&&d.message)||'Invalid credentials';const c=document.querySelector('.login');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}
+    if(d&&d.success){
+      if(d.mustChangePassword){
+        e2.textContent='Please change your default password in Settings.';
+        setTimeout(()=>{window.location.href='/?changePwd=1';},1000);
+      }else{
+        window.location.href='/';
+      }
+      return;
+    }
+    e2.textContent=(d&&d.message)||'Invalid credentials';const c=document.querySelector('.login');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');
   }catch(err){e2.textContent='Server unreachable.';}
   b.disabled=false;b.innerHTML='<i class="bi bi-arrow-right-circle-fill"></i> Sign In';
 });

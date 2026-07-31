@@ -62,7 +62,7 @@ const {
   tuyaDevices, controlDevice, fetchDeviceStatuses, syncDeviceNamesFromCloud,
   initTuya, loadDevicesFromDisk, scenes, loadScenes, saveScenes, checkScenes, requestSceneCheck, loadSceneTimers, saveSceneTimers,
   sceneTraces, deviceName, resolveInverterIP, saveDevices, resetInverterConnection,
-  isPollingInverter, getInverterConsecutiveFails, pushSceneTrace,
+  isPollingInverter, getInverterConsecutiveFails, pushSceneTrace, runSceneNow,
 } = app;
 
 const serverState = createServerState({
@@ -96,7 +96,7 @@ const ctx = {
   controlDevice, fetchDeviceStatuses, syncDeviceNamesFromCloud, initTuya,
     loadScenes, saveScenes, checkScenes, requestSceneCheck, loadSceneTimers, saveSceneTimers,
   deviceName, resolveInverterIP, saveDevices, resetInverterConnection,
-  getInverterConsecutiveFails, pushSceneTrace,
+  getInverterConsecutiveFails, runSceneNow,
   loadAuthFile, verifyPassword, hashPassword, createSession, getSessionUser,
   getSessionCsrf, isSessionValid, destroySession, parseCookies,
   loginAttempts, sessions, clearSessions,
