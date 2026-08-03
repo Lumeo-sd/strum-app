@@ -5,6 +5,32 @@ Strum — автономний енергоконтролер для Raspberry P
 Слідкує за сонячним інвертором (Solarman V5 Modbus TCP), керує Tuya-розетками локально/через хмару,
 автоматизації (сцени), push-сповіщення (ntfy/Telegram), PWA-фронтенд.
 
+## Web Push (бейдж + фонові сповіщення)
+- `lib/webpush.js` — нульові npm-залежності: VAPID (ECDSA P-256, ключі в `data/vapid.json`, ES256 JWT з
+  `aud` = origin push-сервісу), сховище підписок `data/push-subscriptions.json` (кап 50; зберігається
+  `origin` для `navigate`), повне **RFC 8291 aes128gcm-шифрування** (ECDH P-256 + HKDF; звірено з
+  RFC 8291 §5 та `http_ece`), розсилка **declarative Web Push** JSON (`web_push:8030`; **`app_badge` на
+  top-level**, дублюється в `notification` — WebKit-парсер читає його лише з top-level, тож інакше бейдж
+  ігнорується). Debounce 2s.
+- `navigate` у push: пріоритетно береться `cfg.netbird.publicUrl` (поле «Public URL» у налаштуваннях
+  Netbird VPN), фолбек — `origin`, збережений при підписці. Зміна NetBird-домену = оновити поле в
+  налаштуваннях.
+- **VAPID subject (`sub` у JWT):** дефолт `mailto:strum@localhost` **відкидається Apple**
+  (`BadJwtToken`, 403). Робочий ланцюжок: `cfg.webpush.subject` (якщо заданий) →
+  інакше `mailto:strum@<host>` з `cfg.netbird.publicUrl`. Apple перевіряє `sub` як mailto:/URL.
+- **iOS 18.4+/26 працює БЕЗ Apple Developer account** (вимогу прибрано в iOS 18.4). Apple приймає
+  лише зашифрований payload; declarative fallback показує сповіщення + оновлює бейдж навіть без SW
+  (стійко до ITP-видалення SW). Кожен push на iOS показує банер (userVisibleOnly).
+- `public/sw.js` — `push` (відкритий додаток: `postMessage` → `pollNotifs`; закритий: parse
+  `event.data` declarative JSON → `setAppBadge` + сповіщення для non-info; якщо даних нема —
+  fetch unread), `notificationclick`, `pushsubscriptionchange`.
+- API: `GET /api/push/vapid-key`, `POST /api/push/subscribe` (фронтенд шле `origin`),
+  `POST /api/push/unsubscribe` (потребують сесії; два POST — CSRF-виняток у `server.js`, бо у SW нема токена).
+- Тригер: `createNotifications(DATA_DIR, loadConfig, onNotify)` → `webpush.broadcast({ title, message,
+  type, unread })` на кожне `pushNotification` (fire-and-forget, ніколи не блокує).
+- **Критично:** SW/push реєструється лише з валідного публічного HTTPS-origin (NetBird port-forward
+  URL, `.netbird.services`). На самопідписаному LAN-IP — тихий no-op.
+
 ## Команди
 - Синтаксис: `node --check lib/*.js`
 - Тести: тестовий фреймворк відсутній — перевірка запуском сервісу та журналом (`journalctl -u energy-controller`)
