@@ -39,6 +39,7 @@ import { createRrd } from './lib/rrd.js';
 import { createConfig } from './lib/config.js';
 import { createAuth } from './lib/auth.js';
 import { createNotifications } from './lib/notifications.js';
+import { createWebPush } from './lib/webpush.js';
 import { createAppState } from './lib/app-state.js';
 import { parseBody, sendJson, sendHtml, sendText, setCookie, clearCookie, route, matchRoute } from './lib/router.js';
 import { rateLimit, getClientIp } from './lib/rate-limit.js';
@@ -53,9 +54,10 @@ const rrd = createRrd(DATA_DIR);
 const { RRD_POWER, RRD_SOCKET, RRD_PENDING, RRD_SOCKET_PENDING, RRD_FLUSH_MS, rrdInit, rrdFlush, rrdGetPower, rrdGetSocket, rrdPickLevel } = rrd;
 const auth = createAuth(DATA_DIR, { loadConfig, saveConfig });
 const { loadSessions, saveSessions, hashPassword, verifyPassword, ensureAuth, ensureMetricsToken, loadAuthFile, createSession, getSessionCsrf, getSessionUser, isSessionValid, destroySession, parseCookies, loginAttempts, sessions, clearSessions } = auth;
-const notif = createNotifications(DATA_DIR, loadConfig);
-const { pushNotification, sendNotification, _sendExtNotification, _notifHistory, saveNotifHistory } = notif;
-const app = createAppState(DATA_DIR, loadConfig, saveConfig, decryptSecret, pushNotification);
+const webpush = createWebPush(DATA_DIR, loadConfig);
+const notif = createNotifications(DATA_DIR, loadConfig, n => webpush.broadcast(n));
+const { pushNotification, sendNotification, sendChannel, _sendExtNotification, _notifHistory, saveNotifHistory } = notif;
+const app = createAppState(DATA_DIR, loadConfig, saveConfig, decryptSecret, pushNotification, sendChannel);
 const {
   inverterData, pollInverter, connectToInverter, injectDemoData,
   loadDailyRecords, finalizeDay, costState, dailyRecords,
@@ -91,7 +93,7 @@ const ctx = {
   route, sendJson, sendHtml, sendText, setCookie, clearCookie,
   loadConfig, saveConfig, netbirdExec,
   encryptSecret,
-  pushNotification, sendNotification, _notifHistory, saveNotifHistory,
+  pushNotification, sendNotification, sendChannel, _sendExtNotification, _notifHistory, saveNotifHistory,
   inverterData, costState, dailyRecords, tuyaDevices, scenes, sceneTraces,
   controlDevice, fetchDeviceStatuses, syncDeviceNamesFromCloud, initTuya,
     loadScenes, saveScenes, checkScenes, requestSceneCheck, loadSceneTimers, saveSceneTimers,
@@ -100,11 +102,13 @@ const ctx = {
   loadAuthFile, verifyPassword, hashPassword, createSession, getSessionUser,
   getSessionCsrf, isSessionValid, destroySession, parseCookies,
   loginAttempts, sessions, clearSessions,
+  getClientIp,
   log, logBuffer,
   rrdPickLevel, rrdGetPower, rrdGetSocket,
   fs, path, exec, execFile, os, __dirname,
   CONFIG_FILE, AUTH_FILE, SCENES_FILE, DEVICES_FILE, SESSIONS_FILE, DATA_DIR, USERS_FILE,
   getLoginPage, getWebUI,
+  webpush: { getVapidPublicKeyB64: webpush.getVapidPublicKeyB64, addSubscription: webpush.addSubscription, removeSubscription: webpush.removeSubscription },
 };
 registerRoutes(ctx);
 
@@ -161,8 +165,26 @@ async function main() {
 
   let httpServer, httpsServer;
 
+  function isPrivateHostname(host) {
+    const h = (host || '').replace(/:\d+$/, '').replace(/^\[|\]$/g, '').toLowerCase();
+    if (!h || h === 'localhost' || h.endsWith('.local') || h.endsWith('.lan')) return true;
+    if (/^\d+\.\d+\.\d+\.\d+$/.test(h)) {
+      const [a, b] = h.split('.').map(Number);
+      if (a === 10 || a === 127 || a === 169 && b === 254) return true;
+      if (a === 192 && b === 168) return true;
+      if (a === 172 && b >= 16 && b <= 31) return true;
+      if (a === 100 && b >= 64 && b <= 127) return true;
+    }
+    return false;
+  }
+
   httpServer = http.createServer((req, res) => {
     if (tls) {
+      const proxied = !!req.headers['x-forwarded-proto'] || !isPrivateHostname(req.headers.host);
+      if (proxied) {
+        server.emit('request', req, res);
+        return;
+      }
       const host = (req.headers.host || 'localhost').replace(/:\d+$/, '');
       const url = `https://${host}:${port + 1}${req.url}`;
       res.writeHead(302, { Location: url });
