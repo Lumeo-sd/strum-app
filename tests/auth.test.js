@@ -227,6 +227,26 @@ test('deleting a user revokes their existing sessions', async () => {
   assert.equal(after.status, 401);
 });
 
+test('deleting a user revokes sessions created after clearSessions()', async () => {
+  const { token: adminToken, csrf } = await login('admin', TEST_PASSWORD);
+  const create = await req('POST', '/api/users', { token: adminToken, csrf, body: { username: 'carol', password: 'carolpass123' } });
+  assert.equal(create.status, 200);
+
+  auth.clearSessions();
+  const { token: adminToken2, csrf: csrf2 } = await login('admin', TEST_PASSWORD);
+  const { token: carolToken } = auth.createSession('carol');
+
+  const read = await req('GET', '/api/user-prefs', { token: carolToken });
+  assert.equal(read.status, 200);
+  assert.equal(read.data.username, 'carol');
+
+  const del = await req('DELETE', '/api/users/carol', { token: adminToken2, csrf: csrf2 });
+  assert.equal(del.status, 200);
+
+  const after = await req('GET', '/api/user-prefs', { token: carolToken });
+  assert.equal(after.status, 401, 'post-clear session must be revoked');
+});
+
 test('login attempts: 5 failures allowed, 6th is rate-limited 429', async () => {
   for (let i = 1; i <= 5; i++) {
     const r = await login('admin', 'wrong-pass');
