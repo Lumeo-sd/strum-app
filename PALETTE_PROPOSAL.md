@@ -4,6 +4,16 @@ Two proposals for shifting the colour system away from exact Apple HIG values.
 
 ---
 
+## Decision (2026-08-04) — Direction A adopted
+
+- **Direction A "Soft Shift" is implemented** (live in `public/index.html` and `public/login.html`): warm-shifted neutrals (`--bg:#050505`, `--card`, `--text:#f2f2f4`), chromatic hues shifted ~5–8% from Apple HIG.
+- **Brand accent is amber** `--amber:#F59A0A`: app icon (manifest PNG + runtime `pwaIcon()`), `.app-icon` / login `.icon` gradient (`#E8860A → #F59A0A`), decorative orbs (`.bgfx`, `.title-orbs`, `.hero::after`), primary buttons, focus rings, active tabs.
+- **Hybrid accent scope:** `--accent` (interactive + brand) **defaults to amber**; the accent theme picker keeps its options (incl. `blue`) via `html[data-accent="…"]` overrides. Online/active **statuses** (`.dev.on`, `.scene.act`) keep the former accent blue through a dedicated **`--live:#1A8FFF` / `--live-rgb:26,143,255`** token so they stay distinct from warning amber (survival banner).
+- `--bolt` one-off yellow (`#FFD60A`) is **not used** — no throwaway icon-only colour; amber is the full brand token.
+- `.btn-primary` / login button now use dark text (`#050505`) on amber for AA contrast.
+
+---
+
 ## Palette Anatomy
 
 All colours are defined in terms of **role** (not component), so the token replaces the literal and any component can reference it.
@@ -133,9 +143,9 @@ Neutrals shift warm, accent desaturates to a **steel blue**, green and amber bec
 
 ## Next Step
 
-After you pick a direction, I'll:
-1. Update all `:root` colour tokens in both files
-2. Replace every color literal in CSS with the appropriate `var(--…)` reference
-3. Migrate inline `style="background:…"` icon colours to use tokens
-4. Proceed to surface-level cleanup (spacing/type/shadow token migration)
+**Resolved (2026-08-04)** — Direction A was chosen and applied; visibility above is historical comparison. Follow-ups completed:
+1. `:root` colour tokens updated in both files (= Direction A).
+2. Amber literals in `.bgfx`/`.survive` now `var(--amber-rgb)`; remaining blues/indigos kept intentionally (data-series colours, status colours, third-party brand).
+3. Surface-level cleanup (spacing/type/shadow token migration) was already in place — see `TOKEN_PROPOSAL.md`.
+4. Accent scope decided as **hybrid** (see the decision note at the top) — status colours keep `--live` blue so "online/active" never collides with warning amber.
 

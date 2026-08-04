@@ -133,3 +133,13 @@ Before any bulk replacements, Step 3 will propose two palette directions:
 
 Each will come with a swatch table and a usage map showing which components get which colour role.
 
+---
+
+## 2.8 Colour Tokens — Resolution (2026-08-04)
+
+Not part of the original five token families (colours lived in the `:root` of `index.html`); updated to reflect the final decision:
+
+- The proposed **`--bolt`** break-out yellow (`#FFD60A`) is **canceled** — no one-off icon-only colour. The app icon and brand gradients use the existing **`--amber`** token instead.
+- **Exactly one new colour token was added** as a result of the hybrid accent scope: **`--live:#1A8FFF` / `--live-rgb:26,143,255`** in `public/index.html` (+ `html[data-accent="blue"]` override). It keeps online/active statuses (`.dev.on`, `.scene.act`) blue while `--accent` defaults to amber `#F59A0A`.
+- Per-palette guidance: see `PALETTE_PROPOSAL.md` (decision note).
+

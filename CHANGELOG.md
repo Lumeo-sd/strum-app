@@ -1,3 +1,10 @@
+## v0.7.7 — 2026-08-04
+### Changed
+- **Amber brand rebrand (Direction A, hybrid accent scope)** — the accent defaults to the existing Direction A amber `--amber:#F59A0A` everywhere: app icon (manifest inline PNGs + runtime `pwaIcon()`), `.app-icon`/login `.icon` gradient (`#E8860A → #F59A0A`), primary buttons, focus rings, active tabs, decorative orbs, `.kw`, notifications. The accent-theme picker keeps working (incl. the `blue` option, now via `html[data-accent="blue"]`), default preset is `amber`.
+- **Status colours stay blue** — new `--live:#1A8FFF` / `--live-rgb:26,143,255` tokens carry the online/active look (`.dev.on` border/dot/label, `.scene.act` border/sdot) so "device online" never collides with the amber warning/survival styling.
+- **Primary-button contrast** — `.btn-primary` and the login button use dark text (`#050505`) on amber (was white-on-blue; white-on-amber fails AA); login spinner recoloured to match.
+- Amber literals in `.bgfx`/`.survive` now reference `var(--amber-rgb)`. Data-series chart colours (Load/Sockets/Battery), `--green`/`--red`/`--cyan`/`--indigo` status roles and third-party brand literals are unchanged.
+
 ## v0.7.6 — 2026-08-03
 ### Added
 - **Live tail on auto-mode charts** — Power / Sockets / Daily charts in Auto show the real-time value: on every `/api/status` poll (~5 s) the last point is updated in place within the current minute and a new point is appended when a new minute starts (RRD storage stays 1 point/min — nothing extra is persisted). Implemented frontend-only: `liveNow()` aggregates live inverter + Tuya data, `liveTail()`/`liveTailAll()` (wired into `poll()`) update the chart data and the current-values legend, preserving dataset toggle state and the follow-the-edge scroll.
