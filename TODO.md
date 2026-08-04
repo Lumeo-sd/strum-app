@@ -15,5 +15,5 @@
 
 ## Резерв для майбутніх кроків
 
-- **Step 4 (TDD), решта** — поки вкрито тестами протокольний шар: `lib/tuya-local.js` (20 тестів: buildFrame/parseFrame/overlayPending/confirmPending/parseDpsFromPayload), `lib/crc16.js` (8), `lib/solarman.js` (10). **Залишилось:** тести на scene engine у `lib/app-state.js` (evaluateCondition/_executeSceneAction — потребують експорту з closure, більший рефакторинг) та `lib/auth.js` (hashPassword/verifyPassword — closure-internal, потребують експорту). Виконувати окремим кроком за рішенням власника.
+- **Step 4 (TDD), решта** — вкрито тестами протокольний шар: `lib/tuya-local.js` (20), `lib/crc16.js` (8), `lib/solarman.js` (10) — коміт `4abf12b`; scene engine `lib/app-state.js` (27 тестів через публічний API `createAppState`, характеристика, без змін production) — коміт `63eaa07`. **Залишилось:** тести `lib/auth.js` (login/logout, CSRF, rate limit, сесія видаленого юзера) через HTTP-інтерфейс (routes/server), характеристика, без рефракторингу closure→exports. Виконувати окремим кроком після підтвердження власника.
 - **Step 2 залишок** — якщо Dependabot/Code Scanning увімкнуть і з'являться алерти — зібрати їх у цей файл (без виправлень).
