@@ -1,5 +1,10 @@
 ## v0.7.7 — 2026-08-04
 ### Changed
+- **Unified motion system** — three easing tokens (`--ease` micro 150 ms, `--ease-tab` tab/nav 300–320 ms, `--spring` large 450 ms) replace all 6 hardcoded cubic-bezier values; micro-interactions (buttons, toggles, fields, swatches, tiles, cells) aligned to 150 ms; status pulse rhythm unified to 2.4 s, spinners to 0.8 s.
+- **Tab transitions** — switching views now fades + slides horizontally in the same direction as the tab-bar pill (`data-from="right|left"` in `go()`); scroll reset on tab switch is instant (`behavior:'auto'`) so vertical scroll no longer fights the horizontal slide.
+- **One content-entrance metaphor** — `translateY(14px)` fade-up (`--spring`, 450 ms) for scroll reveals (`.rv`), notification sub-lists (`viewIn`), and the login card (`popUp`). The critical grid-outage banner keeps its fast, noticeable `pop` spring entrance by design.
+- **Sheets stay two-form-factor by design** — mobile bottom-sheet slide-up vs desktop centered fade+scale modal (CSS comment at the 770px media boundary documents the intent).
+- **`prefers-reduced-motion` now covers everything** — one global rule (instant final states, no motion) replaces the previous three partial blocks (bgfx, tabbar, tab bounce).
 - **Amber brand rebrand (Direction A, hybrid accent scope)** — the accent defaults to the existing Direction A amber `--amber:#F59A0A` everywhere: app icon (manifest inline PNGs + runtime `pwaIcon()`), `.app-icon`/login `.icon` gradient (`#E8860A → #F59A0A`), primary buttons, focus rings, active tabs, decorative orbs, `.kw`, notifications. The accent-theme picker keeps working (incl. the `blue` option, now via `html[data-accent="blue"]`), default preset is `amber`.
 - **Status colours stay blue** — new `--live:#1A8FFF` / `--live-rgb:26,143,255` tokens carry the online/active look (`.dev.on` border/dot/label, `.scene.act` border/sdot) so "device online" never collides with the amber warning/survival styling.
 - **Primary-button contrast** — `.btn-primary` and the login button use dark text (`#050505`) on amber (was white-on-blue; white-on-amber fails AA); login spinner recoloured to match.
