@@ -270,6 +270,16 @@ test('change-password rejects a too-short new password', async () => {
   assert.equal(r.status, 400);
 });
 
+test('change-password is rate-limited after 5 wrong currentPassword attempts', async () => {
+  const { token, csrf } = await login('admin', TEST_PASSWORD);
+  for (let i = 1; i <= 5; i++) {
+    const r = await req('POST', '/api/change-password', { token, csrf, body: { currentPassword: 'nope', newPassword: 'NewPassw0rd' } });
+    assert.equal(r.status, 401, 'attempt ' + i);
+  }
+  const blocked = await req('POST', '/api/change-password', { token, csrf, body: { currentPassword: 'nope', newPassword: 'NewPassw0rd' } });
+  assert.equal(blocked.status, 429);
+});
+
 test('change-password invalidates old password and existing sessions', async () => {
   const { token, csrf } = await login('admin', TEST_PASSWORD);
   const ch = await req('POST', '/api/change-password', { token, csrf, body: { currentPassword: TEST_PASSWORD, newPassword: 'NewPassw0rd!' } });
