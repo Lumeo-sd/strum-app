@@ -5,6 +5,7 @@
   "description": "Standalone energy conservation controller",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --test tests/*.test.js"
   }
 }

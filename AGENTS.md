@@ -33,7 +33,7 @@ Strum — автономний енергоконтролер для Raspberry P
 
 ## Команди
 - Синтаксис: `node --check lib/*.js`
-- Тести: тестовий фреймворк відсутній — перевірка запуском сервісу та журналом (`journalctl -u energy-controller`)
+- Тести: `npm test` (`node --test tests/*.test.js`, Node ≥20). Тести чистої протокольної логіки: tuya-local (кадри 3.5/6699, pending), crc16, solarman (V5 framing).
 - Лінт: відсутній
 
 ## Tuya Local (критично важливо)
@@ -68,14 +68,14 @@ Strum — автономний енергоконтролер для Raspberry P
   (той самий цикл 3 спроби) + cloud-фолбек, коли пристрої недосяжні локально. Рішення користувача:
   залишити як є.
 
-### Наша реалізація (lib/tuya-local.js, 649 рядків, md5 82172e33adfe33d9a10586aa0d5af13d)
+### Наша реалізація (lib/tuya-local.js, 658 рядків, md5 e9984340ee4d7cae8e3cd09395825fde)
 - Ключові функції: `buildFrame` 32, `parseFrame` 49, `recvExact` 71, `recvFrame` 121,
-  `handshake` 129, `parseDpsFromPayload` 157, `getLocalDevice` 169, `recordFailure` 212,
-  `pendingOverlay` 223, `cacheSnapshot` 232, `confirmPending` 236, `closeSock` 251,
-  `installPush` 268, `onPushData` 280, `doConnect` 307, `ensureConnected` 370,
-  `startHeartbeat` 378, `settleFlush` 390, `schedulePendingFlush` 403, `sendPending` 428,
-  `sendControl` 453, `sendCommand` 487, `enqueue` 507, `executeQuery` 513, `keeperLoop` 532,
-  `queryAll` 567, `setDPs` 598, `setDP` 614.
+  `handshake` 129, `parseDpsFromPayload` 157, `overlayPending` 167 (export), `confirmPending` 175 (export),
+  `getLocalDevice` 188, `recordFailure` 212, `pendingOverlay` 242, `cacheSnapshot` 246,
+  `confirmPendingLocal` 250, `closeSock` 251, `installPush` 268, `onPushData` 280,
+  `doConnect` 307, `ensureConnected` 370, `startHeartbeat` 378, `settleFlush` 390,
+  `schedulePendingFlush` 403, `sendPending` 428, `sendControl` 453, `sendCommand` 487,
+  `enqueue` 507, `executeQuery` 513, `keeperLoop` 532, `queryAll` 567, `setDPs` 598, `setDP` 614.
 - Константи: `TIMEOUT_MS=5000`, `CACHE_TTL_MS=30000`, `HEARTBEAT_INTERVAL_MS=5000` (як `_HEARTBEAT_INTERVAL=5` у HAOS),
   `CONNECT_RETRIES=3`, `QUERY_RETRIES=2`, `FAKE_IT_TIMEOUT_MS=5000`, `DEBOUNCE_MS=1000`,
   `FAILURE_ESCALATION_COUNT=10`, `BENIGN_RETCODES={900,904}`, backoff 1s→10s, keeper idle 5s.
@@ -111,6 +111,7 @@ Crash-loop був через `sock.removeAllListeners()` у `closeSock`/`finish`
 ### Історія змін lib/tuya-local.js (останні зверху)
 | Дата | md5 | Зміна |
 |---|---|---|
+| 2026-08-04 | `e9984340ee4d7cae8e3cd09395825fde` | TDD-крок 4: `overlayPending`/`confirmPending` винесено в чисті module-level функції (експортовані, беруть `pendingUpdates`/`now` аргументами), внутрішні замикання делегують в них; додано експорт `buildFrame`/`parseFrame`/`parseDpsFromPayload`. Поведінка не змінена (20 тестів). |
 | 2026-07-31 | `82172e33adfe33d9a10586aa0d5af13d` | Фікс: `setDP` кидав `ReferenceError: setDPs is not defined` (викликав неіснуючу замикальну функцію замість методу інстансу) → весь локальний контроль мовчки падав у cloud-фолбек. Тепер `setDP` делегує в `instance.setDPs`. |
 | 2026-07-31 | `32026b4094905fe9b6c0e65f57f538a7` | Heartbeat вирівняно з HAOS: `HEARTBEAT_INTERVAL_MS` 25000→5000 (як `_HEARTBEAT_INTERVAL=5`, тримає TCP-канал відкритим через NAT, поки подієвий прийом push активний). |
 | 2026-07-31 | `78453b43c78bd364a53be44b1a113c48` | Повний цикл як у HAOS: `setDPs` тепер **авеїтить send** (повертає флаш-проміс, `schedulePendingFlush` резолвить/реджектить), при фінальній невдачі `sendPending` зчищає pending + `log.error` (аналог `_reset_cached_state`), `settleFlush` при `disconnect`/`destroy` реджектить незавершений флаш. |

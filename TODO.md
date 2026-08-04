@@ -15,5 +15,5 @@
 
 ## Резерв для майбутніх кроків
 
-- **Step 4 (TDD)** — тести на `lib/tuya-local.js`, `lib/solarman.js`, `lib/app-state.js` (scene engine), `lib/auth.js` (черга поза списком кроків плану).
+- **Step 4 (TDD), решта** — поки вкрито тестами протокольний шар: `lib/tuya-local.js` (20 тестів: buildFrame/parseFrame/overlayPending/confirmPending/parseDpsFromPayload), `lib/crc16.js` (8), `lib/solarman.js` (10). **Залишилось:** тести на scene engine у `lib/app-state.js` (evaluateCondition/_executeSceneAction — потребують експорту з closure, більший рефакторинг) та `lib/auth.js` (hashPassword/verifyPassword — closure-internal, потребують експорту). Виконувати окремим кроком за рішенням власника.
 - **Step 2 залишок** — якщо Dependabot/Code Scanning увімкнуть і з'являться алерти — зібрати їх у цей файл (без виправлень).
