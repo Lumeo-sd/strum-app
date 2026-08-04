@@ -278,6 +278,8 @@ Local control communicates directly with plugs over LAN using the **Tuya v3.5 AE
 
 [ntfy.sh](https://ntfy.sh) is a simple HTTP-based push notification service. Free tier available.
 
+> **Privacy:** topics on the public `ntfy.sh` server are **public by default** — anyone who knows the topic name can subscribe and read messages. Use a long, random topic name (e.g. a UUID) and treat it as a secret; never use a name that leaks identifiable info.
+
 **Setup:**
 1. Install ntfy app on your phone ([iOS](https://apps.apple.com/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy))
 2. Subscribe to a topic (pick any unique name, e.g. `energy-myhome-abc123`)
