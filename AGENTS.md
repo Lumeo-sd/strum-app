@@ -33,7 +33,7 @@ Strum — автономний енергоконтролер для Raspberry P
 
 ## Команди
 - Синтаксис: `node --check lib/*.js`
-- Тести: `npm test` (`node --test tests/*.test.js`, Node ≥20). Тести чистої протокольної логіки: tuya-local (кадри 3.5/6699, pending), crc16, solarman (V5 framing); сценарний рушій app-state.js (characterization через публічний API `createAppState`, без рефракторингу closure→exports).
+- Тести: `npm test` (`node --test tests/*.test.js`, Node ≥20). Тести чистої протокольної логіки: tuya-local (кадри 3.5/6699, pending), crc16, solarman (V5 framing); сценарний рушій app-state.js (characterization через публічний API `createAppState`, без рефракторингу closure→exports); auth.js (HTTP characterization через routes/server: login/logout, CSRF, rate limit 5/хв/IP, сесії, timing-safe порівняння).
 - Лінт: відсутній
 
 ## Tuya Local (критично важливо)

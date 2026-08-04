@@ -16,5 +16,5 @@
 
 ## Резерв для майбутніх кроків
 
-- **Step 4 (TDD), решта** — вкрито тестами протокольний шар: `lib/tuya-local.js` (20), `lib/crc16.js` (8), `lib/solarman.js` (10) — коміт `4abf12b`; scene engine `lib/app-state.js` (27 тестів через публічний API `createAppState`, характеристика, без змін production) — коміт `63eaa07`. **Залишилось:** тести `lib/auth.js` (login/logout, CSRF, rate limit, сесія видаленого юзера) через HTTP-інтерфейс (routes/server), характеристика, без рефракторингу closure→exports. Виконувати окремим кроком після підтвердження власника.
+- **Step 4 (TDD)** — виконано повністю: протокольний шар (`lib/tuya-local.js` 20, `lib/crc16.js` 8, `lib/solarman.js` 10) — `4abf12b`; scene engine `lib/app-state.js` (27) — `63eaa07`; auth `lib/auth.js` (24 тести, HTTP characterization через routes/server: login/logout, CSRF, rate limit 5/хв/IP, сесія видаленого юзера, timing-safe порівняння) — без рефракторингу closure→exports, production-код не змінювався. Разом 89 тестів.
 - **Step 2 залишок** — якщо Dependabot/Code Scanning увімкнуть і з'являться алерти — зібрати їх у цей файл (без виправлень).
