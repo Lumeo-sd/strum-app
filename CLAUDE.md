@@ -212,7 +212,6 @@ Before modifying any code:
 
 ## 11. Known Unknowns
 
-- `new-tuya-local.js` (repo root) — unintegrated draft Tuya client; active code is `lib/tuya-local.js`. See `/docs/architecture/REPOSITORY_MAP.md#notable-details`.
 - Inverter register semantics are from code, not vendor docs — treat register-derived fields
   (`gridPower` is derived from grid-status word) with care. See `/docs/architecture/SYSTEM_OVERVIEW.md#known-gaps--uncertainties`.
 - `gridPower`/grid-status derivation and demo-data injection (`_isDemo`) are inferred behaviours —

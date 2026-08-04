@@ -106,7 +106,6 @@ Load the listed docs before making changes to these zones.
 Avoid pulling these into context unless your task specifically requires them:
 
 - `DESIGN_AUDIT.md`, `TOKEN_PROPOSAL.md`, `PALETTE_PROPOSAL.md` — historical design proposals, not active docs
-- `new-tuya-local.js` — unintegrated draft; active client is `lib/tuya-local.js`
 - `scripts/` diagnostic tools — only when debugging Tuya discovery/testing
 - `public/lib/` vendored assets (Chart.js, bootstrap-icons, fonts) — static, not source
 

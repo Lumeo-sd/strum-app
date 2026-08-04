@@ -39,7 +39,6 @@ strum-app/
 ├── DESIGN_AUDIT.md           # Design-system audit snapshot (historical, 2026-07-29)
 ├── TOKEN_PROPOSAL.md         # Design proposal: CSS token system (historical)
 ├── PALETTE_PROPOSAL.md       # Design proposal: palette directions (historical)
-├── new-tuya-local.js         # ⚠ standalone draft of a Tuya client (see note)
 ├── docs/
 │   └── architecture/         # Architecture docs (this set)
 │       ├── SYSTEM_OVERVIEW.md
@@ -127,10 +126,6 @@ strum-app/
 
 ## Notable details
 
-- **`new-tuya-local.js` (repo root)** — an unintegrated draft of a Tuya local client. The **active**
-  implementation is `lib/tuya-local.js`. Before relying on the draft, confirm with the owner whether
-  it is a candidate to replace/extend `lib/tuya-local.js` or should be removed. Do **not** edit it
-  without an explicit task.
 - **`public/lib/`** holds vendored third-party assets (Chart.js UMD, bootstrap-icons, fonts) — they
   are the only "dependencies" in the repo and are served statically; there is no bundler.
 - **`data/` is git-ignored and created at runtime.** Never commit credentials or state. Deployment to
@@ -139,8 +134,6 @@ strum-app/
 ---
 ## Known Gaps / Uncertainties
 
-- `new-tuya-local.js` (repo root) — unintegrated draft Tuya client; its intended fate (replacement,
-  extension, or removal) is unconfirmed with the owner.
 - `.opencode/` (tooling, node_modules) and `.github/workflows/` (one workflow) exist but are not
   documented here; they are outside the runtime surface.
 - `data/` file inventory is from a live scan; runtime-created files (e.g. `scenes.json`) appear only
