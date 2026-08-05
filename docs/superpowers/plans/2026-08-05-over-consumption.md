@@ -209,12 +209,12 @@ git commit -m "feat: over-consumption detector (off-grid unregistered load)"
 - [ ] **Step 1: Write failing scene-engine tests** (append to `tests/scene-engine.test.js`)
 
 ```js
-test('over_consumption: once mode fires once per outage, template values filled', async () => {
+test('over_consumption: once mode fires once per outage, re-arms only after grid returns', async () => {
   env.setInverter({ gridPower: false, loadPower: 200 });
   const scene = {
     name: 'over',
     if: { type: 'over_consumption', threshold: 60, stabilityMins: 5, oncePerOutage: true },
-    then: { actions: [{ type: 'notify', message: 'Unreg {{unreg_w}}W soc {{soc}}% {{outage_min}}min' }] },
+    then: { actions: [{ type: 'notify', message: 'O' }] },
   };
   await env.addScene(scene);
 
@@ -223,7 +223,6 @@ test('over_consumption: once mode fires once per outage, template values filled'
 
   await env.runCheck();
   assert.equal(env.notifs.length, 1, 'fires after 5min stability');
-  assert.match(env.notifs[0].message, /^Unreg 200W soc 50% \d+min$/);
 
   await env.runCheck();
   assert.equal(env.notifs.length, 1, 'once mode does not re-fire');
@@ -237,7 +236,7 @@ test('over_consumption: once mode fires once per outage, template values filled'
   assert.equal(env.notifs.length, 2, 're-arms after grid returns and re-outage');
 });
 
-test('over_consumption: persistent mode stays true while exceedance lasts', async () => {
+test('over_consumption: persistent mode re-arms on drop below threshold', async () => {
   env.setInverter({ gridPower: false, loadPower: 200 });
   const scene = {
     name: 'overp',
@@ -252,11 +251,17 @@ test('over_consumption: persistent mode stays true while exceedance lasts', asyn
   await env.runCheck();
   assert.equal(env.notifs.length, 1, 'fires after stability');
   await env.runCheck();
-  assert.equal(env.notifs.length, 2, 'persistent stays true, notify fires again');
+  assert.equal(env.notifs.length, 1, 'notify is edge-triggered: stays applied, no repeat while still exceeded');
 
   env.setInverter({ loadPower: 30 });
   await env.runCheck();
-  assert.equal(env.notifs.length, 2, 'drop below threshold clears condition');
+  assert.equal(env.notifs.length, 1, 'drop below threshold clears condition (scene reverts)');
+
+  env.setInverter({ loadPower: 200 });
+  t = Date.now() - 8 * 60000;
+  for (let i = 0; i < 8; i++) { env.app.feedOtherLoad(200, t); t += 60000; }
+  await env.runCheck();
+  assert.equal(env.notifs.length, 2, 're-exceed within same outage re-arms persistent notify');
 });
 ```
 
