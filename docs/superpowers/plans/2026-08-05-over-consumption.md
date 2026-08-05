@@ -613,14 +613,14 @@ git add AGENTS.md
 git commit -m "docs: over-consumption detect section in AGENTS.md"
 ```
 
-- [ ] **Step 4: Push + деплой на Pi**
+- [x] **Step 4: Push + деплой на Pi**
 
 ```bash
 git push origin master:main
 ssh hb-service@raspberrypi.local "cd /opt/energy-controller && git fetch strum main && git reset --hard strum/main && sudo systemctl restart energy-controller"
 ```
 
-- [ ] **Step 5: Перевірка**
+- [x] **Step 5: Перевірка**
 
 ```bash
 ssh hb-service@raspberrypi.local "systemctl is-active energy-controller; curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8583/api/scenes"
