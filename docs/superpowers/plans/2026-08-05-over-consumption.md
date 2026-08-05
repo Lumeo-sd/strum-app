@@ -29,7 +29,7 @@
   - `cfg`: `{ threshold?: number (60), stabilityMs?: number (300000), oncePerOutage?: boolean (true) }`
   - Стан: `phase: 'idle' | 'stable'`, `startTs` (перший семпл > threshold), `fired` (once-режим).
 
-- [ ] **Step 1: Write the failing unit tests**
+- [x] **Step 1: Write the failing unit tests**
 
 `tests/over-consumption.test.js`:
 
@@ -123,12 +123,12 @@ test('setConfig changes threshold and stability', () => {
 });
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `node --test tests/over-consumption.test.js`
 Expected: FAIL — `ERR_MODULE_NOT_FOUND .../lib/over-consumption.js`
 
-- [ ] **Step 3: Write minimal implementation**
+- [x] **Step 3: Write minimal implementation**
 
 `lib/over-consumption.js`:
 
@@ -182,12 +182,12 @@ export function createOverConsumeDetector(cfg = {}) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `node --test tests/over-consumption.test.js`
 Expected: PASS (6 tests)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/over-consumption.js tests/over-consumption.test.js
@@ -206,7 +206,7 @@ git commit -m "feat: over-consumption detector (off-grid unregistered load)"
 - Consumes: `createOverConsumeDetector` (Task 1).
 - Produces: `ctx.otherLoad` (number), `ctx.sceneName` (string), exports `feedOtherLoad(watts, now?)`, `resetOverConsume(now?)`; `_lastOverConsume = { watts, soc, outageMin, ts } | null`.
 
-- [ ] **Step 1: Write failing scene-engine tests** (append to `tests/scene-engine.test.js`)
+- [x] **Step 1: Write failing scene-engine tests** (append to `tests/scene-engine.test.js`)
 
 ```js
 test('over_consumption: once mode fires once per outage, re-arms only after grid returns', async () => {
@@ -265,12 +265,12 @@ test('over_consumption: persistent mode re-arms on drop below threshold', async 
 });
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `node --test tests/scene-engine.test.js`
 Expected: FAIL — `ctx.otherLoad` undefined / `feedOtherLoad is not a function`
 
-- [ ] **Step 3: Implement integration in `lib/app-state.js`**
+- [x] **Step 3: Implement integration in `lib/app-state.js`**
 
 3a. Import (після `appliance-detect.js`):
 
@@ -406,12 +406,12 @@ feedOtherLoad: (watts, now) => { for (const det of _overConsume.values()) det.on
     resetOverConsume: (now) => { for (const det of _overConsume.values()) det.onGridUp(now); _overConsumeEvents = {}; _overGridDownSince = 0; },
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `node --check lib/app-state.js && node --test tests/scene-engine.test.js tests/over-consumption.test.js`
 Expected: PASS (всі scene-engine + 6 нових)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/app-state.js tests/scene-engine.test.js
@@ -429,7 +429,7 @@ git commit -m "feat: over_consumption scene condition wired into app-state engin
 - Consumes: `_lastOverConsume` (Task 2).
 - Produces: розширений `expandNotifyTemplate(message)`.
 
-- [ ] **Step 1: Write failing test** (append to `tests/scene-engine.test.js`)
+- [x] **Step 1: Write failing test** (append to `tests/scene-engine.test.js`)
 
 ```js
 test('notify template: over-consumption placeholders expand from last event', async () => {
@@ -448,12 +448,12 @@ test('notify template: over-consumption placeholders expand from last event', as
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `node --test tests/scene-engine.test.js`
 Expected: FAIL — message містить невідомі `{{...}}` → «—» (спад `notifs[0].message` не збігається).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Замінити `expandNotifyTemplate` у `lib/app-state.js` на:
 
@@ -483,12 +483,12 @@ function expandNotifyTemplate(message) {
   }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `node --test tests/scene-engine.test.js`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/app-state.js tests/scene-engine.test.js
