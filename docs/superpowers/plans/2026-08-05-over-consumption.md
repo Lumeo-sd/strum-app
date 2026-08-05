@@ -577,7 +577,7 @@ git commit -m "feat: over-consumption (grid off) condition in automations UI"
 **Files:**
 - Modify: `AGENTS.md`
 
-- [ ] **Step 1: Документація**
+- [x] **Step 1: Документація**
 
 Додати розділ після «Appliance Cycle Detect»:
 
@@ -601,12 +601,12 @@ git commit -m "feat: over-consumption (grid off) condition in automations UI"
   `tests/scene-engine.test.js` (once/persistent + шаблони).
 ```
 
-- [ ] **Step 2: Повний прогон**
+- [x] **Step 2: Повний прогон**
 
 Run: `npm test`
 Expected: `tests` ≥ 109 (102 + 6 детектор + 3 сценарних), `pass` = `tests`, `fail` 0.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add AGENTS.md
