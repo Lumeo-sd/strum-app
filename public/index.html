@@ -42,6 +42,10 @@ input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:tex
 .field i{color:var(--muted);font-size:var(--fs-base)}.field input{flex:1;background:none;border:0;outline:0;color:var(--text);font-size:var(--fs-base);padding:var(--space-md) 0;min-width:0}
 .login-err{color:var(--red);font-size:var(--fs-sm);min-height:18px;margin:var(--space-3xs) 0 var(--space-sm);font-weight:600}
 .login-card.shake{animation:shake .4s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.install-wrap{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,5,.78);backdrop-filter:blur(6px)}
+.install-card{width:min(400px,100%);padding:var(--space-3xl) var(--space-2xl) var(--space-2xl);text-align:center;animation:popUp .45s var(--spring)}
+.install-steps{text-align:left;margin:var(--space-md) 0;color:var(--muted);font-size:var(--fs-sm)}
+.install-steps ol{margin:var(--space-2xs) 0 0;padding-left:18px;display:grid;gap:var(--space-2xs)}
 .login-hint{margin-top:var(--space-lg);font-size:var(--fs-xs);color:var(--dim)}.mono{font-family:var(--mono)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);border:0;cursor:pointer;border-radius:var(--r-pill);font-weight:700;font-size:var(--fs-base);padding:var(--space-md) var(--space-2xl);min-height:48px;background:rgba(var(--gray-rgb),.18);color:var(--text);transition:transform 150ms var(--ease),filter 150ms var(--ease),background 150ms var(--ease);user-select:none}
 .btn:active{transform:scale(.95);filter:brightness(.85)}.btn-primary{background:var(--accent);color:#050505;box-shadow:var(--shadow-xl)}
@@ -290,6 +294,18 @@ select.sh-input{appearance:none;-webkit-appearance:none;background-image:linear-
     </form>
     
     <p class="login-hint">Raspberry Pi Zero W · Solarman V5 · Tuya Cloud/Local · PWA</p>
+  </div>
+</div>
+<div id="installSheet" class="install-wrap" hidden>
+  <div class="install-card card">
+    <div class="app-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+    <h1>Install Strum</h1>
+    <p class="login-sub">Home Screen app · badge · offline alerts</p>
+    <div id="installStep">
+      <button class="btn btn-primary w100" onclick="installNow()" id="installBtn"><i class="bi bi-box-arrow-down-fill"></i> Install App</button>
+      <p class="login-hint">Tap once — the rest takes care of itself</p>
+    </div>
+    <button class="btn btn-ghost w100" onclick="closeInstallSheet()">Later</button>
   </div>
 </div>
 <div id="app" hidden>
@@ -1721,9 +1737,16 @@ function pushPref(on){if(on)localStorage.setItem('ecmPush','1');else localStorag
 async function enablePush(){try{if(!('serviceWorker' in navigator)||!('PushManager' in window))return false;if(Notification.permission==='denied')return false;if(Notification.permission!=='granted'){if((await Notification.requestPermission())!=='granted')return false;}if(!_swReg)_swReg=await navigator.serviceWorker.register('/sw.js');await subscribePush(_swReg);pushPref(true);return true;}catch(e){return false;}}
 async function disablePush(){try{pushPref(false);if(_swReg){const sub=await _swReg.pushManager.getSubscription();if(sub){try{await api('/api/push/unsubscribe',{method:'POST',body:JSON.stringify({endpoint:sub.endpoint})});}catch(e){}await sub.unsubscribe().catch(()=>{});}}if(navigator.clearAppBadge)navigator.clearAppBadge().catch(()=>{});}catch(e){}}
 async function togglePush(){const on=$('#nPush').checked,st=$('#pushStat');if(on){st.innerHTML='<span class="spin"></span>';const ok=await enablePush();$('#nPush').checked=ok;st.innerHTML=ok?'<span class="c-green">✓ Push enabled</span>':'<span class="c-red">✗ Permission denied</span>';if(ok)island('Push Enabled','You will get notifications + app badge','ok');}else{await disablePush();st.innerHTML='';island('Push Disabled','Notifications and badge turned off','info');}}
+let _installPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_installPrompt=e;});
+window.addEventListener('appinstalled',()=>{_installPrompt=null;closeInstallSheet();});
+function isStandalone(){return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;}
+function maybeShowInstallSheet(){if(localStorage.getItem('ecmInstallSeen')||isStandalone())return;const s=$('#installSheet');if(!s)return;s.hidden=false;}
+function closeInstallSheet(){$('#installSheet').hidden=true;localStorage.setItem('ecmInstallSeen','1');}
+function installNow(){if(_installPrompt){_installPrompt.prompt();_installPrompt=null;}else{$('#installStep').innerHTML='<div class="install-steps"><ol><li>In Safari tap <b>Share</b> <i class="bi bi-arrow-up-square-fill"></i></li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b>, then open Strum from the Home Screen</li></ol></div>';}}
 const revealObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revealObs.unobserve(e.target);}}),{threshold:.08});
 let appReady=false;function initApp(){if(appReady)return;appReady=true;buildFlow();buildAccents();setAccent(localStorage.getItem('ecmAccent')||'amber',false);$$('.rv').forEach(el=>revealObs.observe(el));loadPowerChart();loadSocketChart();loadDailyChart();loadGridHeat();setInterval(poll,5000);setInterval(pollNotifs,15000);setInterval(()=>{if(S.curView==='status'&&document.visibilityState==='visible'){loadPowerChart();loadSocketChart();loadGridHeat();}},60000);setInterval(()=>{const d=new Date();$('#headClock').textContent=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});if(S.status&&S.outageSince&&S.status.gridPower===false){$('#obTime').textContent='Duration '+fmtDur(Date.now()-S.outageSince)+' · since '+new Date(S.outageSince).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}},1000);setupPWA();initPush();}
-(async function(){if(!location.protocol.startsWith('http')){showLogin();return;}try{const d=await getStatus();if(d&&d.batterySOC!==undefined){window._csrf=d.csrfToken||'';S.status=d;S.devices=d.tuyaDevices||[];S.scenes=d.scenes||[];enterApp();if(new URLSearchParams(location.search).get('changePwd')){openPassSheet(true);history.replaceState({},'',location.pathname);}}else showLogin();}catch(e){showLogin();}})();
+(async function(){if(!location.protocol.startsWith('http')){showLogin();return;}maybeShowInstallSheet();try{const d=await getStatus();if(d&&d.batterySOC!==undefined){window._csrf=d.csrfToken||'';S.status=d;S.devices=d.tuyaDevices||[];S.scenes=d.scenes||[];enterApp();if(new URLSearchParams(location.search).get('changePwd')){openPassSheet(true);history.replaceState({},'',location.pathname);}}else showLogin();}catch(e){showLogin();}})();
 </script>
 <script type="module">
 (() => {
