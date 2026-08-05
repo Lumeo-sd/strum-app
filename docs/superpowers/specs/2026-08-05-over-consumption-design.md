@@ -57,20 +57,27 @@
 
 - `ctx.otherLoad` — обчислюється в `checkScenes` тією ж формулою, що в
   `index.js` (`max(0, loadPower − Σ dev.power)`), тож `index.js` НЕ змінюється.
-- `_overConsume` — Map умов-детекторів, синхронізується зі сцен через
-  `_analyzeCondDeps` (паттерн `appliance_done`): кожної `over_consumption`-умови →
-  `detector.setConfig({ threshold, stabilityMs: mins*60000, oncePerOutage })`.
+- `_overConsume` — Map **sceneName → детектор** (у різних сценах різні пороги,
+  тому стан прив'язаний до сцени, а не глобально):
+  - синхронізація: нова `_syncOverConsumeConfigs()`, викликається з
+    `_rebuildSceneDeps` — ітерує сцени, для першої умови `over_consumption`
+    кожної сцени створює/оновлює детектор
+    (`setConfig({ threshold, stabilityMs: mins*60000, oncePerOutage })`),
+    видаляє детектори видалених сцен;
+  - `_analyzeCondDeps` case `over_consumption`: позначити залежність від
+    inverter (щоб сцена не оцінювалась без свіжих даних);
+  - контекст: `checkScenes` додає `ctx.sceneName` (і `runSceneNow` для
+    if-дій) — `evaluateCondition` за ним знаходить детектор сцени.
 - `checkScenes` (перед оцінкою умов):
-  - якщо `gridIsDown` (fresh) → для кожного зареєстрованого детектора
+  - якщо `gridIsDown` (fresh) → для кожного детектора
     `onSample(ctx.otherLoad, now)`; інакше — `onGridUp(now)` для всіх;
   - `takeEvent` → події в `_overConsumeEvents` (споживаються умовою в once-режимі).
 - `evaluateCondition` case `over_consumption`:
-  - once-режим: `_overConsumeEvents` має подію → спожити і `true`, інакше `false`;
+  - once-режим: `_overConsumeEvents` має подію для `ctx.sceneName` → спожити і
+    `true`, інакше `false`;
   - persistent-режим: `detector.isExceeded(now)` (без споживання).
-- `_analyzeCondDeps` case `over_consumption`: позначити залежність від inverter
-  (щоб сцена не оцінювалась без свіжих даних) + конфігурація детектора.
 - Публічний фід для тестів: `feedOtherLoad(watts, now?)` → `onSample` усіх
-  детекторів + `setGridState(down: bool)` для `onGridUp` (обгортки).
+  детекторів; `setGridState(down: bool, now?)` → `onGridUp` при поверненні.
 - `_lastOverConsume` — об'єкт `{ watts, soc, outageMin, ts }`, оновлюється при
   спрацюванні (для шаблонів повідомлення).
 
