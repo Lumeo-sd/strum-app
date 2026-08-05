@@ -601,7 +601,8 @@ var COND_CATALOG = [
     {type:'inverter_offline',label:'Inverter Offline'}
   ]},
   {group:'Devices',icon:'plug-fill',items:[
-    {type:'device_online',label:'Device Online'}
+    {type:'device_online',label:'Device Online'},
+    {type:'appliance_done',label:'Appliance Cycle Done'}
   ]},
   {group:'System Health',icon:'cpu-fill',items:[
     {type:'disk_free',label:'Disk Space'},
@@ -753,7 +754,7 @@ function renameSheet(id){const d=S.devices.find(x=>x.id===id);if(!d)return;openS
 async function renameDevice(id){const name=$('#rnName').value.trim();if(!name){island('Name required','Enter a device name','warn');return;}try{await api('/api/tuya-devices/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({name})});const d=S.devices.find(x=>x.id===id);if(d)d.name=name;closeSheet();renderDevices();island('Device Renamed',name,'ok');}catch(e){island('Error',esc(e.message),'err');}}
 async function syncTuya(fromSettings){const b=$('#devSync');if(b){b.disabled=true;b.innerHTML='<span class="spin"></span>';}if(fromSettings)$('#tuyaStat').innerHTML='<span class="spin"></span> Syncing with Tuya Cloud…';try{const r=await api('/api/sync-tuya',{method:'POST',body:'{}'});if(r&&r.success){island('Synced',r.count+' devices fetched from Tuya','ok');await poll();renderDevices();}else throw new Error((r&&r.message)||'Sync error');if(fromSettings)$('#tuyaStat').textContent='✓ '+r.count+' devices';}catch(e){island('Tuya Error',esc(e.message),'err');if(fromSettings)$('#tuyaStat').textContent='✗ '+e.message;}if(b){b.disabled=false;b.innerHTML='<i class="bi bi-arrow-repeat"></i> Sync';}}
 $('#modeSeg').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;$$('#modeSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');try{const r=await api('/api/tuya-mode',{method:'POST',body:JSON.stringify({mode:b.dataset.m})});if(r&&r.success===false)throw 0;island('Tuya Mode',b.textContent.trim(),'ok',2000);}catch(err){island('Tuya Mode','Endpoint not available in this build','warn');}});
-function condText(c){if(c.type==='battery')return 'SOC '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='grid')return c.value?'grid <b>ON</b>':'grid <b>OFF</b>';if(c.type==='time')return 'time <b>'+c.after+'–'+c.before+'</b>';if(c.type==='grid_restored')return 'grid <b>restored</b>';if(c.type==='inverter_offline')return 'inverter <b>offline</b> (≥'+(c.minFailures||5)+' fails)';if(c.type==='weekday')return '<b>'+(c.value||'weekday')+'</b>';if(c.type==='disk_free')return 'disk free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='cpu_temp')return 'CPU temp '+(c.operator||'>')+' <b>'+c.value+'°C</b>';if(c.type==='cpu_load')return 'CPU load '+(c.operator||'>')+' <b>'+c.value+'</b>';if(c.type==='memory_free')return 'RAM free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='device_online'){const d=S.devices.find(x=>x.id===c.device);return '<b>'+esc(d?d.name:'device')+'</b> '+(c.value?'online':'offline');}return '…';}
+function condText(c){if(c.type==='battery')return 'SOC '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='grid')return c.value?'grid <b>ON</b>':'grid <b>OFF</b>';if(c.type==='time')return 'time <b>'+c.after+'–'+c.before+'</b>';if(c.type==='grid_restored')return 'grid <b>restored</b>';if(c.type==='inverter_offline')return 'inverter <b>offline</b> (≥'+(c.minFailures||5)+' fails)';if(c.type==='weekday')return '<b>'+(c.value||'weekday')+'</b>';if(c.type==='disk_free')return 'disk free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='cpu_temp')return 'CPU temp '+(c.operator||'>')+' <b>'+c.value+'°C</b>';if(c.type==='cpu_load')return 'CPU load '+(c.operator||'>')+' <b>'+c.value+'</b>';if(c.type==='memory_free')return 'RAM free '+(c.operator||'<')+' <b>'+c.value+'%</b>';if(c.type==='device_online'){const d=S.devices.find(x=>x.id===c.device);return '<b>'+esc(d?d.name:'device')+'</b> '+(c.value?'online':'offline');}if(c.type==='appliance_done'){const d=S.devices.find(x=>x.id===c.device);return '<b>'+esc(d?d.name:c.device)+'</b> cycle done';}return '…';}
 function actText(a){if(a.type==='notify')return '🔔 <b>notification</b>'+(a.title?' ('+esc(a.title)+')':'')+(a.critical?' <span class="chip chip-red" style="font-size:var(--fs-2xs)">critical</span>':'');if(a.type==='priority')return '⚑ <b>priority</b> → '+esc(String(a.value||''));if(a.type==='webhook'){const wt=a.target==='ntfy'?'ntfy':a.target==='telegram'?'Telegram':(a.url||'—');return '🌐 <b>webhook</b> → '+esc(wt);}if(a.type==='delay')return '⏳ delay <b>'+(a.duration||0)+'min</b>';if(a.type==='if')return '🔀 if/then/else ('+((a.then||[]).length+(a.else||[]).length)+' actions)';if(a.type==='choose')return '📋 choose ('+((a.choices||[]).length)+' choices)';if(a.type==='repeat')return '🔁 repeat ×'+(a.count||(a.while?'while':'?'));if(a.type==='parallel')return '📦 parallel ('+((a.sequence||[]).length)+' actions)';if(a.type==='stop')return '⏹ stop';const d=S.devices.find(x=>x.id===a.device);let t='<b>'+esc(d?d.name:a.device)+'</b> → '+(a.value?'<b class="c-green">ON</b>':'<b class="c-red">OFF</b>');if(a.duration>0)t+=' for '+a.duration+' min';return t;}
 async function renderScenes(){const con=$('#sceneList');const scenes=S.scenes;$('#sceneSub').textContent=scenes.length+' scenes · '+scenes.filter(s=>s.enabled!==false).length+' active';if(!scenes.length){con.innerHTML='<div class="empty"><i class="bi bi-diagram-3"></i>No automations yet.<br>Create your first one — e.g. survival mode.</div>';return;}const groups={};for(const s of scenes){const g=s.group||'Ungrouped';(groups[g]=groups[g]||[]).push(s);}const sorted=Object.keys(groups).sort((a,b)=>{const pa=a==='Critical'?0:a==='Secondary'?1:a==='Ungrouped'?3:2;const pb=b==='Critical'?0:b==='Secondary'?1:b==='Ungrouped'?3:2;if(pa!==pb)return pa-pb;return a.localeCompare(b);});const card=s=>{const en=s.enabled!==false;const lg=(s.if&&s.if.logic==='OR')?' <span class="kw">OR</span> ':' <span class="kw">AND</span> ';const ifs=((s.if&&s.if.conditions)||[]).map(condText).join(lg)||'—';const thens=((s.then&&s.then.actions)||[]).map(actText).join(', ')||'—';const lastAct=s.lastTrace?(()=>{const a=String(s.lastTrace.action||'');const err=/error/.test(a)||/error/.test(String(s.lastTrace.detail||''));const tm=new Date(s.lastTrace.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});const st=err?'⚠ error':a==='stop'?'⏹ stopped':'✓ executed';return '<div class="trace'+(err?' err':'')+'"><span class="t">'+tm+'</span><span class="stl">status</span><span class="'+(err?'c-red':a==='stop'?'':'c-green')+'">'+st+'</span></div>';})():'';const tr=lastAct;return '<div class="card-sm scene'+(en?' act':'')+'" data-name="'+escA(s.name)+'"><div class="scene-top"><span class="sdot"></span><b>'+esc(s.name)+'</b><span class="chip '+(en?'chip-acc':'chip-dim')+'">'+(en?'active':'paused')+'</span>'+(s.mode==='single'?'<span class="chip chip-dim" style="margin-left:4px">single</span>':'')+'<label class="sw"><input type="checkbox" data-act="toggle" '+(en?'checked':'')+'><i></i></label></div><div class="scene-rule"><span class="kw">IF</span> '+ifs+' <span class="kw">THEN</span> '+thens+'</div>'+tr+'<div class="scene-btns"><button class="ibtn" data-act="run" title="Run manually"><i class="bi bi-play-fill"></i></button><button class="ibtn" data-act="edit" title="Edit"><i class="bi bi-pencil"></i></button><button class="ibtn" data-act="group" title="Group"><i class="bi bi-folder"></i></button><button class="ibtn" data-act="del" title="Delete"><i class="bi bi-trash3"></i></button></div></div>';};let html='';for(const g of sorted)html+='<div class="dev-sec"><i class="'+(g==='Critical'?'bi bi-shield-fill-check c-green':g==='Secondary'?'bi bi-fire c-amber':'bi bi-folder2 c-acc')+'"></i><b>'+esc(g)+'</b><span>'+groups[g].length+' scene'+(groups[g].length>1?'s':'')+'</span></div><div class="dev-grid">'+groups[g].map(card).join('')+'</div>';con.innerHTML=html;}
 $('#sceneList').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const name=b.closest('[data-name]').dataset.name;if(b.dataset.act==='run')runScene(name);if(b.dataset.act==='edit')editScene(name);if(b.dataset.act==='group')sceneGroupSheet(name);if(b.dataset.act==='del')confirmSheet('Delete scene?','"'+name+'" will be permanently deleted.',()=>delScene(name));});
@@ -777,6 +778,7 @@ const COND_TYPES = [
   { type:'time', label:'Time of Day', group:'Time', icon:'clock-fill' },
   { type:'weekday', label:'Day of Week', group:'Time', icon:'clock-fill' },
   { type:'device_online', label:'Device Online', group:'Devices', icon:'plug-fill' },
+  { type:'appliance_done', label:'Appliance Cycle Done', group:'Devices', icon:'plug-fill' },
   { type:'inverter_offline', label:'Inverter Offline', group:'Inverter', icon:'hdd-network-fill' },
   { type:'disk_free', label:'Disk Space', group:'System Health', icon:'cpu-fill' },
   { type:'cpu_temp', label:'CPU Temperature', group:'System Health', icon:'cpu-fill' },
@@ -818,6 +820,11 @@ function condFieldsHTML(cond, idx) {
     case 'device_online':
       const dopts = S.devices.map(d => '<option value="'+escA(d.id)+'"'+(cond.value===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');
       return '<select class="cf-dev" data-ci="'+idx+'" onchange="eCField('+idx+')"><option value="">— device —</option>'+dopts+'</select> <select class="cf-status" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:130px"><option value="true"'+(cond.expectedStatus!==false?' selected':'')+'>Online</option><option value="false"'+(cond.expectedStatus===false?' selected':'')+'>Offline</option></select>';
+    case 'appliance_done': {
+      const aopts = S.devices.map(d => '<option value="'+escA(d.id)+'"'+(cond.device===d.id?' selected':'')+'>'+esc(d.name)+'</option>').join('');
+      const preset = cond._preset || 'washing';
+      return '<select class="cf-preset" data-ci="'+idx+'" onchange="eCPreset('+idx+')" style="max-width:170px"><option value="washing"'+(preset==='washing'?' selected':'')+'>Washing/Dishwasher</option><option value="kettle"'+(preset==='kettle'?' selected':'')+'>Kettle/High sensitivity</option><option value="custom"'+(preset==='custom'?' selected':'')+'>Manual</option></select> <select class="cf-adev" data-ci="'+idx+'" onchange="eCField('+idx+')"><option value="">— device —</option>'+aopts+'</select> <span style="font-size:var(--fs-sm);color:var(--muted)">start &gt;</span> <input class="cf-start" data-ci="'+idx+'" type="number" min="0" step="1" value="'+(cond.startWatts||3)+'" onchange="eCField('+idx+')" style="max-width:70px">W <span style="font-size:var(--fs-sm);color:var(--muted)">run ≥</span> <input class="cf-min" data-ci="'+idx+'" type="number" min="1" step="1" value="'+(cond.minDuration||30)+'" onchange="eCField('+idx+')" style="max-width:60px">min <span style="font-size:var(--fs-sm);color:var(--muted)">quiet</span> <input class="cf-settle" data-ci="'+idx+'" type="number" min="1" step="1" value="'+(cond.settle||5)+'" onchange="eCField('+idx+')" style="max-width:60px">min <span class="warn-hint" style="font-size:10px;color:var(--warn,#e0a000);">Не ставте на безперервні пристрої (морозильник) — хибні цикли</span>';
+    }
     case 'weekday':
       return '<select class="cf-val" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:140px"><option value="weekday"'+(cond.value!=='weekend'?' selected':'')+'>Weekday</option><option value="weekend"'+(cond.value==='weekend'?' selected':'')+'>Weekend</option></select>';
     case 'disk_free': case 'cpu_temp': case 'cpu_load': case 'memory_free':
@@ -838,6 +845,10 @@ function readCondFields(idx) {
   const beforeEl = document.querySelector('.cf-before[data-ci="'+idx+'"]');
   const devEl = document.querySelector('.cf-dev[data-ci="'+idx+'"]');
   const statusEl = document.querySelector('.cf-status[data-ci="'+idx+'"]');
+  const adevEl = document.querySelector('.cf-adev[data-ci="'+idx+'"]');
+  const startEl = document.querySelector('.cf-start[data-ci="'+idx+'"]');
+  const minEl = document.querySelector('.cf-min[data-ci="'+idx+'"]');
+  const settleEl = document.querySelector('.cf-settle[data-ci="'+idx+'"]');
   if (opEl) c.operator = opEl.value;
   if (valEl) {
     if (c.type === 'inverter_offline') c.minFailures = parseInt(valEl.value) || 5;
@@ -851,9 +862,47 @@ function readCondFields(idx) {
   }
   if (afterEl && beforeEl) { c.after = afterEl.value; c.before = beforeEl.value; }
   if (devEl && statusEl) { c.value = devEl.value; c.expectedStatus = statusEl.value === 'true'; }
+  if (c.type === 'appliance_done') {
+    if (adevEl) c.device = adevEl.value;
+    if (startEl) c.startWatts = Math.max(0, parseFloat(startEl.value) || 0);
+    if (minEl) c.minDuration = Math.max(1, parseInt(minEl.value) || 1);
+    if (settleEl) c.settle = Math.max(1, parseInt(settleEl.value) || 1);
+  }
 }
 
-function eCField(idx) { readCondFields(idx); }
+function eCField(idx) { readCondFields(idx); syncPresetLabel(idx); }
+
+function eCPreset(idx) {
+  const set = { washing: [3,30,5], kettle: [100,1,1], custom: null };
+  const pEl = document.querySelector('.cf-preset[data-ci="'+idx+'"]');
+  if (!pEl) return;
+  const vals = set[pEl.value];
+  const c = _eConds[idx];
+  if (!c) return;
+  if (vals) { c.startWatts = vals[0]; c.minDuration = vals[1]; c.settle = vals[2]; }
+  c._preset = pEl.value;
+  const startEl = document.querySelector('.cf-start[data-ci="'+idx+'"]');
+  const minEl = document.querySelector('.cf-min[data-ci="'+idx+'"]');
+  const settleEl = document.querySelector('.cf-settle[data-ci="'+idx+'"]');
+  if (vals) {
+    if (startEl) startEl.value = vals[0];
+    if (minEl) minEl.value = vals[1];
+    if (settleEl) settleEl.value = vals[2];
+  }
+}
+
+function syncPresetLabel(idx) {
+  const c = _eConds[idx];
+  const pEl = document.querySelector('.cf-preset[data-ci="'+idx+'"]');
+  if (!c || !pEl || c._preset === 'custom') return;
+  const set = { washing: [3,30,5], kettle: [100,1,1] };
+  let p = 'custom';
+  for (const k of Object.keys(set)) {
+    if (c.startWatts === set[k][0] && c.minDuration === set[k][1] && c.settle === set[k][2]) p = k;
+  }
+  c._preset = p;
+  pEl.value = p;
+}
 
 function condSummary(c) {
   if (c.and) return 'AND(' + c.and.length + ')';
@@ -867,6 +916,10 @@ function condSummary(c) {
   if (c.type === 'device_online') {
     const d = S.devices.find(x => x.id === c.value);
     return (d ? d.name : c.value) + ' ' + (c.expectedStatus ? 'online' : 'offline');
+  }
+  if (c.type === 'appliance_done') {
+    const d = S.devices.find(x => x.id === c.device);
+    return (d ? d.name : (c.device || '?')) + ' cycle done';
   }
   return cat.label;
 }
@@ -909,6 +962,7 @@ function eCondsTypeChange(idx) {
     grid_restored: { type:'grid_restored' },
     inverter_offline: { type:'inverter_offline', minFailures:5 },
     device_online: { type:'device_online', value:'', expectedStatus:true },
+    appliance_done: { type:'appliance_done', device:'', startWatts:3, minDuration:30, settle:5, _preset:'washing' },
     weekday: { type:'weekday', value:'weekday', days:[1,2,3,4,5] },
     disk_free: { type:'disk_free', operator:'<', value:20 },
     cpu_temp: { type:'cpu_temp', operator:'>', value:80 },
@@ -1479,7 +1533,7 @@ async function saveAutomation() {
       body:JSON.stringify({
         name,
         mode: $('#abMode').value,
-        if: { [_eCondsLogic]: _eConds },
+        if: { [_eCondsLogic]: _eConds.map(stripPreset) },
         then: { actions: _eActions }
       })
     });
@@ -1508,7 +1562,7 @@ async function updateAutomation() {
       body:JSON.stringify({
         name,
         mode: $('#abMode').value,
-        if: { [_eCondsLogic]: _eConds },
+        if: { [_eCondsLogic]: _eConds.map(stripPreset) },
         then: { actions: _eActions }
       })
     });
@@ -1521,6 +1575,12 @@ async function updateAutomation() {
 }
 
 
+function stripPreset(c) {
+  if (!c || typeof c !== 'object') return c;
+  const { _preset, ...rest } = c;
+  for (const k of Object.keys(rest)) rest[k] = stripPreset(rest[k]);
+  return rest;
+}
 function notifIcon(title, type) {
   const t = String(title || '');
   if (/inverter/i.test(t)) return 'cpu';

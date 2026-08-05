@@ -34,6 +34,14 @@ Strum — автономний енергоконтролер для Raspberry P
 ## Команди
 - Синтаксис: `node --check lib/*.js`
 - Тести: `npm test` (`node --test tests/*.test.js`, Node ≥20). Тести чистої протокольної логіки: tuya-local (кадри 3.5/6699, pending), crc16, solarman (V5 framing); сценарний рушій app-state.js (characterization через публічний API `createAppState`, без рефракторингу closure→exports); auth.js (HTTP characterization через routes/server: login/logout, CSRF, rate limit 5/хв/IP, сесії, timing-safe порівняння).
+
+## Appliance Cycle Detect (умова сцени `appliance_done`)
+- `lib/appliance-detect.js` — stateful-детектор завершення циклу приладу (посудомийка/пральна/чайник) за потужністю Tuya-розетки. Нуль залежностей.
+- API: `createCycleDetector({startWatts,minDuration,settle})` → `onSample(id, W, now?)`, `checkNow(now?)`, `consume(id)`, `takeEvents()`, `setConfig(id, cfg)` (пер-пристрій конфіг; дефолти 3W / 15 хв / 5 хв).
+- Логіка: idle → power > startWatts → running (startTs); у running низька фаза (power ≤ startWatts) стартує `lowSince`, високий семпл скидає її; `checkNow` → якщо тиша ≥ settle і elapsed ≥ minDuration → подія `{minutes, startedAt}` (pending), стан скидається. `takeEvents()` забирає всі pending (використовується app-state у `checkScenes`).
+- Інтеграція в `lib/app-state.js`: `applyDpsToDevice` фідить детектор на кожному DP22/DP8 (power); конфіги пристроїв синхронізуються зі сцен через `_analyzeCondDeps` (при кожному `_rebuildSceneDeps`); `checkScenes` викликає `checkNow`+`takeEvents` → події в `_applianceEvents` (TTL 10 хв), умова `appliance_done` споживає подію один раз; тип в `ONESHOT_COND_TYPES` (сцена не відкатується). Публічний фід для тестів: `feedDevicePower(devId, watts, now?)`.
+- UI (`public/index.html`): пресети «Washing/Dishwasher» (3W / 30 хв / 5 хв), «Kettle/High sensitivity» (100W / 1 хв / 1 хв), «Manual»; попередження про безперервні пристрої (морозильник). `_preset` — лише UI-поле, не зберігається (stripPreset).
+- Тести: `tests/appliance-detect.test.js` (чиста логіка) + сценарні в `tests/scene-engine.test.js` (патерн: `feedDevicePower` з третім аргументом `now`, потім `runCheck`; увага: checkNow працює з реальним часом, тож фід моделює події в минулому так, щоб перевірка сталась одразу після тиші).
 - Лінт: відсутній
 
 ## Tuya Local (критично важливо)

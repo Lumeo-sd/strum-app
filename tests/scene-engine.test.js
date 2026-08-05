@@ -327,3 +327,59 @@ test('one-shot scenes do not revert when the condition turns false', async () =>
   await env.runCheck();
   assert.equal(env.readTimers()['gs:notify'].active, true, 'one-shot scene stays applied');
 });
+
+test('appliance_done: notifies once a running cycle settles below threshold', async () => {
+  env.setInverter({ loadPower: 0 });
+  const scene = { name: 'dryer-done', if: { type: 'appliance_done', device: 'dryer' }, then: { actions: [{ type: 'notify', message: 'Прання готове' }] } };
+  await env.addScene(scene);
+
+  let t = Date.now() - 55 * 60000;
+  for (let i = 0; i < 45; i++) {
+    env.app.feedDevicePower('dryer', 1200, t);
+    t += 60000;
+  }
+  assert.equal(env.notifs.length, 0, 'no notification while the cycle is still running');
+
+  for (let i = 0; i < 8; i++) {
+    env.app.feedDevicePower('dryer', 0, t);
+    t += 60000;
+  }
+
+  await env.runCheck();
+  assert.equal(env.notifs.length, 1, 'fires once the idle settle elapses');
+  assert.equal(env.notifs[0].message, 'Прання готове');
+
+  await env.runCheck();
+  assert.equal(env.notifs.length, 1, 'event is consumed, does not re-fire');
+});
+
+test('appliance_done: short burst does not fire (minDuration)', async () => {
+  env.setInverter({ loadPower: 0 });
+  const scene = { name: 'kettle', if: { type: 'appliance_done', device: 'kettle', startWatts: 100, minDuration: 5, settle: 1 }, then: { actions: [{ type: 'notify', message: 'Чайник закипів' }] } };
+  await env.addScene(scene);
+
+  let t = Date.now() - 4 * 60000;
+  for (let i = 0; i < 3; i++) {
+    env.app.feedDevicePower('kettle', 1800, t);
+    t += 60000;
+  }
+  for (let i = 0; i < 3; i++) {
+    env.app.feedDevicePower('kettle', 0, t);
+    t += 60000;
+  }
+
+  await env.runCheck();
+  assert.equal(env.notifs.length, 0, '3-minute burst is below the 5-minute minDuration');
+
+  let s = Date.now() - 12 * 60000;
+  for (let i = 0; i < 6; i++) {
+    env.app.feedDevicePower('kettle', 1800, s);
+    s += 60000;
+  }
+  for (let i = 0; i < 6; i++) {
+    env.app.feedDevicePower('kettle', 0, s);
+    s += 60000;
+  }
+  await env.runCheck();
+  assert.equal(env.notifs.length, 1, 'longer cycle on the same device fires');
+});
