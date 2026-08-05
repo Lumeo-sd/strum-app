@@ -429,7 +429,7 @@ git commit -m "feat: over_consumption scene condition wired into app-state engin
 - Consumes: `_lastOverConsume` (Task 2).
 - Produces: розширений `expandNotifyTemplate(message)`.
 
-- [ ] **Step 1: Write failing test** (append to `tests/scene-engine.test.js`)
+- [x] **Step 1: Write failing test** (append to `tests/scene-engine.test.js`)
 
 ```js
 test('notify template: over-consumption placeholders expand from last event', async () => {
@@ -448,12 +448,12 @@ test('notify template: over-consumption placeholders expand from last event', as
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `node --test tests/scene-engine.test.js`
 Expected: FAIL — message містить невідомі `{{...}}` → «—» (спад `notifs[0].message` не збігається).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Замінити `expandNotifyTemplate` у `lib/app-state.js` на:
 
@@ -483,12 +483,12 @@ function expandNotifyTemplate(message) {
   }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `node --test tests/scene-engine.test.js`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add lib/app-state.js tests/scene-engine.test.js
