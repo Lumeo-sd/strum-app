@@ -438,3 +438,18 @@ test('over_consumption: persistent mode re-arms on drop below threshold', async 
   await env.runCheck();
   assert.equal(env.notifs.length, 2, 're-exceed within same outage re-arms persistent notify');
 });
+
+test('notify template: over-consumption placeholders expand from last event', async () => {
+  env.setInverter({ gridPower: false, loadPower: 200 });
+  const scene = {
+    name: 'overT',
+    if: { type: 'over_consumption', threshold: 60, stabilityMins: 5, oncePerOutage: true },
+    then: { actions: [{ type: 'notify', message: 'U={{unreg_w}} S={{soc}} O={{outage_min}}' }] },
+  };
+  await env.addScene(scene);
+  let t = Date.now() - 8 * 60000;
+  for (let i = 0; i < 8; i++) { env.app.feedOtherLoad(200, t); t += 60000; }
+  await env.runCheck();
+  assert.equal(env.notifs.length, 1);
+  assert.match(env.notifs[0].message, /^U=200 S=50% O=\d+$/);
+});
