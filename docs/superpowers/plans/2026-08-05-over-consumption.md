@@ -506,7 +506,7 @@ git commit -m "feat: notify templates {{unreg_w}}/{{soc}}/{{outage_min}} for ove
 - Consumes: поля умови `{ threshold, stabilityMins, oncePerOutage }`.
 - Produces: нова умова в COND_TYPES + fields + summary.
 
-- [ ] **Step 1: COND_TYPES — два місця**
+- [x] **Step 1: COND_TYPES — два місця**
 
 У першому списку груп (група `Grid`, ~l.602, поряд із `grid_restored`):
 
@@ -520,14 +520,14 @@ git commit -m "feat: notify templates {{unreg_w}}/{{soc}}/{{outage_min}} for ove
 { type:'over_consumption', label:'Over-Consumption (Grid Off)', group:'Grid', icon:'lightning-charge' },
 ```
 
-- [ ] **Step 2: `condFieldsHTML`** — додати case (після `grid_restored`):
+- [x] **Step 2: `condFieldsHTML`** — додати case (після `grid_restored`):
 
 ```js
 case 'over_consumption':
       return 'Unreg &gt; <input class="cf-threshold" data-ci="'+idx+'" type="number" min="0" step="1" value="'+(cond.threshold||60)+'" onchange="eCField('+idx+')" style="max-width:70px">W × <input class="cf-stab" data-ci="'+idx+'" type="number" min="1" step="1" value="'+(cond.stabilityMins||5)+'" onchange="eCField('+idx+')" style="max-width:60px">min <select class="cf-once" data-ci="'+idx+'" onchange="eCField('+idx+')" style="max-width:150px"><option value="true"'+(cond.oncePerOutage!==false?' selected':'')+'>once per outage</option><option value="false"'+(cond.oncePerOutage===false?' selected':'')+'>persistent</option></select>';
 ```
 
-- [ ] **Step 3: `readCondFields`** — додати після блоку `if (c.type === 'appliance_done') {...}`:
+- [x] **Step 3: `readCondFields`** — додати після блоку `if (c.type === 'appliance_done') {...}`:
 
 ```js
 if (c.type === 'over_consumption') {
@@ -540,7 +540,7 @@ if (c.type === 'over_consumption') {
   }
 ```
 
-- [ ] **Step 4: `condSummary`** — після `appliance_done` блоку:
+- [x] **Step 4: `condSummary`** — після `appliance_done` блоку:
 
 ```js
 if (c.type === 'over_consumption') {
@@ -548,19 +548,19 @@ if (c.type === 'over_consumption') {
   }
 ```
 
-- [ ] **Step 5: `condText`** (один рядок, поряд із `appliance_done`):
+- [x] **Step 5: `condText`** (один рядок, поряд із `appliance_done`):
 
 ```js
 if(c.type==='over_consumption')return 'unreg &gt; <b>'+(c.threshold||60)+'W</b> × '+(c.stabilityMins||5)+'min';
 ```
 
-- [ ] **Step 6: `DEFAULT_COND`** (поряд із `appliance_done`):
+- [x] **Step 6: `DEFAULT_COND`** (поряд із `appliance_done`):
 
 ```js
 over_consumption: { type:'over_consumption', threshold:60, stabilityMins:5, oncePerOutage:true },
 ```
 
-- [ ] **Step 7: Verify syntax and commit**
+- [x] **Step 7: Verify syntax and commit**
 
 Run: `node -e "const src=require('fs').readFileSync('public/index.html','utf8');const m=src.match(/<script>([\s\S]*?)<\/script>/g)||[];for(const s of m){new Function(s.replace(/^<script>/,'').replace(/<\/script>$/,''));}console.log('UI JS OK');"`
 Expected: `UI JS OK`
