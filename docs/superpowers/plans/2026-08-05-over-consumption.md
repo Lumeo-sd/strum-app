@@ -253,11 +253,11 @@ test('over_consumption: persistent mode re-arms on drop below threshold', async 
   await env.runCheck();
   assert.equal(env.notifs.length, 1, 'notify is edge-triggered: stays applied, no repeat while still exceeded');
 
-  env.setInverter({ loadPower: 30 });
+  env.setInverter({ gridPower: false, loadPower: 30 });
   await env.runCheck();
   assert.equal(env.notifs.length, 1, 'drop below threshold clears condition (scene reverts)');
 
-  env.setInverter({ loadPower: 200 });
+  env.setInverter({ gridPower: false, loadPower: 200 });
   t = Date.now() - 8 * 60000;
   for (let i = 0; i < 8; i++) { env.app.feedOtherLoad(200, t); t += 60000; }
   await env.runCheck();
