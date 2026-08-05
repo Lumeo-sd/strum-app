@@ -44,6 +44,24 @@ Strum — автономний енергоконтролер для Raspberry P
 - Тести: `tests/appliance-detect.test.js` (чиста логіка) + сценарні в `tests/scene-engine.test.js` (патерн: `feedDevicePower` з третім аргументом `now`, потім `runCheck`; увага: checkNow працює з реальним часом, тож фід моделює події в минулому так, щоб перевірка сталась одразу після тиші).
 - Лінт: відсутній
 
+## Over-Consumption Detect (умова сцени `over_consumption`)
+- Сповіщення про незареєстроване споживання при вимкненій мережі: `otherLoad =
+  max(0, loadPower − Σ power(Tuya-розетки))` (та сама формула, що в `index.js` для графіка
+  Unregistered; в app-state дублюється в `checkScenes`, `ctx.otherLoad`).
+- `lib/over-consumption.js` — чистий детектор: `createOverConsumeDetector({threshold,
+  stabilityMs, oncePerOutage})` → `onSample(watts, now?)`, `takeEvent(now?)`,
+  `isExceeded(now?)`, `onGridUp(now?)`, `setConfig(cfg)`. Поріг строго `>`, семпл нижче
+  порогу перериває відлік.
+- Інтеграція: per-scene детектори в `_overConsume` (Map sceneName→detector),
+  синхронізуються в `_syncOverConsumeConfigs` (з `_rebuildSceneDeps`); `checkScenes`
+  фідить семпли тільки при `gridIsDown` (+fresh), інакше `onGridUp`; once-режим —
+  подія в `_overConsumeEvents`, persistent — `isExceeded`; `evaluateCondition` шукає
+  детектор через `ctx.sceneName` (додається в `checkScenes` і `runSceneNow`).
+- Шаблони повідомлень: `{{unreg_w}}`, `{{soc}}`, `{{outage_min}}` (з `_lastOverConsume`).
+- Публічні фіди для тестів: `feedOtherLoad(watts, now?)`, `resetOverConsume(now?)`.
+- Тести: `tests/over-consumption.test.js` (чиста логіка) + сценарні в
+  `tests/scene-engine.test.js` (once/persistent + шаблони).
+
 ## Tuya Local (критично важливо)
 - `lib/tuya-local.js` — локальне керування Tuya-пристроями (протокол 3.5/6699, порт TCP 6668).
 - **Єдине джерело правди — цей розділ + код. НЕ перечитуй весь код для перевірки.**
