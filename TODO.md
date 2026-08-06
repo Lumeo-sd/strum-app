@@ -14,6 +14,7 @@
 | 2026-08-04 | MEDIUM | Step 2 (GitHub security) | Додати Code Scanning (CodeQL або `osv-scanner`) у `.github/workflows/ci.yml` | Code Scanning: 404 `no analysis found` — аналіз ніколи не запускався; наявний CI робить лише `node -c` (синтаксис). Рекомендовано: `github/codeql-action/init` (javascript) + `analyze`, або легкий `google/osv-scanner-action` (zero-dep, підходить стилю репо). |
 | 2026-08-04 | LOW | Step 2 (GitHub security) | Увімкнути `secret_scanning_non_provider_patterns` та `secret_scanning_validity_checks` | Вимкнені (`status: disabled`). Покращують покриття сканування секретів. |
 | 2026-08-04 | INFO | Step 2 (GitHub security) | Відкритих алертів Secret Scanning немає; push protection увімкнена | `secret_scanning.status = enabled`, `secret_scanning_push_protection.status = enabled`, відкритих алертів: 0. Дія не потрібна. |
+| 2026-08-06 | MEDIUM | Cleanup Step 3 | git remote `strum` на Pi має PAT-токен прямо в URL (`https://Lumeo-sd:<token>@github.com/...`) | Замінити на SSH-ключ або credential helper. Перевірити, щоб токен не потрапив у публічний доступ: bash history, backup-файли, `stale-untracked.*/`, логи. Не терміново (deferred). |
 
 ## Резерв для майбутніх кроків
 
