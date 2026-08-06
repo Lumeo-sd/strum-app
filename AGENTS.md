@@ -32,6 +32,9 @@ Strum — автономний енергоконтролер для Raspberry P
   `type|title|message`, вікно `COOLDOWN_MS` = 10 хв — повтор у межах вікна тихо відкидається
   (ні в історію, ні в push). Кеш `Map` з cap 100 ключів (виселяється найстаріший). Опційний
   4-й аргумент `now` — тестовий годинник. Захищає від спаму (напр. `Reconnecting` з `index.js`).
+- **Валідація сцени `appliance_done`:** умова з пустим `device` не може спрацювати (події ключуються
+  за device id). UI (`saveAutomation`/`updateAutomation` через `validateConds`) і сервер
+  (`POST /api/scenes` у `lib/routes.js`) відхиляють такі сцени.
 - **Критично:** SW/push реєструється лише з валідного публічного HTTPS-origin (NetBird port-forward
   URL, `.netbird.services`). На самопідписаному LAN-IP — тихий no-op.
 
