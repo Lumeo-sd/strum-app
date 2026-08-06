@@ -1,3 +1,20 @@
+# Changelog
+
+> **Versioning note:** the release line is **v0.x.y**. The `v1.2.1…v1.2.12` tags
+> (2026-07-28) were a one-off misalignment with `package.json` — treat them as
+> historical, not part of the current scheme. Current release: v0.7.7.
+
+## Unreleased (cleanup round 2026-08-06)
+### Changed
+- **Deploy docs now point at the canonical repo** — README updating section clones/pulls `Lumeo-sd/strum-app.git`; legacy installs get a one-shot `git remote set-url origin` fix block; local copy uses `hb-service@raspberrypi.local:/opt/energy-controller/`.
+- **CI fixed for the current layout** — runs `node -c` over `lib/*.js` + `tests/*.js` (was: nonexistent `public/app.js`/`public/login.js`), asserts the real frontend files exist, triggers on `main` (was `master`/`dev`), and gets a dedicated `npm test` job.
+- **`package.json` version synced to the release line** — `0.6.0` → `0.7.7`; `v1.2.x` tags documented as a historical one-off (also reflected in CLAUDE/DOC_INDEX/TODO docs).
+### Added
+- **`POST /api/netbird/reset`** — the frontend button already called it but the route was missing (404); now restarts the NetBird daemon and reports status.
+### Removed
+- **`GET /api/scene-traces`** — dead duplicate of `traces` already served by `/api/status`; had no callers or tests.
+- README claim about a "Check for Updates" button in the web UI (none exists) — `update-check`/`update-apply` remain documented as an API-only capability with curl examples.
+
 ## v0.7.7 — 2026-08-04
 ### Changed
 - **Unified motion system** — three easing tokens (`--ease` micro 150 ms, `--ease-tab` tab/nav 300–320 ms, `--spring` large 450 ms) replace all 6 hardcoded cubic-bezier values; micro-interactions (buttons, toggles, fields, swatches, tiles, cells) aligned to 150 ms; status pulse rhythm unified to 2.4 s, spinners to 0.8 s.

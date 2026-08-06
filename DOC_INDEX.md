@@ -38,7 +38,7 @@ Authoritative files for system structure, flows, and data:
 | File | Use for |
 |------|--------|
 | `/README.md` | Setup, deployment, ops for the Pi |
-| `/CHANGELOG.md` | Version history (newest at top, v0.7.6) |
+| `/CHANGELOG.md` | Version history (newest at top, v0.7.7) |
 | `/AGENTS.md` | Engineering conventions: Tuya protocol, web push, commands |
 
 ---

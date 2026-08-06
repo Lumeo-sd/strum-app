@@ -1,6 +1,6 @@
 {
   "name": "strum",
-  "version": "0.6.0",
+  "version": "0.7.7",
   "type": "module",
   "description": "Standalone energy conservation controller",
   "main": "index.js",

@@ -130,7 +130,7 @@ Every sub-document in this system. Load only what you need for the current task.
 | `/docs/architecture/DEPENDENCY_MAP.md` | Internal module graph + external integrations | Changing integrations |
 | `/docs/architecture/DATA_CONTRACTS.md` | Schemas: config, devices, scenes, inverter, RRD, push, auth | Changing data structures |
 | `/README.md` | Setup, deployment, ops for the Pi | Onboarding, local dev, deploy |
-| `/CHANGELOG.md` | Version history (newest at top, v0.7.6) | Release or audit |
+| `/CHANGELOG.md` | Version history (newest at top, v0.7.7) | Release or audit |
 | `/AGENTS.md` | Engineering conventions: Tuya protocol, web push, commands | Before touching Tuya/Web Push code |
 
 ---
