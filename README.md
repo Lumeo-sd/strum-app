@@ -646,16 +646,24 @@ git pull origin main
 sudo systemctl restart energy-controller
 ```
 
-Or from the web UI: Settings → System → Check for Updates → Update & Restart.
+The canonical repository is `https://github.com/Lumeo-sd/strum-app.git` and the remote must be named `origin`. If you installed from an older copy whose `origin` still points to the legacy `energy-controller` repository, fix it once:
+
+```bash
+cd /opt/energy-controller
+git remote set-url origin https://github.com/Lumeo-sd/strum-app.git
+git fetch origin
+git checkout -B main origin/main
+sudo systemctl restart energy-controller
+```
 
 ### From Local Copy
 
 ```bash
 # On your machine
-scp -r energy-controller/ pi@raspberry:~/energy-controller/
+scp -r . hb-service@raspberrypi.local:/opt/energy-controller/
 
 # On Pi
-cd ~/energy-controller
+cd /opt/energy-controller
 sudo ./install.sh --local
 ```
 
