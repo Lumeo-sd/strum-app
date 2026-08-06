@@ -1,6 +1,11 @@
 # Data directory — credentials, history, runtime data
 data/
 
+# Backup snapshots & stale artifacts (must never be committed)
+data.backup.*/
+stale-untracked.*/
+manifest.json.bak-*
+
 # Screenshots
 *.png
 *.jpg
