@@ -667,6 +667,25 @@ cd /opt/energy-controller
 sudo ./install.sh --local
 ```
 
+### Via API (curl)
+
+The native web UI does not ship a "Check for Updates" button. Updating programmatically is exposed as an API-only capability:
+
+```bash
+# List available releases and branches
+curl -s -X POST -H "cookie: ecm_session=TOKEN" http://raspberrypi.local:8583/api/update-check
+
+# Switch to a release tag or branch (checks the tag is valid, restarts the service)
+curl -s -X POST -H "cookie: ecm_session=TOKEN" \
+  -H "content-type: application/json" \
+  -d '{"tag":"v0.7.7"}' http://raspberrypi.local:8583/api/update-apply
+
+# Or track a branch
+curl -s -X POST -H "cookie: ecm_session=TOKEN" \
+  -H "content-type: application/json" \
+  -d '{"branch":"main"}' http://raspberrypi.local:8583/api/update-apply
+```
+
 ---
 
 ## Uninstalling
