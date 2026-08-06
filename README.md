@@ -2,6 +2,8 @@
 
 Standalone energy conservation controller for Raspberry Pi. Monitors solar inverter via Solarman V5 Modbus TCP, controls Tuya smart plugs locally or via cloud, runs automations, sends push notifications. Zero npm dependencies.
 
+> **Naming note:** the canonical project name is **Strum** (repo `strum-app`, package name `strum`). The production deployment retains the historical name `energy-controller` for systemd/sudoers compatibility — this is intentional, not an inconsistency.
+
 **Stack:** Node.js 22, ES modules, vanilla frontend (no framework), Bootstrap Icons, Chart.js, systemd service.
 
 ---

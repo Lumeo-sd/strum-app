@@ -75,7 +75,8 @@ Strum — автономний енергоконтролер для Raspberry P
 - **Правило: при будь-якій зміні `lib/tuya-local.js` ОНОВИ цей розділ** (поведінку, рядки, md5)
   і додай запис у «Історія змін» нижче. Після деплою на Pi перевір md5: `md5sum lib/tuya-local.js`.
 - Деплой: scp на `hb-service@raspberrypi.local:/opt/energy-controller/`, служба `energy-controller`
-  (`sudo systemctl restart energy-controller`).
+  (`sudo systemctl restart energy-controller`). Канонічна назва проєкту — `strum` (repo `strum-app`);
+  історичне ім'я `energy-controller` для systemd/sudoers збережене навмисно — не вважати розбіжністю.
 
 ### Протокол 3.5/6699 (звірено з tinytuya 1.20.0, див. «Референси»)
 - Кадр: `header(18B) + iv(12) + AES-128-GCM(ciphertext) + tag(16) + suffix(4B = 00 00 99 66)`.
