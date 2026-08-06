@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master, dev]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   syntax:
@@ -15,20 +15,23 @@ jobs:
         with:
           node-version: 22
       - run: node -c index.js
-      - run: node -c lib/server.js
-      - run: node -c lib/routes.js
-      - run: node -c lib/app-state.js
-      - run: node -c lib/auth.js
-      - run: node -c lib/config.js
-      - run: node -c lib/router.js
-      - run: node -c lib/logger.js
-      - run: node -c lib/notifications.js
-      - run: node -c lib/rrd.js
-      - run: node -c lib/solarman.js
-      - run: node -c lib/tuya-sign.js
-      - run: node -c lib/crypto.js
-      - run: node -c lib/crc16.js
-      - run: node -c lib/rate-limit.js
-      - run: node -c public/app.js
-      - run: node -c public/login.js
+      - name: Syntax check lib and tests
+        run: |
+          set -e
+          for f in lib/*.js tests/*.js; do
+            node -c "$f"
+          done
+      - name: Verify frontend files referenced by server exist
+        run: |
+          test -f public/index.html
+          test -f public/login.html
+          test -f public/manifest.json
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
