@@ -28,6 +28,10 @@ Strum — автономний енергоконтролер для Raspberry P
   `POST /api/push/unsubscribe` (потребують сесії; два POST — CSRF-виняток у `server.js`, бо у SW нема токена).
 - Тригер: `createNotifications(DATA_DIR, loadConfig, onNotify)` → `webpush.broadcast({ title, message,
   type, unread })` на кожне `pushNotification` (fire-and-forget, ніколи не блокує).
+- **Дедуплікація (cooldown):** `pushNotification(title, message, type, now?)` дедуплікує за ключем
+  `type|title|message`, вікно `COOLDOWN_MS` = 10 хв — повтор у межах вікна тихо відкидається
+  (ні в історію, ні в push). Кеш `Map` з cap 100 ключів (виселяється найстаріший). Опційний
+  4-й аргумент `now` — тестовий годинник. Захищає від спаму (напр. `Reconnecting` з `index.js`).
 - **Критично:** SW/push реєструється лише з валідного публічного HTTPS-origin (NetBird port-forward
   URL, `.netbird.services`). На самопідписаному LAN-IP — тихий no-op.
 
